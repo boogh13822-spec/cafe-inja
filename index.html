@@ -908,7 +908,7 @@ let history = [];
 async function callAI(msg) {
 history.push({ role: "user", content: msg });
 const requestBody = {
-model: "gpt-4o-mini"
+model: 'google/gemma-3-4b-it',
 messages: [
 { role: "system", content: SYS },
 ...history
