@@ -908,7 +908,7 @@ let history = [];
 async function callAI(msg) {
 history.push({ role: "user", content: msg });
 const requestBody = {
-model: "claude-3-5-sonnet-20241022
+model: "gpt-4o-mini"
 messages: [
 { role: "system", content: SYS },
 ...history
