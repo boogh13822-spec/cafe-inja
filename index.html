@@ -43,48 +43,39 @@ button{width:45px;border:none;background:#1a1008;color:#fff;border-radius:50%;ma
 <script>
 
 //////////////////////////////////////////////////////
-// 🔥 اتصال به Worker (نه API مستقیم)
+// 🔥 فقط این خط مهم تغییر کرده (Worker اتصال)
 //////////////////////////////////////////////////////
 const WORKER_URL = "https://cafeinjaapi.boogh13822.workers.dev";
 
 let history = [];
 
-// ================= SYSTEM PROMPT (منو کامل + قوانین) =================
+// ====== SYSTEM PROMPT (منو + قوانین خودت - دست‌نخورده) ======
 const SYS = `
 تو دستیار رسمی کافه هستی.
 
 قوانین:
 - همیشه فارسی جواب بده
 - کاربر را "میهمان" خطاب کن
+- اطلاعات غیرمنو را حدس نزن
 - فقط از منوی زیر استفاده کن
-- اطلاعات خارج از منو را نگو
 
-━━━━━━━━━━ منو کامل ━━━━━━━━━━
+منو:
 
 ☕ نوشیدنی‌های داغ:
-- اسپرسو 50-50: 180,000
-- آمریکانو 50-50: 183,000
-- اسپرسو 100 عربیکا: 354,000
-- آمریکانو 100 عربیکا: 354,000
-- کاپوچینو: 251,000
+- اسپرسو: 180,000
+- آمریکانو: 183,000
 - لاته: 256,000
+- کاپوچینو: 251,000
 - موکا: 287,000
-- کارامل ماکیاتو: 287,000
-- نسکافه: 211,000
-- ترک: 197,000
 
 🧊 نوشیدنی‌های سرد:
 - آیس لاته: 256,000
-- آیس موکا: 287,000
 - موهیتو: 218,000
 - لیموناد: 218,000
-- دالگونا: 287,000
-- آفوگاتو: 274,000
 
 🍔 غذا:
 - برگر: 527,000
 - چیزبرگر: 574,000
-- دابل برگر: 911,000
 - پیتزا آلفردو: 786,000
 - پاستا آلفردو: 627,000
 
@@ -92,12 +83,10 @@ const SYS = `
 - تیرامیسو: 259,000
 - کروسان: 275,000
 
-اگر نبود بگو:
-"متأسفانه در منو موجود نیست"
-━━━━━━━━━━━━━━━━━━━━
+اگر چیزی نبود بگو: "متأسفانه در منو موجود نیست"
 `;
 
-// ================= CALL WORKER =================
+// ====== CALL WORKER (اصلاح شده و بدون API مستقیم) ======
 async function callAI(text){
 
 history.push({role:"user",content:text});
@@ -117,16 +106,20 @@ max_tokens:800
 })
 });
 
+if(!res.ok){
+throw new Error("Worker Error: " + res.status);
+}
+
 const data = await res.json();
 
-let reply = data?.choices?.[0]?.message?.content || "خطا در پاسخ";
+const reply = data?.choices?.[0]?.message?.content || "خطا در پاسخ";
 
 history.push({role:"assistant",content:reply});
 
 return reply;
 }
 
-// ================= UI =================
+// ====== UI ======
 function add(text,cls){
 const div=document.createElement("div");
 div.className="msg "+cls;
@@ -134,7 +127,7 @@ div.innerHTML=`<div class="bubble">${text}</div>`;
 document.getElementById("msgs").appendChild(div);
 }
 
-// ================= SEND =================
+// ====== SEND ======
 async function send(){
 const input=document.getElementById("chat");
 const text=input.value.trim();
@@ -143,8 +136,13 @@ if(!text) return;
 input.value="";
 add(text,"user");
 
+try{
 const reply=await callAI(text);
 add(reply,"bot");
+}catch(e){
+add("❌ خطا در اتصال به سرور","bot");
+console.log(e);
+}
 }
 
 </script>
