@@ -18,11 +18,13 @@ body{font-family:Vazirmatn;background:#f5f0e8;margin:0;display:flex;justify-cont
 .msg.user .bubble{background:#1a1008;color:#fff}
 .input{display:flex;padding:10px;border-top:1px solid #ddd}
 input{flex:1;padding:10px;border-radius:20px;border:1px solid #ccc}
-button{width:45px;border:none;background:#1a1008;color:#fff;border-radius:50%;margin-right:8px}
+button{width:45px;border:none;background:#1a1008;color:#fff;border-radius:50%;margin-right:8px;cursor:pointer}
 </style>
+
 </head>
 
 <body>
+
 <div class="app">
 
 <div class="header">
@@ -40,38 +42,49 @@ button{width:45px;border:none;background:#1a1008;color:#fff;border-radius:50%;ma
 
 <script>
 
-const API_KEY = "API_KEY_HERE"; // 👈 کلیدت
-const API_URL = "https://api.aimlapi.com/v1/chat/completions";
+//////////////////////////////////////////////////////
+// 🔥 اتصال به Worker (نه API مستقیم)
+//////////////////////////////////////////////////////
+const WORKER_URL = "https://cafeinjaapi.boogh13822.workers.dev";
 
 let history = [];
 
-// ====== SYSTEM PROMPT (منو + قوانین) ======
+// ================= SYSTEM PROMPT (منو کامل + قوانین) =================
 const SYS = `
 تو دستیار رسمی کافه هستی.
 
 قوانین:
 - همیشه فارسی جواب بده
 - کاربر را "میهمان" خطاب کن
-- اطلاعات غیرمنو را حدس نزن
 - فقط از منوی زیر استفاده کن
+- اطلاعات خارج از منو را نگو
 
-منو:
+━━━━━━━━━━ منو کامل ━━━━━━━━━━
 
 ☕ نوشیدنی‌های داغ:
-- اسپرسو: 180,000
-- آمریکانو: 183,000
-- لاته: 256,000
+- اسپرسو 50-50: 180,000
+- آمریکانو 50-50: 183,000
+- اسپرسو 100 عربیکا: 354,000
+- آمریکانو 100 عربیکا: 354,000
 - کاپوچینو: 251,000
+- لاته: 256,000
 - موکا: 287,000
+- کارامل ماکیاتو: 287,000
+- نسکافه: 211,000
+- ترک: 197,000
 
 🧊 نوشیدنی‌های سرد:
 - آیس لاته: 256,000
+- آیس موکا: 287,000
 - موهیتو: 218,000
 - لیموناد: 218,000
+- دالگونا: 287,000
+- آفوگاتو: 274,000
 
 🍔 غذا:
 - برگر: 527,000
 - چیزبرگر: 574,000
+- دابل برگر: 911,000
 - پیتزا آلفردو: 786,000
 - پاستا آلفردو: 627,000
 
@@ -79,21 +92,22 @@ const SYS = `
 - تیرامیسو: 259,000
 - کروسان: 275,000
 
-اگر چیزی نبود بگو: "متأسفانه در منو موجود نیست"
+اگر نبود بگو:
+"متأسفانه در منو موجود نیست"
+━━━━━━━━━━━━━━━━━━━━
 `;
 
+// ================= CALL WORKER =================
 async function callAI(text){
 
 history.push({role:"user",content:text});
 
-const res = await fetch(API_URL,{
+const res = await fetch(WORKER_URL,{
 method:"POST",
 headers:{
-"Content-Type":"application/json",
-"Authorization":"Bearer " + API_KEY
+"Content-Type":"application/json"
 },
 body:JSON.stringify({
-model:"google/gemma-3-4b-it",
 messages:[
 {role:"system",content:SYS},
 ...history
@@ -112,6 +126,7 @@ history.push({role:"assistant",content:reply});
 return reply;
 }
 
+// ================= UI =================
 function add(text,cls){
 const div=document.createElement("div");
 div.className="msg "+cls;
@@ -119,6 +134,7 @@ div.innerHTML=`<div class="bubble">${text}</div>`;
 document.getElementById("msgs").appendChild(div);
 }
 
+// ================= SEND =================
 async function send(){
 const input=document.getElementById("chat");
 const text=input.value.trim();
