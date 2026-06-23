@@ -2,1048 +2,136 @@
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device
-width, initial-scale=1.0" />
-<title>ﺍﯾﻨﺠﺎ
-ﮐﺎﻓﻪ
-ﺩﺳﺘﯿﺎﺭ
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>اینجا کافه دستیار</title>
 
-</title>
-<link rel="preconnect" href="https://
-fonts.googleapis.com
-" />
-<link href="https://fonts.googleapis.com/css2?
-family=Vazirmatn:wght@300;400;500;600&displa
-y=swap
-" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+
 <style>
-*, *::before, *::after { box-sizing: border-box; 
-margin: 0; padding: 0; }
-body {
-font-family: 'Vazirmatn', sans-serif;
-direction: rtl;
-background: #f5f0e8;
-min-height: 100dvh;
-display: flex;
-align-items: center;
-justify-content: center;
-padding: 1rem;
-}
-.app {
-width: 100%;
-max-width: 480px;
-min-height: 90dvh;
-max-height: 90dvh;
-background: #fff;
-border-radius: 20px;
-box-shadow: 0 8px 40px rgba(0,0,0,0.12);
-display: flex;
-flex-direction: column;
-overflow: hidden;
-}
-rem;
-/* Header */
-.header {
-background: #1a1008;
-padding: 1rem 1.25
-display: flex;
-align-items: center;
-gap: 12px;
-flex-shrink: 0;
-}
-.header-avatar {
-width: 44px; height: 44px;
-border-radius: 50%;
-background: #c8a96e;
-display: flex; align-items: center; justify-content: 
-center;
-font-size: 18px; font-weight: 600; color: #1a1008;
-flex-shrink: 0;
-}
-.header-text h1 { font-size: 15px; font-weight: 
-500; color: #f5e6c8; }
-.header-text p { font-size: 12px; color: #a08050; 
-margin-top: 2px; }
-.online-dot {
-display: inline-block; width: 7px; height: 7px;
-background: #6dbf67; border-radius: 50%; 
-margin-left: 5px;
-}
-/* Messages */
-.messages {
-flex: 1;
-overflow-y: auto;
-padding: 1rem;
-display: flex;
-flex-direction: column;
-gap: 10px;
-background: #f5f0e8;
-}
-.msg { display: flex; gap: 8px; align-items: flex
-end; }
-.msg.user { flex-direction: row-reverse; }
-.msg-avatar {
-width: 28px; height: 28px; border-radius: 50%;
-background: #c8a96e;
-display: flex; align-items: center; justify-content: 
-center;
-font-size: 12px; color: #1a1008; font-weight: 600;
-flex-shrink: 0;
-}
-.msg-avatar.user-av {
-background: #e8e0d0; color: #6b5c40;
-font-size: 15px;
-}
-.bubble {
-max-width: 78%;
-padding: 10px 14px;
-border-radius: 16px 16px 4px 16px;
-font-size: 14px; line-height: 1.8
-;
-background: #fff;
-color: #2c1f0e;
-box-shadow: 0 1px 4px rgba(0,0,0,0.07);
-}
-.msg.user .bubble {
-background: #1a1008;
-color: #f5e6c8;
-border-radius: 16px 16px 16px 4px;
-}
-/* Typing */
-.typing {
-display: flex; gap: 4px;
-padding: 10px 14px;
-background: #fff;
-border-radius: 16px 16px 4px 16px;
-width: fit-content;
-box-shadow: 0 1px 4px rgba(0,0,0,0.07);
-}
-s infinite;
-.typing span {
-width: 6px; height: 6px;
-background: #c8a96e; border-radius: 50%;
-animation: bounce 1.2
-}
-.typing span:nth-child(2) { animation-delay: .2s; }
-.typing span:nth-child(3) { animation-delay: .4s; }
-@keyframes bounce {
-0%,60%,100% { transform: translateY(0); 
-opacity:.5; }
-30% { transform: translateY(-6px); opacity:1; }
-}
-/* Quick replies */
-.quick-replies {
-display: flex; gap: 8px; flex-wrap: wrap;
-padding: .75rem 1rem .25rem;
-background: #f5f0e8;
-flex-shrink: 0;
-}
-.qr-btn {
-font-family: 'Vazirmatn', sans-serif;
-font-size: 13px; padding: 6px 14px;
-border-radius: 20px;
-border: 1px solid #c8a96e;
-background: transparent; color: #8b6a30;
-cursor: pointer;
-transition: background .15s, color .15s;
-}
-.qr-btn:hover { background: #c8a96e; color: 
-#1a1008; }
-/* Input */
-.input-area {
-display: flex; gap: 8px;
-padding: .75rem 1rem;
-background: #fff;
-border-top: 1px solid #ede8df;
-flex-shrink: 0;
-align-items: center;
-}
-.chat-input {
-flex: 1;
-font-family: 'Vazirmatn', sans-serif;
-font-size: 14px;
-padding: 10px 14px;
-border-radius: 24px;
-border: 1px solid #ddd5c5;
-background: #f9f6f1;
-color: #2c1f0e;
-outline: none;
-direction: rtl;
-transition: border-color .2s;
-}
-.chat-input:focus { border-color: #c8a96e; }
-.chat-input::placeholder { color: #b0a090; }
-.send-btn {
-width: 40px; height: 40px;
-border-radius: 50%;
-background: #1a1008;
-border: none; cursor: pointer;
-display: flex; align-items: center; justify-content: 
-center;
-flex-shrink: 0;
-transition: opacity .15s, transform .1s;
-}
-.send-btn:hover { opacity: .85; }
-.send-btn:active { transform: scale(.95); }
-.send-btn svg { width: 18px; height: 18px; fill: 
-#c8a96e; }
-/* Scrollbar */
-.messages::-webkit-scrollbar { width: 4px; }
-.messages::-webkit-scrollbar-track { background: 
-transparent; }
-.messages::-webkit-scrollbar-thumb { 
-background: #d4c9b5; border-radius: 4px; }
+body{font-family:Vazirmatn;background:#f5f0e8;margin:0;display:flex;justify-content:center;align-items:center;min-height:100vh}
+.app{width:100%;max-width:480px;height:90vh;background:#fff;border-radius:20px;display:flex;flex-direction:column;overflow:hidden}
+.header{background:#1a1008;color:#fff;padding:15px}
+.messages{flex:1;overflow:auto;padding:10px;background:#f5f0e8}
+.msg{margin:6px 0;display:flex;gap:8px}
+.msg.user{flex-direction:row-reverse}
+.bubble{padding:10px 14px;border-radius:12px;background:#fff;max-width:75%}
+.msg.user .bubble{background:#1a1008;color:#fff}
+.input{display:flex;padding:10px;border-top:1px solid #ddd}
+input{flex:1;padding:10px;border-radius:20px;border:1px solid #ccc}
+button{width:45px;border:none;background:#1a1008;color:#fff;border-radius:50%;margin-right:8px}
 </style>
 </head>
+
 <body>
 <div class="app">
+
 <div class="header">
-<div class="header-avatar">ﺍ</div>
-<div class="header-text">
-<h1>ﺍﯾﻨﺠﺎ
-ﮐﺎﻓﻪ
+☕ کافه اینجا - دستیار هوشمند
+</div>
 
-span></h1>
-<p>ﭘﺎﺳﺨﮕﻮﯾﯽ
-ﺩﺳﺘﯿﺎﺭ
-ﺁﻣﺎﺩﻩ
+<div class="messages" id="msgs"></div>
 
- · 
- <span class="online-dot"></ﺁﻧﻼﯾﻦ
+<div class="input">
+<input id="chat" placeholder="پیام بنویس..." onkeydown="if(event.key==='Enter')send()"/>
+<button onclick="send()">➤</button>
+</div>
 
 </div>
-</div>ﻫﻤﯿﺸﻪ
 
-</p>
-<div class="messages" id="msgs">
-<div class="msg bot">
-<div class="msg-avatar">ﺍ</div>
-<div class="bubble">ﺁﻣﺪﯾﺪ
-
-strong> 
-<
-<brﺍﻧﺘﺨﺎﺏ
-
-🌿ﺩﺭ
-
-<
-br><br
->ﺗﺎ
-
-/>ﺍﯾﻨﺠﺎ
-ﺁﻣﺎﺩﻩ ﺍﻡ
-ﮐﻨﻢ.
-ﮐﺎﻓﻪ
-ﻭ
-
-<
-strong
-> ﻫﺴﺘ
-ﻢﮐﺎﻓﻪ
-ﺑﻪ
-ﺍﯾﻦ
-ﮐﻤﮑﺘﻮﻥ
-ﻣﻨﻮ
-ﺍﺯ
-ﻫﻮﺷﻤﻨﺪ
-ﺍﻃﻼﻋﺎﺗﯽ
-ﻫﺮ
-ﺧﻮﺵ
-ﯾﺎ
-ﻏﺬﺍ
-ﻭ
-ﺳﻼﻡ
-ﻣﻦ
-ﺩﺳﺘﯿﺎﺭ
-ﻧﻮﺷﯿﺪﻧﯽ،
-
-br><br
->ﮐﻨﻢ؟
-ﺭﺍﻫﻨﻤﺎﯾﯿﺘﻮﻥ
-ﻣﯽ ﺗﻮﻧﻢ
-ﭼﻄﻮﺭ
-
-<
-<span style="font-size:12px;color:#a08050;">ﺍﯾﻨﺠﺎ
-ﮐﺎﻓﻪ
-
-</div>
-</div>
-</div>
-</span>
-<div class="quick-replies" id="qrs">
-<button class="qr-btn" onclick="sq('ﺑﺒﯿﻨﻢ
-ﻣﯽ ﺧﻮﺍﻡ
-
-')">
-</button>
-<button class="qr-btn" onclick="sq('
-☕>")'ﺑﺪﻩ
-
-✨ﻗﻬﻮﻩ
-ﻣﻨﻮ
->button/<ﭘﯿﺸﻨﻬﺎﺩ
-
-<button class="qr-btn" onclick="sq('>")'ﭼﯿﻪ؟
-
-🍔
- ﻏﺬ
-ﺍﻣﻨﻮ
-
-</button>
-<button class="qr-btn" onclick="sq('>")'ﺩﺍﺭﯾﺪ؟
-
-🍰>button/<ﺩﺳﺮ
-
-<button class="qr-btn" onclick="sq('
-☕ﺭﻭ
-ﻗﻬﻮﻩ
-ﺑﺮﺍﻡ
-ﻣﻨﻮ
-ﭘﯿﺸﻨﻬﺎﺩ
-ﻏﺬﺍ
-ﭼﯽ
-ﻣﻨﻮﯼ
-ﺩﺳﺮ
-ﮐﺎﻓﻪ
-ﮐﺎﺭﯼ
-ﯾﻪ
-ﺳﺎﻋﺖ
->")'ﭼﻨﺪﻩ؟
-
-🕐ﮐﺎﺭﯼ
-ﺳﺎﻋﺖ
-
-</button>
-</div>
-<div class="input-area">
-<button class="send-btn" onclick="sendMsg()" 
-aria-label="ﺍﺭﺳﺎﻝ">
-<svg viewBox="0 0 24 24" xmlns="http://
-www.w3.org/2000/svg
-">
-<path d="M3 20l19-8L3 4v6l13 2-13
- 2v6z"/>
-</svg>
-</button>
-<input class="chat-input" id="chat-input"
-placeholder="ﺑﻨﻮﯾﺴﯿﺪ
-ﺭﻭ
-ﭘﯿﺎﻣﺘﻮﻥ
-
-..."
-onkeydown="if(event.key==='Enter') sendMsg()" /
->
-</div>
-</div>
 <script>
-// ========== SYSTEM PROMPT ==========
-const SYS = `
- «.ﻫﺴﺘﯿﺪ
-ﺩﺭ
-ﺍﯾﻨﺠﺎ
-ﺭﺍﻫﻨﻤﺎﯾﯽ
-ﮐﺎﻓﻪ
-ﮐﺎﻓﻪ،
 
-» ﻫﻮﺷﻤﻨ
-ﺪﻣﯿﻬﻤﺎﻧﺎﻥ
-ﺑﻪ
-ﻭ
-ﺭﺳﻤﯽ
-ﺩﺳﺘﯿﺎﺭ
-ﭘﺎﺳﺨﮕﻮﯾﯽ
-ﺷﻤﺎ
-ﻭﻇﯿﻔﻪ
-ﺍﻧﺘﺨﺎﺏ
-ﺷﻤﺎ
+const API_KEY = "API_KEY_HERE"; // 👈 کلیدت
+const API_URL = "https://api.aimlapi.com/v1/chat/completions";
 
-ﺍﺳﺖ. ﻣﻨﻮ ﺍﻃﻼﻋﺎﺕ ﺍﺭﺍﺋﻪ ﻭ ﻧﻮﺷﯿﺪﻧﯽ ﻭ ﻏﺬﺍﺭﻓﺘﺎﺭﯼ: ﻗﻮﺍﻧﯿﻦ
- ﺑﻪ ﻣﯿﻬﻤﺎﻥ ﺍﯾﻨﮑﻪ ﻣﮕﺮ ﺑﺪﻩ ﭘﺎﺳﺦ ﻓﺎﺭﺳﯽ ﺯﺑﺎﻥ ﺑﻪ ﻫﻤﯿﺸﻪ
-ﮐﻨﺪ. ﺩﺭﺧﻮﺍﺳﺖ ﺩﯾﮕﺮﯼ ﺯﺑﺎ
-ﻥﺑﺎﺵ. ﺧﻮﺵ ﺑﺮﺧﻮﺭﺩ ﻭ ﺣﺮﻓﻪ ﺍﯼ ﺻﻤﯿﻤﯽ، ﻣﻮﺩﺏ، ﻫﻤﯿﺸﻪ
- ﺭﺍ ﻣﺨﺎﻃﺐ ﻫﻤﯿﺸﻪ ﻭ ﻧﮑﻦ ﺍﺳﺘﻔﺎﺩﻩ « ﻣﺸﺘﺮﯼ » ﻭﺍﮊﻩ ﺍﺯ ﻫﺮﮔﺰ
-ﮐﻦ. ﺧﻄﺎﺏ « ﻣﯿﻬﻤﺎﻥ 
-»ﮐﻦ. ﺍﺭﺍﺋﻪ ﮐﺎﺭﺑﺮﺩﯼ ﻭ ﻭﺍﺿﺢ ﮐﻮﺗﺎﻩ، ﺭﺍ ﭘﺎﺳﺦ ﻫﺎ
- ﮐﻦ ﺍﺳﺘﻔﺎﺩﻩ ﺍﯾﻨﺠﺎ ﮐﺎﻓﻪ ﻣﻨﻮﯼ ﺩﺭ ﻣﻮﺟﻮﺩ ﺍﻃﻼﻋﺎﺕ ﺍﺯ ﻓﻘﻂ
-ﻧﺴﺎﺯ. ﺧﻮﺩﺕ ﺍﺯ ﺭﺍ ﻣﺤﺼﻮﻟﯽ ﯾﺎ ﻗﯿﻤﺖ ﺍﻃﻼﻋﺎﺕ، ﻫﺮﮔﺰ 
-ﻭ ﺑﮕﻮ: ﻧﺒﻮﺩ، ﻣﻮﺟﻮﺩ ﻣﻨﻮ ﺩﺭ ﻣﯿﻬﻤﺎﻥ ﻣﻮﺭﺩﻧﻈﺮ ﺍﻃﻼﻋﺎﺕ ﺍﮔﺮ
- ﺍﯾﻨﺠﺎ ﮐﺎﻓﻪ ﻓﻌﻠﯽ ﻣﻨﻮﯼ ﺩﺭ ﻣﻮﺭﺩ ﺍﯾﻦ ﺍﻃﻼﻋﺎﺕ ﻣﺘﺄﺳﻔﺎﻧﻪ 
-»« ﻧﯿﺴﺖ. ﻣﻮﺟﻮ
-ﺩ ﮐﺎﻣﻞ ﺻﻮﺭﺕ ﺑﻪ ﺭﺍ ﻣﺤﺼﻮﻝ ﻧﺎﻡ ﻭ ﻋﺪﺩ ﻗﯿﻤﺖ، ﺍﻋﻼﻡ ﻫﻨﮕﺎﻡ
-ﮐﻦ. ﺫﮐ
-ﺮ ﺭﺍ ﺍﻭ ﺳﻠﯿﻘﻪ ﺍﺑﺘﺪﺍ ﺑﻮﺩ، ﻣﺮﺩﺩ ﺍﻧﺘﺨﺎﺏ ﺑﺮﺍﯼ ﻣﯿﻬﻤﺎﻥ ﺍﮔﺮ
- ﻏﺬﺍﯼ ﻏﯿﺮﻗﻬﻮﻩ؟ ﯾﺎ ﻗﻬﻮﻩ ﺳﺮﺩ؟ ﯾﺎ ﮔﺮﻡ ﻧﻮﺷﯿﺪﻧﯽ ﺑﭙﺮﺱ
-:ﺗﻠﺦ؟ ﯾﺎ ﺷﯿﺮﯾﻦ ﮐﺎﻣﻞ؟ ﯾﺎ ﺳﺒ
-ﮏ
-1.
-2.
-3.
-4.
-5.
-6.
-7.
-8.
- ﮐﺎﺭﺍﻣﻞ ﮐﺎﭘﻮﭼﯿﻨﻮ، ﻻﺗﻪ، ﻗﻬﻮﻩ: ﺍﺳﺘﺎﻧﺪﺍﺭﺩ: ﭘﯿﺸﻨﻬﺎﺩﻫﺎﯼ ﺭﺩ ﻣﻮﻫﯿﺘﻮ، ﺳﺮﺩ: ﻧﻮﺷﯿﺪﻧﯽ | ﻻﺗﻪ ﺁﯾﺲ ﻣﻮﮐﺎ، ﻣﺎﮐﯿﺎﺗﻮ
-، ﺁﻟﻔﺮﺩﻭ، ﭘﺎﺳﺘﺎ ﭼﯿﺰﺑﺮﮔﺮ، ﻏﺬﺍ: | ﻟﯿﻤﻮﻧﺎﺩ ﺩﺍﻟﮕﻮﻧﺎ، ﻣﻮﻫﯿﺘﻮ
-،ﮐﺮﯾﺴﭙﯽ ﻓﯿﻠﻪ ﺁﻟﻔﺮﺩﻭ، ﭘﯿﺘﺰ
-ﺍ ﺁﯾﺘﻢ ﺍﺭﺯﺍﻥ ﺗﺮﯾﻦ ﺧﻮﺍﺳﺖ، ﺭﺍ ﮔﺰﯾﻨﻪ ﺍﺭﺯﺍﻥ ﺗﺮﯾﻦ ﻣﯿﻬﻤﺎﻥ ﺍﮔﺮ
-ﮐﻦ. ﻣﻌﺮﻓﯽ ﺭﺍ ﻣﻨﻮ ﺍﺯ ﻣﺮﺗﺒ
-ﻂ ﭘﯿﺸﻨﻬﺎﺩ ﭼﻨﺪ ﺧﻮﺍﺳﺖ، ﺭﺍ ﮔﺰﯾﻨﻪ ﺑﻬﺘﺮﯾﻦ ﻣﯿﻬﻤﺎﻥ ﺍﮔﺮ
- ﺫﺍﺋﻘﻪ ﺑﻪ ﻧﻬﺎﯾﯽ ﺍﻧﺘﺨﺎﺏ ﮐﻦ ﺗﺄﮐﯿﺪ ﻭ ﮐﻦ ﺍﺭﺍﺋﻪ ﻣﺤﺒﻮ
-ﺏﺩﺍﺭﺩ. ﺑﺴﺘﮕﯽ ﺷﺨﺼ
-ﯽ ﻣﻮﺿﻮﻋﺎﺕ ﯾﺎ ﻣﺬﻫﺒﯽ ﺳﯿﺎﺳﯽ، ﻣﺴﺎﺋﻞ ﺩﺭﺑﺎﺭﻩ ﻫﺮﮔﺰ
-ﻧﺸﻮ. ﺑﺤﺚ ﻭﺍﺭﺩ ﮐﺎﻓﻪ ﺑﺎ ﻧﺎﻣﺮﺗﺒ
-ﻂ ﺧﻼﺻﻪ ﺭﺍ ﺍﻗﻼﻡ ﺩﺍﺷﺖ، ﺳﻔﺎﺭﺵ ﺩﺭﺧﻮﺍﺳﺖ ﻣﯿﻬﻤﺎﻥ ﺍﮔﺮ
- ﺍﻧﺠﺎﻡ ﮐﺎﻓﻪ ﭘﺮﺳﻨﻞ ﺗﻮﺳﻂ ﻧﻬﺎﯾﯽ ﺛﺒﺖ ﺷﻮ ﯾﺎﺩﺁﻭﺭ ﻭ ﮐ
-ﻦﻣﯽ ﺷﻮﺩ
-. ﺁﺭﺯﻭﯼ ﻭ ﺑﺪﻩ ﭘﺎﺳﺦ ﺍﺣﺘﺮﺍﻡ ﺑﺎ ﮐﺮﺩ، ﺗﺸﮑﺮ ﻣﯿﻬﻤﺎﻥ ﺍﮔﺮ
-ﺑﺎﺵ. ﺩﺍﺷﺘﻪ ﺧﻮﺵ ﻟﺤﻈﺎ
-ﺕ ﮐﻦ: ﺍﺿﺎﻓﻪ ﺭﺍ ﻋﺒﺎﺭﺕ ﺍﯾﻦ ﭘﺎﺳﺦ ﻫﺮ ﭘﺎﯾﺎﻥ ﺩﺭ
-
-☕ﺍﯾﻨﺠﺎ ﮐﺎﻓﻪ
- ━━━ ﺍﯾﻨﺠﺎ ﮐﺎﻓﻪ ﮐﺎﻣﻞ ﻣﻨﻮﯼ ━━━
-
-9.
-10.
-11.
-12.
-13.
-14.
-15.
-ﺩﺍﻍ
-:
- | ﻗﻬﻮ
-ﻩ
-☕
-183,000ﻋﺮﺑﯿﮑﺎ
-
- :
-50ﺁﻣﺮﯾﮑﺎﻧﻮ
-ﺁﻣﺮﯾﮑﺎﻧﻮ
-
- | 
-50
- | ﺁﻣﺮﯾﮑﺎﻧ
-ﻮ
-354,000
- | 
-180,000ﺗﺨﺼﺼﯽ:
-
- :
-50ﻋﺮﺑﯿﮑﺎ
-
-197,000ﻓﻨﺪﻕ:
-ﻻﺗﻪ
-
- | ﻋﺮﺑﯿﮑﺎ
-:
-251,000ﺍﺳﭙﺮﺳﻮ
-ﮐﺎﭘﻮﭼﯿﻨﻮ:
-ﺩﺍﺭﭼﯿﻦ:
-
- | 
- | 
-50
-354,000
-199,000
- | ﺍﺳﭙﺮﺳ
-ﻮﺍﺳﭙﺮﺳﻮ
-ﺗﺨﺼﺼﯽ:
-ﻋﺮﺑﯿﮑﺎ:
-ﻭﺍﻧﯿﻞ:
-ﻻﺗﻪ
-
-287,000
-287,000ﺗﺮﮎ:
-
- | 
- | 
-287,000ﻓﺪﺭﺍﻝ:
-ﻣﻮﮐﺎ:
-
- | 
-211,000
- | 
-405,000
-256,000ﻧﺴﮑﺎﻓﻪ:
-ﮐﺎﺭﺍﻣﻞ
-ﻟﺘﻪ:
-ﻧﻮﺗﻼ
-ﻻﺗﻪ:
-
- | (ﻻﺗﻪ
-
- | 
-287,000
-206,000ﺷﯿﺮﻋﺴﻞ
-
- | 
-287,000
-+ﻣﺎﮐﯿﺎﺗﻮ:
-ﺷﯿﺮ
-
-+ﺍﺳﭙﺮﺳﻮ
-ﮐﺎﺭﺍﻣﻞ
-ﺍﺳﭙﺮﺳﻮ:
-ﻫﺎﺕ
-
-289,000
- | 
-256,000ﮐﻨﺎﭼﯿﻨﻮ:
-ﺩﯾﮕﺮ:
-ﺩﺍﻍ
-ﻭﺍﯾﺖ
-
- | ﻧﻮﺷﯿﺪﻧ
-ﯽ
-228,000ﻭﺍﯾﺖ
-
-🍫
- | ﭼﺎﮐﻠﺖ
-:ﻧﺴﮑﺎﻓﻪ:
-ﺷﯿﺮ
-
-289,000ﻫﺎﺕ
-
- | 
- | 
-197,000
-286,000
- |ﭘﯿﻨﮏ
-
- | 
-286,000
-248,000
-🍵ﮐﺮﮎ:
-
- | ﺩﺍﺭﭼﯿﻦ
-:ﺩﻣﻨﻮﺵ:
-ﻭ
-ﭼﺎﯼ
-
-120,000ﺩﻣﯽ:
-
-217,000ﻋﺴﻞ
-ﭼﺎﯼ
-
- | ﺷﯿ
-ﺮﻣﺎﺳﺎﻻ:
-
-120,000
- | 
-217,000ﭼﺎﮐﻠﺖ:
-ﭼﺎﮐﻠﺖ:
-ﺳﺒﺰ:
-ﭼﺎﯼ
-
- | 
-92,000
-)
- | ﭼﺎﯼ
-:
-ﺩﻣﻨﻮ
-ﺵﺩﻣﻨﻮﺵ
-ﻻﺗﻪ:
-
- | 
- | ﻣﺎﭼ
-ﺎ
-195,000ﺳﺮﺩ:
-ﻋﺮﺑﯿﮑﺎ:
-ﻻﺗﻪ:
-ﻗﻬﻮﻩ
-
-120,000
-120,000
- | ﻧﻌﻨﺎ
-:ﺩﻣﻨﻮﺵ
-ﮔﻞ
-ﮔﺎﻭ
-ﺯﺑﺎﻥ:
-ﺍﻧﺮﮊﯼ ﺯﺍ:
-
-120,000
- | 
- | 
-160,000
- | ﺩﻣﻨﻮ
-ﺵﺩﻣﻨﻮﺵ
-
- | ﺭﺯﻫﯿﭗ
-:
-145,000
-120,000ﺩﻣﻨﻮﺵ
-ﺁﻟﺒﺎﻟﻮ:
-ﺁﺭﺍﻣﺒﺨﺶ:
-ﻻﺗﻪ:
-
-🧊ﭼﺎﯼ
-ﺁﻣﺮﯾﮑﺎﻧﻮ
-ﺁﯾﺲ
-ﻻﺗﻪ
-
- | ﺁﯾ
-ﺲ
-325,000
- | 
-354,000
-183,000ﺗﺨﺼﺼﯽ:
-ﮐﺎﺭﺍﻣﻞ:
-ﻓﺪﺭﺍﻝ:
-ﺁﯾﺲ
-
- | 
-287,000
- :
-50
-50ﺁﻣﺮﯾﮑﺎﻧﻮ
-ﺁﻣﺮﯾﮑﺎﻧﻮ
-ﺁﯾﺲ
-ﻣﻮﮐﺎ:
-ﺁﯾﺲ
-
- | 
-287,000ﻓﻨﺪﻭﻕ:
-ﺁﯾﺲ
-ﻻﺗﻪ
-
- | ﺁﯾ
-ﺲ
- | 
-252,000ﺍﺳﭙﺮﺳﻮ:
-ﮐﻮﮎ
-
- | 
-287,000
- | ﺩﺍﻟﮕﻮﻧﺎ
-:
- | ﺁﯾ
-ﺲ
-199,000
-256,000
-287,000
-287,000
- | 
-274,000ﻣﺨﻠﻮﻁ:
-ﺁﻓﻮﮔﺎﺗﻮ:
-ﻧﻮﺷﯿﺪﻧﯽ
-ﻣﻮﻫﯿﺘﻮ:
-ﺑﻠﻮ
-
- | 
-�
-�
-223,000ﺍﺳﻤﻮﺗﯽ:
-ﺗﺮﻭﭘﯿﮑﺎﻝ
-ﻓﺮﺍﭘﺎﭼﯿﻨﻮ:
-
-307,000
- | 
-130,000ﺷﮑﻼﺕ:
-ﻣﻮﻫﯿﺘﻮ:
-
- | 
-218,000ﺭﺩ
-
- | 
-218,000
- | ﻟﯿﻤﻮﻧﺎﺩ
-:ﻫﻨﺪﻭﺍﻧﻪ:
-ﺷﯿﮏ
-
- | ﻃﺒﯿﻌ
-ﯽ
-230,000
- | ﻭﺍﻧﯿﻞ
-:ﻣﻮﻫﯿﺘﻮ:
-
-223,000
-468,000
-468,000ﺷﯿﮏ
-ﻧﻮﺗﻼ:
-
- |
- | 
-468,000ﺷﯿﮏ
-
-ﺗﺨﺼﺼﯽ
-:ﮔﺎﺯﺩﺍﺭ
-ﺩﻡ ﺁﻭﺭﯼ
-ﺑﺮﻭ
-ﮐﻠﺪ
-
- | 
-☕
-325,000
-289,000
-🍳ﺻﺒﺤﺎﻧﻪ:
-ﺍﯾﺮﺍﻧﯽ:
-ﮐﺎﻣﺮﺷﯿﺎﻝ:
-ﺍﻣﻠﺖ
-
- | ﺩﻣ
-ﯽ
-315,000ﮔﺎﺯﺩﺍﺭ:
-
- | ﮐﻠﺪﺑﺮ
-ﻭ
-346,000
- | 
-309,000ﺳﯿﺮﻭﭖ:
-ﺍﯾﺮﺍﻧﯽ:
-ﺻﺒﺤﺎﻧﻪ
-
- | ﺑ
-ﺎ
-201,000ﺍﯾﺘﺎﻟﯿﺎﯾﯽ:
-
-406,000
-🍔ﺑﺮﮔﺮ:
-
- | ﺍﻣﻠ
-ﺖ
- | ﺗﺴﺖ
-:
-911,000ﺑﺮﮔﺮ:
-
-315,000ﻓﺮﻧﭻ
-
- | ﺗﺮﮐﯽ
-:
-433,000ﺩﺍﺑﻞ
-
- | ﺍﻣﻠ
-ﺖ
-574,000
- | 
-296,000ﭼﯿﺰﺑﺮﮔﺮ:
-
- | ﺑﺮﻭ
-:ﮐﻠﺪ
-ﻧﯿﻤﺮﻭ:
-
-527,000ﭼﻮﺭﯾﺘﺴﻮ
-
- | 
-787,000ﺑﺮﮔﺮ:
-ﺑﯿﮑﻦ
-
- | 
-668,000ﺑﺮﮔﺮ:
-ﺑﺮﮔﺮ:
-ﻣﺎﺷﺮﻭﻡ
-
-879,000
-🍕ﭘﺎﺳﺘﺎ:
-ﻭ
-ﺑﺮﮔﺮ:
-ﭘﯿﺘﺰﺍ
-ﭘﯿﺘﺰﺍ
-
- | ﭘﺴﺘﻮ
-:
-796,000ﭘﺎﺳﺘﺎ
-
- | ﭘﺴﺘﻮ
-:
-850,000
-627,000
-🍗ﺍﻟﻔﺮﺩﻭ:
-ﻏﺬﺍﯼ
-ﭘﺎﺳﺘﺎ
-
- | ﭼﯿﮑ
-ﻦﭘﯿﺘﺰﺍ
-ﻻﺯﺍﻧﯿﺎ:
-
- | 
- | 
-786,000
-690,000ﺁﻟﻔﺮﺩﻭ:
-ﭘﭙﺮﻭﻧﯽ:
-
-645,000ﭘﯿﺘﺰﺍ
-ﺍﺻﻠﯽ:
-
- | 
-640,000
- | ﻓﯿﻠ
-ﻪﺗﯿﮑﻪ:
-
-4ﮔﺮﯾﻞ
-ﻓﯿﻠﻪ
-ﺍﺳﺘﺮﯾﭙﺲ:
-
-698,000
-698,000
-🍟
- | 
-528,000
- | ﻓﯿﻠ
-ﻪﺗﯿﮑﻪ:
-
-433,000
-3ﮔﺮﯾﻞ
-ﻭﯾﻨﮕﺰ:
-ﻓﯿﻠﻪ
-ﺑﻮﻓﺎﻟﻮ
-ﮐﺮﯾﺴﭙﯽ:
-ﻫﺎﺕ ﺩﺍﮒ:
-ﺩﺍﮒ:
-ﻭ
-ﻫﺎﺕ
-
-537,000ﺳﯿﺐ ﺯﻣﯿﻨﯽ
-
- | 
-396,000ﺩﺍﮒ:
-ﺁﻟﻔﺮﺩﻭ:
-ﻣﺎﺷﺮﻭﻡ
-
- | ﺳﯿ
-ﺐ
-509,000ﺩﺳﺮ:
-
-🍰ﺗﯿﺮﺍﻣﯿﺴﻮ:
-
- | 
-259,000ﺷﯿﺮ:
-ﺳﻪ
-
- | 
- | 
-218,000ﭼﯿﺰ:
-ﻫﺎﺕ
-
-275,000
- | ﺯﻣﯿﻨﯽ
-:ﺳﯿﺐ
-
-336,000ﺷﮑﻼﺗﯽ:
-
-225,000ﺳﺎﻻﺩ:
-
-🥗
-681,000ﮔﺎﺯﺩﺍﺭ:
-ﭼﺎﮐﻠﺖ:
-ﮔﺮﯾﻞ:
-ﺩﺍﺑﻞ
-ﺳﺰﺍﺭ
-ﻧﻮﺷﯿﺪﻧﯽ
-
-80,000ﺩﻟﺴﺘﺮ:
-
- | 
-�
-�
- | 
- | 
-259,000
-627,000
-64,000ﺳﺲ:
-
-🫙ﺳﺲ
-
- | ﻧﻮﺷﺎﺑﻪ
-:ﻗﺎﺭﭺ:
-ﺳﻮﺧﺎﺭﯼ:
-
- | ﺳ
-ﺲﺳﺰﺍﺭ
-
-24,000ﺁﺏ:
-
-185,000ﮐﺮﻭﺳﺎﻥ
-ﭼﺪﺍﺭ:
-ﺳﺲ
-ﭼﯿﻠﯽ
-
-170,000
- | 
-140,000
-━━━ﺳﺰﺍﺭ:
-ﮐﺎﻓﻪ
-ﺳﺲ
-ﺍﻃﻼﻋﺎﺕ
-۲۳
-
- | 
-110,000
-━━━ﻭﺍﯼ ﻓﺎﯼ
-ﮐﺎﻓﻪ
-
-;`
- | ﺭﻭ
-ﺯﭘﺮﺳﻨﻞ
-ﻫﺮ
-ﯾﺎ
-ﺗﺎ
-۱۶:۳۰
-ﺍﯾﻨﺴﺘﺎﮔﺮﺍﻡ
-ﻋﺼﺮ
-ﻃﺮﯾﻖ
-ﺗﺎﯼ:
-ﻭ
-ﺍﺯ
-۱۳
-ﺗﺎ
-ﻣﯿﺰ:
-
-۹ﺻﺒﺢ
-ﺭﺯﺭﻭ
-
- | ﮐﺎﺭﯼ
-:ﺑﻠﻪ
-ﺳﺎﻋﺖ
-ﺭﺍﯾﮕﺎﻥ:
-
-// ========== AIMLAPI CONFIG ==========
-const AIML_API_KEY = 
-"265e25e464cbe8c06de40543826533d3";
-const AIML_API_URL = "https://api.aimlapi.com/v1/chat/completions";
-// ========== CHAT HISTORY ==========
 let history = [];
-// ========== CALL AIMLAPI ==========
-async function callAI(msg) {
-history.push({ role: "user", content: msg });
-const requestBody = {
-model: 'google/gemma-3-4b-it',
-messages: [
-{ role: "system", content: SYS },
-...history
- ],
-max_tokens: 1000,
-temperature: 0.7
-};
-",
-try {
-const res = await fetch(AIML_API_URL, {
-method: "POST",
-headers: {
-"Content-Type": "application/json",
-"Authorization": Bearer ${AIML_API_KEY}`
+
+// ====== SYSTEM PROMPT (منو + قوانین) ======
+const SYS = `
+تو دستیار رسمی کافه هستی.
+
+قوانین:
+- همیشه فارسی جواب بده
+- کاربر را "میهمان" خطاب کن
+- اطلاعات غیرمنو را حدس نزن
+- فقط از منوی زیر استفاده کن
+
+منو:
+
+☕ نوشیدنی‌های داغ:
+- اسپرسو: 180,000
+- آمریکانو: 183,000
+- لاته: 256,000
+- کاپوچینو: 251,000
+- موکا: 287,000
+
+🧊 نوشیدنی‌های سرد:
+- آیس لاته: 256,000
+- موهیتو: 218,000
+- لیموناد: 218,000
+
+🍔 غذا:
+- برگر: 527,000
+- چیزبرگر: 574,000
+- پیتزا آلفردو: 786,000
+- پاستا آلفردو: 627,000
+
+🍰 دسر:
+- تیرامیسو: 259,000
+- کروسان: 275,000
+
+اگر چیزی نبود بگو: "متأسفانه در منو موجود نیست"
+`;
+
+async function callAI(text){
+
+history.push({role:"user",content:text});
+
+const res = await fetch(API_URL,{
+method:"POST",
+headers:{
+"Content-Type":"application/json",
+"Authorization":"Bearer " + API_KEY
 },
-body: JSON.stringify(requestBody)
+body:JSON.stringify({
+model:"google/gemma-3-4b-it",
+messages:[
+{role:"system",content:SYS},
+...history
+],
+temperature:0.7,
+max_tokens:800
+})
 });
-if (!res.ok) {
-const errorData = await res.json();
-console.error("API Error:", errorData);
-throw new Error(HTTP error! status:${res.status}
-`);
-}
+
 const data = await res.json();
-const reply = data.choices?.
-[0]?.message?.contentﮐﻨﯿﺪ
-ﺍﻣﺘﺤﺎﻥ
-ﺩﻭﺑﺎﺭﻩ
-ﻟﻄﻔًﺎ
 
-.";
- || "ﺁﻣﺪ.
-ﭘﯿﺶ
-ﻣﺸﮑﻠﯽ
-ﻣﺘﺄﺳﻔﺎﻧﻪ
+let reply = data?.choices?.[0]?.message?.content || "خطا در پاسخ";
 
-history.push({ role: "assistant", content: reply });
+history.push({role:"assistant",content:reply});
+
 return reply;
-} catch (error) {
-console.error("Error calling AIMLAPI:", error);
-throw error;
 }
-}
-// ========== UI FUNCTIONS ==========
-function addMsg(text, role) {
-const msgs = document.getElementById('msgs');
-const wrap = document.createElement('div');
-wrap.className = msg ${role}`;
-const av = document.createElement('div');
-av.className = role === 'user' ? 'msg-avatar 
-user-av' : 'msg-avatar';
-av.textContent = role === 'user' ? '
-👤 ;'ﺍ' : 
-'
-const bubble = document.createElement('div');
-bubble.className = 'bubble';
-bubble.innerHTML = text
-.replace(/**(.*?)**/g, '<strong>`$1</strong>')
-.replace(/
-☕ﺍﯾﻨﺠﺎ
-ﮐﺎﻓﻪ
 
-/g, '<span style="font
-size:12px;color:#a08050;display:block;margin
-top:6px;padding-top:6px;border-top:1px solid 
-#ede8df;">
-☕ﺍﯾﻨﺠﺎ
-ﮐﺎﻓﻪ
+function add(text,cls){
+const div=document.createElement("div");
+div.className="msg "+cls;
+div.innerHTML=`<div class="bubble">${text}</div>`;
+document.getElementById("msgs").appendChild(div);
+}
 
-</span>')
-.replace(/\n/g, '<br>');
-if (role === 'user') { wrap.appendChild(bubble); 
-wrap.appendChild(av); }
-else { wrap.appendChild(av); 
-wrap.appendChild(bubble); }
-msgs.appendChild(wrap);
-msgs.scrollTop = msgs.scrollHeight;
-}
-function showTyping() {
-const msgs = document.getElementById('msgs');
-const wrap = document.createElement('div');
-wrap.className = 'msg bot'; wrap.id
- = 'typing
-ind';
-const av = document.createElement('div');
-av.className = 'msg-avatar'; av.textContent = 'ﺍ';
-const t = document.createElement('div');
-t.className = 'typing';
-t.innerHTML = '<span></span><span></
-span><span></span>';
-wrap.appendChild(av); wrap.appendChild(t);
-msgs.appendChild(wrap);
-msgs.scrollTop = msgs.scrollHeight;
-}
-function removeTyping() {
-const t = document.getElementById('typing-ind');
-if (t) t.remove();
-}
-async function sendMsg() {
-const input = document.getElementById('chat
-input');
-const text = input.value.trim();
-if (!text) return;
-input.value = '';
-document.getElementById('qrs').style.display = 
-'none';
-addMsg(text, 'user');
-showTyping();
-try {
-const reply = await callAI(text);
-removeTyping();
-addMsg(reply, 'bot');
-} catch(e) {
-removeTyping();
-addMsg('ﮐﻨﯿﺪ
-ﮐﺎﻓﻪ
+async function send(){
+const input=document.getElementById("chat");
+const text=input.value.trim();
+if(!text) return;
 
-☕ﺍﯾﻨﺠﺎ
-ﺍﻣﺘﺤﺎﻥ
+input.value="";
+add(text,"user");
 
-', 'bot');
+const reply=await callAI(text);
+add(reply,"bot");
 }
-}ﺩﻭﺑﺎﺭﻩ
-ﻟﻄﻔًﺎ
-ﻧﺸﺪ.
-ﺑﺮﻗﺮﺍﺭ
-ﺍﺗﺼﺎﻝ
 
-.\n\n
-function sq(t) {
-document.getElementById('chat-input').value = t;
-sendMsg();
-}
-// ========== INITIALIZE ==========
-// Add initial bot message if needed
 </script>
+
 </body>
 </html>
