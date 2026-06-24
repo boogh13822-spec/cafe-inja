@@ -1,55 +1,10 @@
-<!DOCTYPE html>
-<html lang="fa" dir="rtl">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>اینجا کافه دستیار</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600&display=swap" rel="stylesheet"/>
-
-<style>
-body{font-family:Vazirmatn;background:#f5f0e8;margin:0;display:flex;justify-content:center;align-items:center;min-height:100vh}
-.app{width:100%;max-width:480px;height:90vh;background:#fff;border-radius:20px;display:flex;flex-direction:column;overflow:hidden}
-.header{background:#1a1008;color:#fff;padding:15px}
-.messages{flex:1;overflow:auto;padding:10px;background:#f5f0e8}
-.msg{margin:6px 0;display:flex;gap:8px}
-.msg.user{flex-direction:row-reverse}
-.bubble{padding:10px 14px;border-radius:12px;background:#fff;max-width:75%}
-.msg.user .bubble{background:#1a1008;color:#fff}
-.input{display:flex;padding:10px;border-top:1px solid #ddd}
-input{flex:1;padding:10px;border-radius:20px;border:1px solid #ccc}
-button{width:45px;border:none;background:#1a1008;color:#fff;border-radius:50%;margin-right:8px;cursor:pointer}
-</style>
-
-</head>
-
-<body>
-
-<div class="app">
-
-<div class="header">
-☕ کافه اینجا - دستیار هوشمند
-</div>
-
-<div class="messages" id="msgs"></div>
-
-<div class="input">
-<input id="chat" placeholder="پیام بنویس..." onkeydown="if(event.key==='Enter')send()"/>
-<button onclick="send()">➤</button>
-</div>
-
-</div>
-
 <script>
 
-//////////////////////////////////////////////////////
-// 🔥 فقط این خط مهم تغییر کرده (Worker اتصال)
-//////////////////////////////////////////////////////
 const WORKER_URL = "https://cafeinjaapi.boogh13822.workers.dev";
 
 let history = [];
 
-// ====== SYSTEM PROMPT (منو + قوانین خودت - دست‌نخورده) ======
+// ====== SYSTEM PROMPT ======
 const SYS = `
 تو دستیار رسمی کافه هستی.
 
@@ -86,66 +41,115 @@ const SYS = `
 اگر چیزی نبود بگو: "متأسفانه در منو موجود نیست"
 `;
 
-// ====== CALL WORKER (اصلاح شده و بدون API مستقیم) ======
-async function callAI(text){
+// ====== نمایش پیام ======
+function add(text, cls) {
 
-history.push({role:"user",content:text});
+  const div = document.createElement("div");
+  div.className = "msg " + cls;
 
-const res = await fetch(WORKER_URL,{
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify({
-messages:[
-{role:"system",content:SYS},
-...history
-],
-temperature:0.7,
-max_tokens:800
-})
-});
+  div.innerHTML = `
+    <div class="bubble">${text.replace(/\n/g, "<br>")}</div>
+  `;
 
-if(!res.ok){
-throw new Error("Worker Error: " + res.status);
+  const msgs = document.getElementById("msgs");
+
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
 }
 
-const data = await res.json();
+// ====== فراخوانی هوش مصنوعی ======
+async function callAI(text) {
 
-const reply = data?.choices?.[0]?.message?.content || "خطا در پاسخ";
+  history.push({
+    role: "user",
+    content: text
+  });
 
-history.push({role:"assistant",content:reply});
+  const res = await fetch(WORKER_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      messages: [
+        {
+          role: "system",
+          content: SYS
+        },
+        ...history
+      ]
+    })
+  });
 
-return reply;
+  const data = await res.json();
+
+  console.log("API RESPONSE:", data);
+
+  if (!res.ok) {
+
+    if (data?.details?.error?.message) {
+      throw new Error(data.details.error.message);
+    }
+
+    if (data?.error?.message) {
+      throw new Error(data.error.message);
+    }
+
+    throw new Error("خطای سرور");
+  }
+
+  let reply = "";
+
+  if (
+    data &&
+    data.choices &&
+    data.choices[0] &&
+    data.choices[0].message &&
+    data.choices[0].message.content
+  ) {
+
+    reply = data.choices[0].message.content;
+
+  } else {
+
+    console.error("Unexpected response:", data);
+
+    reply = "پاسخی از مدل دریافت نشد";
+  }
+
+  history.push({
+    role: "assistant",
+    content: reply
+  });
+
+  return reply;
 }
 
-// ====== UI ======
-function add(text,cls){
-const div=document.createElement("div");
-div.className="msg "+cls;
-div.innerHTML=`<div class="bubble">${text}</div>`;
-document.getElementById("msgs").appendChild(div);
-}
+// ====== ارسال ======
+async function send() {
 
-// ====== SEND ======
-async function send(){
-const input=document.getElementById("chat");
-const text=input.value.trim();
-if(!text) return;
+  const input = document.getElementById("chat");
 
-input.value="";
-add(text,"user");
+  const text = input.value.trim();
 
-try{
-const reply=await callAI(text);
-add(reply,"bot");
-}catch(e){
-add("❌ خطا در اتصال به سرور","bot");
-console.log(e);
-}
+  if (!text) return;
+
+  input.value = "";
+
+  add(text, "user");
+
+  try {
+
+    const reply = await callAI(text);
+
+    add(reply, "bot");
+
+  } catch (err) {
+
+    console.error(err);
+
+    add("❌ " + err.message, "bot");
+  }
 }
 
 </script>
-
-</body>
-</html>
