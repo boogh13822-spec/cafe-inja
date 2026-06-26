@@ -3,339 +3,573 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>کافه اینجا - دستیار</title>
-<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600&display=swap" rel="stylesheet">
+<title>کافه اینجا</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-
-body {
-  font-family: 'Vazirmatn', sans-serif;
-  background: #080604;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  padding: 12px;
+:root {
+  --bg:        #090705;
+  --surface:   #100c07;
+  --surface2:  #181008;
+  --border:    #2a1c0e;
+  --border2:   #3a2510;
+  --gold:      #c08030;
+  --gold-dim:  #7a4e1a;
+  --cream:     #f0dfc0;
+  --cream-dim: #b09070;
+  --text:      #e0caa8;
+  --text-dim:  #7a5a38;
+  --accent:    #8b4a1a;
+  --accent-h:  #a85a22;
+  --green:     #2d6a3a;
+  --red:       #6a2d2d;
 }
 
-.app {
-  width: 100%;
-  max-width: 460px;
-  height: 92vh;
-  max-height: 760px;
-  background: #0f0b07;
-  border-radius: 22px;
-  border: 1px solid #2a1c0e;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
+*{box-sizing:border-box;margin:0;padding:0;}
+
+body{
+  font-family:'Vazirmatn',sans-serif;
+  background:var(--bg);
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:10px;
 }
 
-/* ───── HEADER ───── */
-.header {
-  background: #130e08;
-  border-bottom: 1px solid #2a1c0e;
-  padding: 14px 18px;
-  display: flex;
-  align-items: center;
-  gap: 13px;
-  flex-shrink: 0;
+/* ══════════════════════ APP SHELL ══════════════════════ */
+.app{
+  width:100%;max-width:440px;
+  height:94vh;max-height:820px;
+  background:var(--surface);
+  border-radius:24px;
+  border:1px solid var(--border);
+  display:flex;flex-direction:column;
+  overflow:hidden;
+  position:relative;
+  box-shadow:0 24px 60px rgba(0,0,0,.6);
 }
 
-.header-icon {
-  width: 44px; height: 44px;
-  border-radius: 50%;
-  background: #1e1409;
-  border: 1.5px solid #4a2e14;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 22px;
-  flex-shrink: 0;
+/* ══════════════════════ HEADER ══════════════════════ */
+.header{
+  background:linear-gradient(160deg,#1a1008 0%,#0e0a05 100%);
+  border-bottom:1px solid var(--border);
+  padding:14px 16px;
+  display:flex;align-items:center;gap:12px;
+  flex-shrink:0;
+}
+.logo{
+  width:42px;height:42px;border-radius:50%;
+  background:radial-gradient(circle at 35% 35%,#3a2010,#1a0e06);
+  border:1.5px solid var(--gold-dim);
+  display:flex;align-items:center;justify-content:center;
+  font-size:20px;flex-shrink:0;
+}
+.header-info{flex:1;}
+.header-name{color:var(--cream);font-size:15px;font-weight:700;letter-spacing:.5px;}
+.header-status{color:var(--text-dim);font-size:11px;margin-top:2px;display:flex;align-items:center;gap:5px;}
+.online-dot{width:6px;height:6px;border-radius:50%;background:#5aab6a;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+.header-btns{display:flex;gap:6px;flex-shrink:0;}
+.hbtn{
+  padding:6px 11px;border-radius:10px;
+  border:1px solid var(--border2);
+  background:var(--surface2);
+  color:var(--cream-dim);
+  font-family:'Vazirmatn',sans-serif;font-size:11px;
+  cursor:pointer;white-space:nowrap;
+  transition:all .2s;
+}
+.hbtn:hover{background:var(--border);color:var(--cream);}
+.hbtn.active{background:var(--accent);border-color:var(--accent);color:var(--cream);}
+
+/* ══════════════════════ VIEW SWITCHER ══════════════════════ */
+.view{display:none;flex:1;overflow:hidden;flex-direction:column;}
+.view.active{display:flex;}
+
+/* ══════════════════════ CHAT VIEW ══════════════════════ */
+.messages{
+  flex:1;overflow-y:auto;
+  padding:16px 14px;
+  display:flex;flex-direction:column;gap:10px;
+  scrollbar-width:thin;scrollbar-color:var(--border) transparent;
+}
+.messages::-webkit-scrollbar{width:3px;}
+.messages::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+
+.msg-wrap{display:flex;flex-direction:column;}
+.msg-wrap.user{align-items:flex-start;}
+.msg-wrap.bot{align-items:flex-end;}
+.msg-row{display:flex;align-items:flex-end;gap:8px;}
+.msg-wrap.user .msg-row{flex-direction:row-reverse;}
+
+.avatar{
+  width:28px;height:28px;border-radius:50%;
+  background:var(--surface2);border:1px solid var(--border2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;flex-shrink:0;
+}
+.bubble{
+  max-width:76%;padding:10px 14px;
+  font-size:13.5px;line-height:1.85;
+  word-break:break-word;border-radius:16px;
+}
+.bubble.bot{
+  background:var(--surface2);color:var(--text);
+  border:1px solid var(--border);border-bottom-right-radius:4px;
+}
+.bubble.user{
+  background:#5c3214;color:var(--cream);
+  border:1px solid #7a4520;border-bottom-left-radius:4px;
+}
+.msg-time{font-size:10px;color:#3a2810;margin-top:4px;padding:0 36px;}
+
+.typing-row{display:flex;align-items:flex-end;gap:8px;}
+.typing-bub{
+  background:var(--surface2);border:1px solid var(--border);
+  border-radius:16px;border-bottom-right-radius:4px;
+  padding:12px 16px;display:flex;gap:5px;
+}
+.typing-bub span{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--gold-dim);animation:blink 1.2s infinite;
+}
+.typing-bub span:nth-child(2){animation-delay:.2s;}
+.typing-bub span:nth-child(3){animation-delay:.4s;}
+@keyframes blink{0%,80%,100%{opacity:.3}40%{opacity:1}}
+
+/* order card in chat */
+.order-card{
+  background:var(--surface2);border:1px solid var(--border2);
+  border-radius:14px;padding:14px 16px;
+  max-width:76%;
+}
+.oc-header{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-bottom:10px;padding-bottom:8px;
+  border-bottom:1px solid var(--border);
+}
+.oc-title{color:var(--gold);font-size:13px;font-weight:600;}
+.oc-id{color:var(--text-dim);font-size:11px;font-family:monospace;}
+.oc-row{display:flex;justify-content:space-between;font-size:12.5px;color:var(--text);padding:3px 0;}
+.oc-total{
+  border-top:1px solid var(--border);margin-top:8px;padding-top:8px;
+  display:flex;justify-content:space-between;
+  color:var(--gold);font-size:13px;font-weight:600;
 }
 
-.header-title { color: #f0dfc0; font-size: 15px; font-weight: 600; }
-.header-sub {
-  color: #7a5a38;
-  font-size: 11.5px;
-  margin-top: 2px;
-  display: flex; align-items: center; gap: 5px;
+/* chat input */
+.chat-input-area{
+  background:#0c0804;border-top:1px solid var(--border);
+  padding:10px 14px 14px;flex-shrink:0;
 }
-.dot {
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: #5aab6a;
+.quick-btns{
+  display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;
+  padding-bottom:8px;
+}
+.quick-btns::-webkit-scrollbar{display:none;}
+.qbtn{
+  flex-shrink:0;padding:5px 12px;border-radius:20px;
+  border:1px solid var(--border2);background:transparent;
+  color:var(--text-dim);font-family:'Vazirmatn',sans-serif;font-size:11.5px;
+  cursor:pointer;white-space:nowrap;transition:all .18s;
+}
+.qbtn:hover{background:var(--surface2);color:var(--cream);border-color:var(--gold-dim);}
+.input-row{display:flex;gap:8px;align-items:center;}
+.text-inp{
+  flex:1;background:#080503;border:1px solid var(--border);
+  border-radius:25px;padding:10px 16px;
+  color:var(--cream);font-family:'Vazirmatn',sans-serif;font-size:13.5px;
+  outline:none;transition:border-color .2s;
+}
+.text-inp::placeholder{color:#3a2810;}
+.text-inp:focus{border-color:var(--gold-dim);}
+.text-inp:disabled{opacity:.4;}
+.send-btn{
+  width:42px;height:42px;border-radius:50%;
+  background:var(--accent);border:none;
+  color:var(--cream);font-size:17px;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;transition:background .18s;
+}
+.send-btn:hover{background:var(--accent-h);}
+.send-btn:disabled{background:var(--border);cursor:not-allowed;}
+
+/* ══════════════════════ ORDER VIEW ══════════════════════ */
+.order-view{background:var(--surface);display:flex;flex-direction:column;}
+
+.order-scroll{flex:1;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--border) transparent;}
+.order-scroll::-webkit-scrollbar{width:3px;}
+.order-scroll::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+
+/* customer info */
+.info-section{padding:18px 16px 12px;}
+.section-label{
+  color:var(--gold);font-size:11px;font-weight:600;
+  letter-spacing:1px;margin-bottom:12px;
+  display:flex;align-items:center;gap:8px;
+}
+.section-label::after{content:'';flex:1;height:1px;background:var(--border);}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.info-grid .full{grid-column:1/-1;}
+.field-label{color:var(--text-dim);font-size:11.5px;margin-bottom:5px;display:block;}
+.field-input{
+  width:100%;background:#080503;border:1px solid var(--border);
+  border-radius:10px;padding:9px 12px;
+  color:var(--cream);font-family:'Vazirmatn',sans-serif;font-size:13px;
+  outline:none;transition:border-color .2s;
+}
+.field-input:focus{border-color:var(--gold-dim);}
+.field-input::placeholder{color:#3a2810;}
+
+/* menu section */
+.menu-section{padding:4px 16px 8px;}
+.cat-block{margin-bottom:16px;}
+.cat-title{
+  display:flex;align-items:center;gap:8px;
+  color:var(--cream-dim);font-size:12px;font-weight:600;
+  margin-bottom:8px;padding-bottom:6px;
+  border-bottom:1px solid var(--border);
 }
 
-/* ───── MESSAGES ───── */
-.messages {
-  flex: 1;
-  overflow-y: auto;
-  padding: 16px 14px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  scrollbar-width: thin;
-  scrollbar-color: #2a1c0e transparent;
+.item-card{
+  background:var(--surface2);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:12px 14px;
+  margin-bottom:8px;
+  transition:border-color .2s,background .2s;
+  cursor:default;
 }
-.messages::-webkit-scrollbar { width: 3px; }
-.messages::-webkit-scrollbar-thumb { background: #2a1c0e; border-radius: 3px; }
+.item-card.has-qty{
+  border-color:var(--gold-dim);
+  background:#1a1008;
+}
+.item-top{display:flex;align-items:center;gap:10px;}
+.item-name{flex:1;color:var(--text);font-size:13.5px;font-weight:500;}
+.item-price{color:var(--text-dim);font-size:12px;white-space:nowrap;}
+.qty-row{
+  display:flex;align-items:center;gap:0;
+  background:#0c0804;border:1px solid var(--border);
+  border-radius:25px;overflow:hidden;
+  flex-shrink:0;
+}
+.qty-btn{
+  width:32px;height:32px;border:none;
+  background:transparent;color:var(--cream-dim);
+  font-size:18px;line-height:1;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .15s;
+}
+.qty-btn:hover{background:var(--accent);color:var(--cream);}
+.qty-num{
+  min-width:28px;text-align:center;
+  color:var(--cream);font-size:14px;font-weight:600;
+  padding:0 2px;
+}
+.item-desc{
+  color:var(--text-dim);font-size:11.5px;
+  margin-top:6px;line-height:1.6;
+  padding-top:6px;border-top:1px solid var(--border);
+  display:none;
+}
+.item-card.has-qty .item-desc{display:block;}
 
-.msg-wrap { display: flex; flex-direction: column; }
-.msg-wrap.user { align-items: flex-start; }
-.msg-wrap.bot  { align-items: flex-end; }
+/* order summary sticky */
+.order-summary{
+  flex-shrink:0;
+  background:#0c0804;
+  border-top:1px solid var(--border);
+  padding:12px 16px;
+}
+.summary-row{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-bottom:10px;
+}
+.summary-items{color:var(--text-dim);font-size:12px;}
+.summary-total{color:var(--gold);font-size:15px;font-weight:700;}
+.submit-btn{
+  width:100%;padding:13px;
+  background:var(--accent);border:none;border-radius:12px;
+  color:var(--cream);font-family:'Vazirmatn',sans-serif;
+  font-size:14px;font-weight:600;cursor:pointer;
+  transition:background .2s;display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.submit-btn:hover{background:var(--accent-h);}
+.submit-btn:disabled{background:var(--border);cursor:not-allowed;color:var(--text-dim);}
+.submit-btn.loading::after{
+  content:'';width:16px;height:16px;border-radius:50%;
+  border:2px solid rgba(255,255,255,.3);border-top-color:var(--cream);
+  animation:spin .7s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
 
-.msg-row {
-  display: flex;
-  align-items: flex-end;
-  gap: 8px;
-}
-.msg-wrap.user .msg-row { flex-direction: row-reverse; }
+/* ══════════════════════ FEEDBACK VIEW ══════════════════════ */
+.feedback-view{background:var(--surface);display:flex;flex-direction:column;}
+.fb-scroll{flex:1;overflow-y:auto;padding:16px;scrollbar-width:thin;scrollbar-color:var(--border) transparent;}
+.fb-scroll::-webkit-scrollbar{width:3px;}
+.fb-scroll::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
 
-.avatar {
-  width: 28px; height: 28px;
-  border-radius: 50%;
-  background: #1a1108;
-  border: 1px solid #3a2510;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 13px;
-  flex-shrink: 0;
-}
+.star-group{margin-bottom:14px;}
+.star-label{color:var(--text-dim);font-size:12px;margin-bottom:6px;display:block;}
+.stars{display:flex;gap:4px;direction:ltr;}
+.star{font-size:24px;cursor:pointer;color:var(--border2);transition:color .15s,transform .1s;}
+.star:hover{transform:scale(1.15);}
+.star.on{color:var(--gold);}
 
-.bubble {
-  max-width: 78%;
-  padding: 10px 14px;
-  font-size: 13.5px;
-  line-height: 1.9;
-  word-break: break-word;
-  border-radius: 16px;
+.item-rating-block{
+  background:var(--surface2);border:1px solid var(--border);
+  border-radius:12px;padding:12px 14px;margin-bottom:10px;
 }
-.bubble.bot {
-  background: #1b1208;
-  color: #e0caa8;
-  border: 1px solid #2e1e0c;
-  border-bottom-right-radius: 4px;
-}
-.bubble.user {
-  background: #5c3214;
-  color: #f0dfc0;
-  border: 1px solid #7a4520;
-  border-bottom-left-radius: 4px;
-}
-.msg-time {
-  font-size: 10px;
-  color: #4a3522;
-  margin-top: 4px;
-  padding: 0 36px;
-}
+.irb-name{color:var(--cream);font-size:13px;font-weight:500;margin-bottom:10px;}
+.irb-cats{display:flex;gap:16px;flex-wrap:wrap;}
+.irb-cat{}
+.irb-cat-label{color:var(--text-dim);font-size:10.5px;margin-bottom:5px;}
+.irb-stars{display:flex;gap:3px;direction:ltr;}
+.irb-star{font-size:18px;cursor:pointer;color:var(--border2);transition:color .12s;}
+.irb-star.on{color:var(--gold);}
 
-/* ───── TYPING ───── */
-.typing-row {
-  display: flex;
-  align-items: flex-end;
-  gap: 8px;
+.fb-textarea{
+  width:100%;background:#080503;border:1px solid var(--border);
+  border-radius:10px;padding:10px 12px;
+  color:var(--cream);font-family:'Vazirmatn',sans-serif;font-size:13px;
+  outline:none;resize:none;min-height:76px;transition:border-color .2s;
 }
-.typing-bubble {
-  background: #1b1208;
-  border: 1px solid #2e1e0c;
-  border-radius: 16px;
-  border-bottom-right-radius: 4px;
-  padding: 12px 16px;
-  display: flex;
-  gap: 5px;
-  align-items: center;
-}
-.typing-bubble span {
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: #6a4828;
-  animation: blink 1.2s infinite;
-}
-.typing-bubble span:nth-child(2) { animation-delay: .2s; }
-.typing-bubble span:nth-child(3) { animation-delay: .4s; }
-@keyframes blink {
-  0%, 80%, 100% { opacity: .3; }
-  40% { opacity: 1; }
-}
-
-/* ───── INPUT AREA ───── */
-.input-area {
-  background: #130e08;
-  border-top: 1px solid #2a1c0e;
-  padding: 10px 14px 14px;
-  flex-shrink: 0;
-}
-
-.quick-btns {
-  display: flex;
-  gap: 6px;
-  overflow-x: auto;
-  scrollbar-width: none;
-  padding-bottom: 8px;
-}
-.quick-btns::-webkit-scrollbar { display: none; }
-
-.qbtn {
-  flex-shrink: 0;
-  padding: 5px 13px;
-  border-radius: 20px;
-  border: 1px solid #3a2510;
-  background: transparent;
-  color: #9a7050;
-  font-family: 'Vazirmatn', sans-serif;
-  font-size: 11.5px;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: all .18s;
-}
-.qbtn:hover { background: #1e1408; color: #f0dfc0; border-color: #6a4020; }
-
-.input-row {
-  display: flex;
-  gap: 8px;
-  align-items: center;
+.fb-textarea:focus{border-color:var(--gold-dim);}
+.fb-textarea::placeholder{color:#3a2810;}
+.fb-footer{
+  flex-shrink:0;background:#0c0804;
+  border-top:1px solid var(--border);padding:12px 16px;
 }
 
-.text-input {
-  flex: 1;
-  background: #0a0704;
-  border: 1px solid #2a1c0e;
-  border-radius: 25px;
-  padding: 10px 16px;
-  color: #f0dfc0;
-  font-family: 'Vazirmatn', sans-serif;
-  font-size: 13.5px;
-  outline: none;
-  transition: border-color .2s;
+/* ══════════════════════ TOAST ══════════════════════ */
+.toast{
+  position:absolute;top:76px;left:50%;transform:translateX(-50%);
+  padding:9px 18px;border-radius:20px;
+  font-size:12.5px;white-space:nowrap;z-index:50;
+  opacity:0;pointer-events:none;transition:opacity .25s;
+  background:#2d6a3a;color:#c0f0c8;
 }
-.text-input::placeholder { color: #4a3522; }
-.text-input:focus { border-color: #6a4020; }
-.text-input:disabled { opacity: .5; }
+.toast.err{background:#6a2d2d;color:#f0c0c0;}
+.toast.show{opacity:1;}
 
-.send-btn {
-  width: 42px; height: 42px;
-  border-radius: 50%;
-  background: #7a3e18;
-  border: none;
-  color: #f0dfc0;
-  font-size: 17px;
-  cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
-  transition: background .18s;
+/* ══════════════════════ EMPTY ══════════════════════ */
+.empty-state{
+  flex:1;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:8px;
+  color:var(--text-dim);font-size:13px;
 }
-.send-btn:hover { background: #9a5022; }
-.send-btn:disabled { background: #2a1c0e; cursor: not-allowed; }
+.empty-icon{font-size:36px;opacity:.4;}
+
+/* ══════════════════════ UTILS ══════════════════════ */
+.divider{height:1px;background:var(--border);margin:4px 0 14px;}
 </style>
 </head>
 <body>
-
 <div class="app">
 
+  <!-- ── HEADER ── -->
   <div class="header">
-    <div class="header-icon">☕</div>
-    <div>
-      <div class="header-title">کافه اینجا</div>
-      <div class="header-sub">
-        <span class="dot"></span>
+    <div class="logo">☕</div>
+    <div class="header-info">
+      <div class="header-name">کافه اینجا</div>
+      <div class="header-status">
+        <span class="online-dot"></span>
         <span>دستیار آنلاین</span>
+      </div>
+    </div>
+    <div class="header-btns">
+      <button class="hbtn active" id="btn-chat"    onclick="switchView('chat')">💬 چت</button>
+      <button class="hbtn"        id="btn-order"   onclick="switchView('order')">🛒 سفارش</button>
+      <button class="hbtn"        id="btn-feedback" onclick="switchView('feedback')">⭐ نظر</button>
+    </div>
+  </div>
+
+  <!-- ══════════════ CHAT VIEW ══════════════ -->
+  <div class="view active" id="view-chat">
+    <div class="messages" id="msgs"></div>
+    <div class="chat-input-area">
+      <div class="quick-btns">
+        <button class="qbtn" onclick="quickSend('منوی کامل رو نشونم بده')">📋 منو</button>
+        <button class="qbtn" onclick="quickSend('نوشیدنی داغ چی دارید؟')">☕ داغ</button>
+        <button class="qbtn" onclick="quickSend('نوشیدنی سرد چی دارید؟')">🧊 سرد</button>
+        <button class="qbtn" onclick="quickSend('غذاها چیه؟')">🍔 غذا</button>
+        <button class="qbtn" onclick="quickSend('دسر چی دارید؟')">🍰 دسر</button>
+        <button class="qbtn" onclick="quickSend('چی پیشنهاد می‌دید؟')">✨ پیشنهاد</button>
+      </div>
+      <div class="input-row">
+        <input class="text-inp" id="chat-inp"
+          placeholder="سوال خود را بنویسید..."
+          onkeydown="if(event.key==='Enter')sendMsg()"/>
+        <button class="send-btn" id="sendBtn" onclick="sendMsg()">➤</button>
       </div>
     </div>
   </div>
 
-  <div class="messages" id="msgs"></div>
+  <!-- ══════════════ ORDER VIEW ══════════════ -->
+  <div class="view" id="view-order">
+    <div class="order-scroll" id="orderScroll">
 
-  <div class="input-area">
-    <div class="quick-btns">
-      <button class="qbtn" onclick="quickSend('منوی کامل رو نشونم بده')">📋 منو</button>
-      <button class="qbtn" onclick="quickSend('نوشیدنی‌های داغ چی دارید؟')">☕ نوشیدنی داغ</button>
-      <button class="qbtn" onclick="quickSend('نوشیدنی سرد چی دارید؟')">🧊 نوشیدنی سرد</button>
-      <button class="qbtn" onclick="quickSend('غذاها چیه؟')">🍔 غذا</button>
-      <button class="qbtn" onclick="quickSend('دسر چی دارید؟')">🍰 دسر</button>
+      <!-- customer info -->
+      <div class="info-section">
+        <div class="section-label">اطلاعات میهمان</div>
+        <div class="info-grid">
+          <div>
+            <label class="field-label">نام *</label>
+            <input class="field-input" id="o-name" placeholder="نام شما"/>
+          </div>
+          <div>
+            <label class="field-label">شماره میز *</label>
+            <input class="field-input" id="o-table" type="number" placeholder="مثال: ۵"/>
+          </div>
+          <div class="full">
+            <label class="field-label">شماره تماس *</label>
+            <input class="field-input" id="o-phone" type="tel" placeholder="۰۹۱۲۳۴۵۶۷۸۹"/>
+          </div>
+        </div>
+      </div>
+
+      <!-- menu items -->
+      <div class="menu-section">
+        <div class="section-label">انتخاب از منو</div>
+        <div id="menuList">
+          <div class="empty-state" style="height:120px">
+            <span class="empty-icon">☕</span>
+            <span>در حال بارگذاری منو...</span>
+          </div>
+        </div>
+      </div>
+
     </div>
-    <div class="input-row">
-      <input
-        class="text-input"
-        id="chat"
-        placeholder="سوال خود را بنویسید..."
-        onkeydown="if(event.key==='Enter' && !event.shiftKey) sendMsg()"
-      />
-      <button class="send-btn" id="sendBtn" onclick="sendMsg()">➤</button>
+
+    <!-- sticky summary -->
+    <div class="order-summary">
+      <div class="summary-row">
+        <span class="summary-items" id="summaryItems">هیچ آیتمی انتخاب نشده</span>
+        <span class="summary-total" id="summaryTotal"></span>
+      </div>
+      <button class="submit-btn" id="orderBtn" onclick="submitOrder()">
+        ثبت سفارش
+      </button>
     </div>
   </div>
 
+  <!-- ══════════════ FEEDBACK VIEW ══════════════ -->
+  <div class="view" id="view-feedback">
+    <div class="fb-scroll">
+
+      <div class="info-section" style="padding-bottom:8px;">
+        <div class="section-label">مشخصات</div>
+        <div class="info-grid">
+          <div>
+            <label class="field-label">نام (اختیاری)</label>
+            <input class="field-input" id="f-name" placeholder="نام شما"/>
+          </div>
+          <div>
+            <label class="field-label">شماره میز</label>
+            <input class="field-input" id="f-table" type="number" placeholder="میز"/>
+          </div>
+        </div>
+      </div>
+
+      <div style="padding:0 16px 4px;">
+        <div class="section-label">امتیاز آیتم‌های سفارش</div>
+        <div id="fbItemList">
+          <div style="color:var(--text-dim);font-size:12.5px;padding:8px 0;">
+            ابتدا از بخش سفارش آیتم انتخاب کنید
+          </div>
+        </div>
+      </div>
+
+      <div style="padding:4px 16px 4px;">
+        <div class="section-label">امتیاز کلی</div>
+        <div class="star-group">
+          <span class="star-label">👨‍💼 کارکنان و سرویس‌دهی</span>
+          <div class="stars" id="stars-staff"></div>
+        </div>
+        <div class="star-group">
+          <span class="star-label">🏠 محیط و فضای کافه</span>
+          <div class="stars" id="stars-ambiance"></div>
+        </div>
+      </div>
+
+      <div style="padding:0 16px 16px;">
+        <div class="section-label">نظر متنی</div>
+        <div style="margin-bottom:10px;">
+          <label class="field-label">✅ نقاط مثبت</label>
+          <textarea class="fb-textarea" id="f-positive" placeholder="چه چیزی رو دوست داشتید؟"></textarea>
+        </div>
+        <div style="margin-bottom:10px;">
+          <label class="field-label">❌ نقاط منفی</label>
+          <textarea class="fb-textarea" id="f-negative" placeholder="چه چیزی رو دوست نداشتید؟"></textarea>
+        </div>
+        <div>
+          <label class="field-label">📝 نظر کلی</label>
+          <textarea class="fb-textarea" id="f-comment" placeholder="هر چیز دیگه‌ای که می‌خواید بگید..."></textarea>
+        </div>
+      </div>
+
+    </div>
+    <div class="fb-footer">
+      <button class="submit-btn" id="fbBtn" onclick="submitFeedback()">ثبت نظر</button>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast"></div>
 </div>
 
 <script>
-const WORKER_URL = "https://cafeinjaapi.boogh13822.workers.dev/";
+const WORKER = "https://cafeinjaapi.boogh13822.workers.dev";
 
-const SYSTEM_PROMPT = `تو دستیار رسمی کافه اینجا هستی. با لحن مودب و صمیمی پاسخ بده.
+// ── STATE ──
+let chatBusy = false;
+let chatHistory = [];
+let currentMenu = null;
+let orderQty = {};     // { itemName: qty }
+let ratings = {};      // { key: 1-5 }
 
-دستورالعمل‌های مهم:
-۱. همیشه و فقط به فارسی پاسخ بده
-۲. مهمانان را "میهمان عزیز" خطاب کن
-۳. فقط از اطلاعات منوی زیر استفاده کن — هیچ‌چیزی از خودت اضافه نکن
-۴. اگر سوال درباره چیزی خارج از منو بود، بگو: «این مورد در منوی ما وجود ندارد»
-۵. پاسخ‌ها کوتاه، واضح و دوستانه باشند
-۶. فقط پاسخ نهایی را بنویس
-
-━━━━━━━━━━━━━━━━━━━━
-منوی کافه اینجا
-━━━━━━━━━━━━━━━━━━━━
-
-☕ نوشیدنی داغ:
-• اسپرسو — ۱۸۰,۰۰۰ تومان
-• آمریکانو — ۱۸۳,۰۰۰ تومان
-• لاته — ۲۵۶,۰۰۰ تومان
-• کاپوچینو — ۲۵۱,۰۰۰ تومان
-• موکا — ۲۸۷,۰۰۰ تومان
-
-🧊 نوشیدنی سرد:
-• آیس لاته — ۲۵۶,۰۰۰ تومان
-• موهیتو — ۲۱۸,۰۰۰ تومان
-• لیموناد — ۲۱۸,۰۰۰ تومان
-
-🍔 غذا:
-• برگر — ۵۲۷,۰۰۰ تومان
-• چیزبرگر — ۵۷۴,۰۰۰ تومان
-• پیتزا آلفردو — ۷۸۶,۰۰۰ تومان
-• پاستا آلفردو — ۶۲۷,۰۰۰ تومان
-
-🍰 دسر:
-• تیرامیسو — ۲۵۹,۰۰۰ تومان
-• کروسان — ۲۷۵,۰۰۰ تومان`;
-
-let history = [];
-let busy = false;
-
-function now() {
-  const d = new Date();
-  return String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0');
+// ── VIEW SWITCHER ──
+function switchView(name) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.hbtn').forEach(b => b.classList.remove('active'));
+  document.getElementById('view-' + name).classList.add('active');
+  document.getElementById('btn-' + name).classList.add('active');
+  if (name === 'order') buildOrderMenu();
+  if (name === 'feedback') buildFeedbackView();
 }
+
+// ── TOAST ──
+function toast(msg, err = false) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = 'toast show' + (err ? ' err' : '');
+  clearTimeout(el._t);
+  el._t = setTimeout(() => el.className = 'toast', 2800);
+}
+
+// ── TIME ──
+function hhmm() {
+  const d = new Date();
+  return d.getHours().toString().padStart(2,'0') + ':' + d.getMinutes().toString().padStart(2,'0');
+}
+
+// ══════════════════════ CHAT ══════════════════════
 
 function addMsg(text, who) {
   const wrap = document.createElement('div');
   wrap.className = 'msg-wrap ' + who;
-
   const row = document.createElement('div');
   row.className = 'msg-row';
-
   const av = document.createElement('div');
   av.className = 'avatar';
   av.textContent = who === 'bot' ? '☕' : '👤';
-
   const bub = document.createElement('div');
   bub.className = 'bubble ' + who;
   bub.innerHTML = text.replace(/\n/g, '<br>');
-
-  row.appendChild(av);
-  row.appendChild(bub);
-
+  row.appendChild(av); row.appendChild(bub);
   const t = document.createElement('div');
-  t.className = 'msg-time';
-  t.textContent = now();
-
-  wrap.appendChild(row);
-  wrap.appendChild(t);
-
+  t.className = 'msg-time'; t.textContent = hhmm();
+  wrap.appendChild(row); wrap.appendChild(t);
   const msgs = document.getElementById('msgs');
   msgs.appendChild(wrap);
   msgs.scrollTop = msgs.scrollHeight;
@@ -343,107 +577,352 @@ function addMsg(text, who) {
 
 function showTyping() {
   const msgs = document.getElementById('msgs');
-  const wrap = document.createElement('div');
-  wrap.id = 'typing';
-  wrap.className = 'msg-wrap bot';
-
-  const row = document.createElement('div');
-  row.className = 'typing-row';
-
-  const av = document.createElement('div');
-  av.className = 'avatar';
-  av.textContent = '☕';
-
-  const bub = document.createElement('div');
-  bub.className = 'typing-bubble';
-  bub.innerHTML = '<span></span><span></span><span></span>';
-
-  row.appendChild(av);
-  row.appendChild(bub);
-  wrap.appendChild(row);
-  msgs.appendChild(wrap);
-  msgs.scrollTop = msgs.scrollHeight;
+  const w = document.createElement('div');
+  w.id = 'typing'; w.className = 'msg-wrap bot';
+  const r = document.createElement('div'); r.className = 'typing-row';
+  const av = document.createElement('div'); av.className = 'avatar'; av.textContent = '☕';
+  const b = document.createElement('div'); b.className = 'typing-bub';
+  b.innerHTML = '<span></span><span></span><span></span>';
+  r.appendChild(av); r.appendChild(b); w.appendChild(r);
+  msgs.appendChild(w); msgs.scrollTop = msgs.scrollHeight;
 }
-
-function hideTyping() {
-  const el = document.getElementById('typing');
-  if (el) el.remove();
-}
+function hideTyping() { const el = document.getElementById('typing'); if (el) el.remove(); }
 
 function setLoading(v) {
-  busy = v;
+  chatBusy = v;
   document.getElementById('sendBtn').disabled = v;
-  document.getElementById('chat').disabled = v;
+  document.getElementById('chat-inp').disabled = v;
 }
 
-function cleanText(t) {
-  // حذف thinking tags و متن‌های اضافه
-  return t
-    .replace(/<think>[\s\S]*?<\/think>/gi, '')
-    .replace(/\[thinking\][\s\S]*?\[\/thinking\]/gi, '')
-    .replace(/^(thinking|فکر|در نظر)[:\s].*/gim, '')
-    .trim();
-}
-
-async function callAPI(text) {
-  history.push({ role: 'user', content: text });
-
-  const res = await fetch(WORKER_URL, {
+async function callAI(text) {
+  chatHistory.push({ role: 'user', content: text });
+  const res = await fetch(WORKER, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      messages: [
-        { role: 'system', content: SYSTEM_PROMPT },
-        ...history
-      ],
-      max_tokens: 600,
-      temperature: 0.4
-    })
+    body: JSON.stringify({ messages: [{ role: 'system', content: '' }, ...chatHistory] })
   });
-
-  if (!res.ok) {
-    const err = await res.json().catch(() => ({}));
-    throw new Error(err?.error?.message || 'خطای سرور ' + res.status);
-  }
-
+  if (!res.ok) throw new Error('خطای سرور');
   const data = await res.json();
-  const reply = cleanText(data?.choices?.[0]?.message?.content || 'پاسخی دریافت نشد');
-
-  history.push({ role: 'assistant', content: reply });
+  const reply = (data?.choices?.[0]?.message?.content || 'پاسخی دریافت نشد')
+    .replace(/<think>[\s\S]*?<\/think>/gi, '').trim();
+  chatHistory.push({ role: 'assistant', content: reply });
   return reply;
 }
 
 async function sendMsg() {
-  if (busy) return;
-  const input = document.getElementById('chat');
-  const text = input.value.trim();
+  if (chatBusy) return;
+  const inp = document.getElementById('chat-inp');
+  const text = inp.value.trim();
   if (!text) return;
-
-  input.value = '';
+  inp.value = '';
   addMsg(text, 'user');
-  setLoading(true);
-  showTyping();
-
+  setLoading(true); showTyping();
   try {
-    const reply = await callAPI(text);
-    hideTyping();
-    addMsg(reply, 'bot');
-  } catch (e) {
-    hideTyping();
-    console.error(e);
-    addMsg('مشکلی پیش آمد، لطفاً دوباره تلاش کنید.', 'bot');
+    const reply = await callAI(text);
+    hideTyping(); addMsg(reply, 'bot');
+  } catch {
+    hideTyping(); addMsg('مشکلی پیش آمد، دوباره تلاش کنید.', 'bot');
   }
-
   setLoading(false);
 }
 
 function quickSend(text) {
-  if (busy) return;
-  document.getElementById('chat').value = text;
+  if (chatBusy) return;
+  switchView('chat');
+  document.getElementById('chat-inp').value = text;
   sendMsg();
 }
 
-window.onload = () => {
+// ══════════════════════ MENU LOADER ══════════════════════
+
+async function loadMenu() {
+  if (currentMenu) return;
+  try {
+    const res = await fetch(WORKER + '/menu');
+    currentMenu = await res.json();
+  } catch { currentMenu = null; }
+}
+
+// ══════════════════════ ORDER ══════════════════════
+
+async function buildOrderMenu() {
+  await loadMenu();
+  const list = document.getElementById('menuList');
+  if (!currentMenu) {
+    list.innerHTML = '<div class="empty-state" style="height:100px"><span>خطا در بارگذاری منو</span></div>';
+    return;
+  }
+  list.innerHTML = '';
+  currentMenu.categories.forEach(cat => {
+    const block = document.createElement('div');
+    block.className = 'cat-block';
+    block.innerHTML = `<div class="cat-title">${cat.emoji} ${cat.name}</div>`;
+    cat.items.forEach(item => {
+      const card = document.createElement('div');
+      card.className = 'item-card' + (orderQty[item.name] ? ' has-qty' : '');
+      card.id = 'card-' + item.name;
+      card.innerHTML = `
+        <div class="item-top">
+          <span class="item-name">${item.name}</span>
+          <span class="item-price">${Number(item.price).toLocaleString()} ت</span>
+          <div class="qty-row">
+            <button class="qty-btn" onclick="changeQty('${item.name}',${item.price},-1)">−</button>
+            <span class="qty-num" id="qty-${item.name}">${orderQty[item.name] || 0}</span>
+            <button class="qty-btn" onclick="changeQty('${item.name}',${item.price},1)">+</button>
+          </div>
+        </div>
+        ${item.description ? `<div class="item-desc">${item.description}</div>` : ''}
+      `;
+      block.appendChild(card);
+    });
+    list.appendChild(block);
+  });
+  updateSummary();
+}
+
+function changeQty(name, price, delta) {
+  const cur = orderQty[name] || 0;
+  const next = Math.max(0, cur + delta);
+  if (next === 0) delete orderQty[name];
+  else orderQty[name] = next;
+
+  const numEl = document.getElementById('qty-' + name);
+  if (numEl) numEl.textContent = next;
+  const card = document.getElementById('card-' + name);
+  if (card) card.classList.toggle('has-qty', next > 0);
+
+  updateSummary();
+}
+
+function updateSummary() {
+  const entries = Object.entries(orderQty).filter(([,q]) => q > 0);
+  const itemsEl = document.getElementById('summaryItems');
+  const totalEl = document.getElementById('summaryTotal');
+
+  if (!entries.length || !currentMenu) {
+    itemsEl.textContent = 'هیچ آیتمی انتخاب نشده';
+    totalEl.textContent = '';
+    return;
+  }
+
+  // calc total
+  let total = 0;
+  let count = 0;
+  entries.forEach(([name, qty]) => {
+    count += qty;
+    const item = currentMenu.categories.flatMap(c => c.items).find(i => i.name === name);
+    if (item) total += item.price * qty;
+  });
+
+  itemsEl.textContent = count + ' آیتم انتخاب شده';
+  totalEl.textContent = total.toLocaleString() + ' تومان';
+}
+
+async function submitOrder() {
+  const name  = document.getElementById('o-name').value.trim();
+  const table = document.getElementById('o-table').value.trim();
+  const phone = document.getElementById('o-phone').value.trim();
+
+  if (!name)  { toast('نام را وارد کنید', true); return; }
+  if (!table) { toast('شماره میز را وارد کنید', true); return; }
+  if (!phone) { toast('شماره تماس را وارد کنید', true); return; }
+
+  const entries = Object.entries(orderQty).filter(([,q]) => q > 0);
+  if (!entries.length) { toast('حداقل یک آیتم انتخاب کنید', true); return; }
+
+  const items = entries.map(([n, qty]) => {
+    const item = currentMenu.categories.flatMap(c => c.items).find(i => i.name === n);
+    return { name: n, qty, price: item?.price || 0 };
+  });
+
+  const btn = document.getElementById('orderBtn');
+  btn.disabled = true; btn.classList.add('loading');
+  btn.innerHTML = 'در حال ثبت... ';
+
+  try {
+    const res = await fetch(WORKER + '/order', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, table, phone, items })
+    });
+    const data = await res.json();
+    if (data.success) {
+      // show in chat
+      switchView('chat');
+      const total = items.reduce((s, i) => s + i.price * i.qty, 0);
+      const msgs = document.getElementById('msgs');
+      const wrap = document.createElement('div');
+      wrap.className = 'msg-wrap bot';
+      const row = document.createElement('div'); row.className = 'msg-row';
+      const av = document.createElement('div'); av.className = 'avatar'; av.textContent = '☕';
+      const card = document.createElement('div'); card.className = 'order-card';
+      card.innerHTML = `
+        <div class="oc-header">
+          <span class="oc-title">✅ سفارش ثبت شد</span>
+          <span class="oc-id">${data.orderId}</span>
+        </div>
+        <div style="margin-bottom:4px;color:var(--text-dim);font-size:12px;">
+          👤 ${name} &nbsp;|&nbsp; 🪑 میز ${table}
+        </div>
+        <div class="divider"></div>
+        ${items.map(i => `<div class="oc-row"><span>${i.name} × ${i.qty}</span><span>${(i.price*i.qty).toLocaleString()} ت</span></div>`).join('')}
+        <div class="oc-total"><span>جمع کل</span><span>${total.toLocaleString()} تومان</span></div>
+      `;
+      row.appendChild(av); row.appendChild(card);
+      wrap.appendChild(row);
+      msgs.appendChild(wrap);
+      msgs.scrollTop = msgs.scrollHeight;
+
+      // reset
+      orderQty = {};
+      document.getElementById('o-name').value = '';
+      document.getElementById('o-table').value = '';
+      document.getElementById('o-phone').value = '';
+      toast('سفارش با موفقیت ثبت شد ✅');
+    } else {
+      toast('خطا در ثبت سفارش', true);
+    }
+  } catch {
+    toast('خطا در ارتباط با سرور', true);
+  }
+
+  btn.disabled = false;
+  btn.classList.remove('loading');
+  btn.textContent = 'ثبت سفارش';
+}
+
+// ══════════════════════ FEEDBACK ══════════════════════
+
+function buildFeedbackView() {
+  buildGlobalStars('stars-staff', 'staff');
+  buildGlobalStars('stars-ambiance', 'ambiance');
+
+  const container = document.getElementById('fbItemList');
+  const ordered = Object.keys(orderQty).filter(k => orderQty[k] > 0);
+
+  if (!ordered.length) {
+    container.innerHTML = '<div style="color:var(--text-dim);font-size:12.5px;padding:4px 0 12px;">هیچ سفارشی ثبت نشده — می‌توانید بدون انتخاب آیتم هم نظر بدهید</div>';
+    return;
+  }
+
+  container.innerHTML = '';
+  ordered.forEach(name => {
+    const block = document.createElement('div');
+    block.className = 'item-rating-block';
+    block.innerHTML = `
+      <div class="irb-name">${name}</div>
+      <div class="irb-cats">
+        <div class="irb-cat">
+          <div class="irb-cat-label">طعم</div>
+          <div class="irb-stars" id="irs-${name}-taste"></div>
+        </div>
+        <div class="irb-cat">
+          <div class="irb-cat-label">ظاهر</div>
+          <div class="irb-stars" id="irs-${name}-look"></div>
+        </div>
+        <div class="irb-cat">
+          <div class="irb-cat-label">کیفیت</div>
+          <div class="irb-stars" id="irs-${name}-quality"></div>
+        </div>
+      </div>
+    `;
+    container.appendChild(block);
+    buildItemStars(name, 'taste');
+    buildItemStars(name, 'look');
+    buildItemStars(name, 'quality');
+  });
+}
+
+function buildGlobalStars(containerId, key) {
+  const c = document.getElementById(containerId);
+  if (!c) return;
+  c.innerHTML = '';
+  for (let i = 1; i <= 5; i++) {
+    const s = document.createElement('span');
+    s.className = 'star' + (ratings[key] >= i ? ' on' : '');
+    s.textContent = '★';
+    s.onclick = () => setRating(key, i, containerId, 'star');
+    c.appendChild(s);
+  }
+}
+
+function buildItemStars(name, aspect) {
+  const key = name + '-' + aspect;
+  const containerId = 'irs-' + name + '-' + aspect;
+  const c = document.getElementById(containerId);
+  if (!c) return;
+  c.innerHTML = '';
+  for (let i = 1; i <= 5; i++) {
+    const s = document.createElement('span');
+    s.className = 'irb-star' + (ratings[key] >= i ? ' on' : '');
+    s.textContent = '★';
+    s.onclick = () => setRating(key, i, containerId, 'irb-star');
+    c.appendChild(s);
+  }
+}
+
+function setRating(key, val, containerId, cls) {
+  ratings[key] = val;
+  const c = document.getElementById(containerId);
+  if (!c) return;
+  c.querySelectorAll('.' + cls).forEach((s, i) => s.classList.toggle('on', i < val));
+}
+
+async function submitFeedback() {
+  const name     = document.getElementById('f-name').value.trim() || 'ناشناس';
+  const table    = document.getElementById('f-table').value.trim() || '—';
+  const positive = document.getElementById('f-positive').value.trim();
+  const negative = document.getElementById('f-negative').value.trim();
+  const comment  = document.getElementById('f-comment').value.trim();
+
+  const itemRatings = Object.keys(orderQty).filter(k => orderQty[k] > 0).map(name => ({
+    name,
+    taste:   ratings[name + '-taste']   || 0,
+    look:    ratings[name + '-look']    || 0,
+    quality: ratings[name + '-quality'] || 0
+  })).filter(r => r.taste || r.look || r.quality);
+
+  const staff    = ratings['staff']    || 0;
+  const ambiance = ratings['ambiance'] || 0;
+
+  if (!staff && !ambiance && !itemRatings.length && !comment && !positive && !negative) {
+    toast('لطفاً حداقل یک امتیاز یا نظر وارد کنید', true);
+    return;
+  }
+
+  const btn = document.getElementById('fbBtn');
+  btn.disabled = true; btn.textContent = 'در حال ثبت...';
+
+  try {
+    const res = await fetch(WORKER + '/feedback', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, table, itemRatings, staff, ambiance, positive, negative, comment })
+    });
+    const data = await res.json();
+    if (data.success) {
+      switchView('chat');
+      addMsg('میهمان عزیز، از وقتی که گذاشتید ممنونیم 🙏\nنظر شما برای بهتر شدن کافه اینجا ارزشمنده.', 'bot');
+      // reset
+      ratings = {};
+      ['f-name','f-table','f-positive','f-negative','f-comment'].forEach(id => {
+        document.getElementById(id).value = '';
+      });
+      toast('نظر شما ثبت شد ✅');
+    } else {
+      toast('خطا در ثبت نظر', true);
+    }
+  } catch {
+    toast('خطا در ارتباط با سرور', true);
+  }
+
+  btn.disabled = false;
+  btn.textContent = 'ثبت نظر';
+}
+
+// ══════════════════════ INIT ══════════════════════
+window.onload = async () => {
+  await loadMenu();
   addMsg('سلام میهمان عزیز ☕\nبه کافه اینجا خوش آمدید!\nچطور می‌تونم کمکتون کنم؟', 'bot');
 };
 </script>
