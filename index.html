@@ -527,6 +527,7 @@ let chatHistory = [];
 let currentMenu = null;
 let orderQty = {};     // { itemName: qty }
 let ratings = {};      // { key: 1-5 }
+let lastOrder = null;  // اطلاعات آخرین سفارش ثبت‌شده
 
 // ── VIEW SWITCHER ──
 function switchView(name) {
@@ -773,6 +774,9 @@ async function submitOrder() {
       msgs.appendChild(wrap);
       msgs.scrollTop = msgs.scrollHeight;
 
+      // ذخیره اطلاعات سفارش برای بخش نظر
+      lastOrder = { name, table, phone, items };
+
       // reset
       orderQty = {};
       document.getElementById('o-name').value = '';
@@ -797,16 +801,22 @@ function buildFeedbackView() {
   buildGlobalStars('stars-staff', 'staff');
   buildGlobalStars('stars-ambiance', 'ambiance');
 
-  const container = document.getElementById('fbItemList');
-  const ordered = Object.keys(orderQty).filter(k => orderQty[k] > 0);
+  // پر کردن اطلاعات میهمان از سفارش قبلی
+  if (lastOrder) {
+    document.getElementById('f-name').value  = lastOrder.name  || '';
+    document.getElementById('f-table').value = lastOrder.table || '';
+  }
 
-  if (!ordered.length) {
+  const container = document.getElementById('fbItemList');
+
+  if (!lastOrder || !lastOrder.items || !lastOrder.items.length) {
     container.innerHTML = '<div style="color:var(--text-dim);font-size:12.5px;padding:4px 0 12px;">هیچ سفارشی ثبت نشده — می‌توانید بدون انتخاب آیتم هم نظر بدهید</div>';
     return;
   }
 
   container.innerHTML = '';
-  ordered.forEach(name => {
+  lastOrder.items.forEach(item => {
+    const name = item.name;
     const block = document.createElement('div');
     block.className = 'item-rating-block';
     block.innerHTML = `
@@ -875,11 +885,15 @@ async function submitFeedback() {
   const negative = document.getElementById('f-negative').value.trim();
   const comment  = document.getElementById('f-comment').value.trim();
 
-  const itemRatings = Object.keys(orderQty).filter(k => orderQty[k] > 0).map(name => ({
-    name,
-    taste:   ratings[name + '-taste']   || 0,
-    look:    ratings[name + '-look']    || 0,
-    quality: ratings[name + '-quality'] || 0
+  // اطلاعات میهمان — از سفارش قبلی یا فیلدها
+  const phone = lastOrder?.phone || '';
+
+  const itemSource = lastOrder?.items || [];
+  const itemRatings = itemSource.map(item => ({
+    name: item.name,
+    taste:   ratings[item.name + '-taste']   || 0,
+    look:    ratings[item.name + '-look']    || 0,
+    quality: ratings[item.name + '-quality'] || 0
   })).filter(r => r.taste || r.look || r.quality);
 
   const staff    = ratings['staff']    || 0;
@@ -897,7 +911,7 @@ async function submitFeedback() {
     const res = await fetch(WORKER + '/feedback', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, table, itemRatings, staff, ambiance, positive, negative, comment })
+      body: JSON.stringify({ name, table, phone, itemRatings, staff, ambiance, positive, negative, comment })
     });
     const data = await res.json();
     if (data.success) {
