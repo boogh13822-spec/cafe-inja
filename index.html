@@ -36,7 +36,6 @@ body{
   padding:10px;
 }
 
-/* ══════════════════════ APP SHELL ══════════════════════ */
 .app{
   width:100%;max-width:440px;
   height:94vh;max-height:820px;
@@ -49,7 +48,6 @@ body{
   box-shadow:0 24px 60px rgba(0,0,0,.6);
 }
 
-/* ══════════════════════ HEADER ══════════════════════ */
 .header{
   background:linear-gradient(160deg,#1a1008 0%,#0e0a05 100%);
   border-bottom:1px solid var(--border);
@@ -82,11 +80,10 @@ body{
 .hbtn:hover{background:var(--border);color:var(--cream);}
 .hbtn.active{background:var(--accent);border-color:var(--accent);color:var(--cream);}
 
-/* ══════════════════════ VIEW SWITCHER ══════════════════════ */
 .view{display:none;flex:1;overflow:hidden;flex-direction:column;}
 .view.active{display:flex;}
 
-/* ══════════════════════ CHAT VIEW ══════════════════════ */
+/* Chat */
 .messages{
   flex:1;overflow-y:auto;
   padding:16px 14px;
@@ -137,7 +134,6 @@ body{
 .typing-bub span:nth-child(3){animation-delay:.4s;}
 @keyframes blink{0%,80%,100%{opacity:.3}40%{opacity:1}}
 
-/* order card in chat */
 .order-card{
   background:var(--surface2);border:1px solid var(--border2);
   border-radius:14px;padding:14px 16px;
@@ -157,7 +153,6 @@ body{
   color:var(--gold);font-size:13px;font-weight:600;
 }
 
-/* chat input */
 .chat-input-area{
   background:#0c0804;border-top:1px solid var(--border);
   padding:10px 14px 14px;flex-shrink:0;
@@ -194,14 +189,11 @@ body{
 .send-btn:hover{background:var(--accent-h);}
 .send-btn:disabled{background:var(--border);cursor:not-allowed;}
 
-/* ══════════════════════ ORDER VIEW ══════════════════════ */
-.order-view{background:var(--surface);display:flex;flex-direction:column;}
-
+/* Order */
 .order-scroll{flex:1;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--border) transparent;}
 .order-scroll::-webkit-scrollbar{width:3px;}
 .order-scroll::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
 
-/* customer info */
 .info-section{padding:18px 16px 12px;}
 .section-label{
   color:var(--gold);font-size:11px;font-weight:600;
@@ -221,7 +213,6 @@ body{
 .field-input:focus{border-color:var(--gold-dim);}
 .field-input::placeholder{color:#3a2810;}
 
-/* menu section */
 .menu-section{padding:4px 16px 8px;}
 .cat-block{margin-bottom:16px;}
 .cat-title{
@@ -274,7 +265,6 @@ body{
 }
 .item-card.has-qty .item-desc{display:block;}
 
-/* order summary sticky */
 .order-summary{
   flex-shrink:0;
   background:#0c0804;
@@ -303,8 +293,7 @@ body{
 }
 @keyframes spin{to{transform:rotate(360deg)}}
 
-/* ══════════════════════ FEEDBACK VIEW ══════════════════════ */
-.feedback-view{background:var(--surface);display:flex;flex-direction:column;}
+/* Feedback */
 .fb-scroll{flex:1;overflow-y:auto;padding:16px;scrollbar-width:thin;scrollbar-color:var(--border) transparent;}
 .fb-scroll::-webkit-scrollbar{width:3px;}
 .fb-scroll::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
@@ -341,7 +330,6 @@ body{
   border-top:1px solid var(--border);padding:12px 16px;
 }
 
-/* ══════════════════════ TOAST ══════════════════════ */
 .toast{
   position:absolute;top:76px;left:50%;transform:translateX(-50%);
   padding:9px 18px;border-radius:20px;
@@ -352,7 +340,6 @@ body{
 .toast.err{background:#6a2d2d;color:#f0c0c0;}
 .toast.show{opacity:1;}
 
-/* ══════════════════════ EMPTY ══════════════════════ */
 .empty-state{
   flex:1;display:flex;flex-direction:column;
   align-items:center;justify-content:center;gap:8px;
@@ -360,14 +347,30 @@ body{
 }
 .empty-icon{font-size:36px;opacity:.4;}
 
-/* ══════════════════════ UTILS ══════════════════════ */
 .divider{height:1px;background:var(--border);margin:4px 0 14px;}
+
+/* Shake animation for errors */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+.shake { animation: shake 0.3s ease; }
+
+/* New item highlight */
+.item-card.new-item {
+  animation: fadeHighlight 1s ease;
+}
+@keyframes fadeHighlight {
+  0% { background: var(--accent); border-color: var(--gold); }
+  100% { background: var(--surface2); }
+}
 </style>
 </head>
 <body>
-<div class="app">
+<div class="app" id="app">
 
-  <!-- ── HEADER ── -->
+  <!-- HEADER -->
   <div class="header">
     <div class="logo">☕</div>
     <div class="header-info">
@@ -384,7 +387,7 @@ body{
     </div>
   </div>
 
-  <!-- ══════════════ CHAT VIEW ══════════════ -->
+  <!-- CHAT VIEW -->
   <div class="view active" id="view-chat">
     <div class="messages" id="msgs"></div>
     <div class="chat-input-area">
@@ -405,11 +408,9 @@ body{
     </div>
   </div>
 
-  <!-- ══════════════ ORDER VIEW ══════════════ -->
+  <!-- ORDER VIEW -->
   <div class="view" id="view-order">
     <div class="order-scroll" id="orderScroll">
-
-      <!-- customer info -->
       <div class="info-section">
         <div class="section-label">اطلاعات میهمان</div>
         <div class="info-grid">
@@ -427,8 +428,6 @@ body{
           </div>
         </div>
       </div>
-
-      <!-- menu items -->
       <div class="menu-section">
         <div class="section-label">انتخاب از منو</div>
         <div id="menuList">
@@ -438,10 +437,7 @@ body{
           </div>
         </div>
       </div>
-
     </div>
-
-    <!-- sticky summary -->
     <div class="order-summary">
       <div class="summary-row">
         <span class="summary-items" id="summaryItems">هیچ آیتمی انتخاب نشده</span>
@@ -453,10 +449,9 @@ body{
     </div>
   </div>
 
-  <!-- ══════════════ FEEDBACK VIEW ══════════════ -->
+  <!-- FEEDBACK VIEW -->
   <div class="view" id="view-feedback">
     <div class="fb-scroll">
-
       <div class="info-section" style="padding-bottom:8px;">
         <div class="section-label">مشخصات</div>
         <div class="info-grid">
@@ -470,7 +465,6 @@ body{
           </div>
         </div>
       </div>
-
       <div style="padding:0 16px 4px;">
         <div class="section-label">امتیاز آیتم‌های سفارش</div>
         <div id="fbItemList">
@@ -479,7 +473,6 @@ body{
           </div>
         </div>
       </div>
-
       <div style="padding:4px 16px 4px;">
         <div class="section-label">امتیاز کلی</div>
         <div class="star-group">
@@ -491,7 +484,6 @@ body{
           <div class="stars" id="stars-ambiance"></div>
         </div>
       </div>
-
       <div style="padding:0 16px 16px;">
         <div class="section-label">نظر متنی</div>
         <div style="margin-bottom:10px;">
@@ -507,7 +499,6 @@ body{
           <textarea class="fb-textarea" id="f-comment" placeholder="هر چیز دیگه‌ای که می‌خواید بگید..."></textarea>
         </div>
       </div>
-
     </div>
     <div class="fb-footer">
       <button class="submit-btn" id="fbBtn" onclick="submitFeedback()">ثبت نظر</button>
@@ -519,17 +510,59 @@ body{
 </div>
 
 <script>
+// ── Configuration ──
 const WORKER = "https://cafeinjaapi.boogh13822.workers.dev";
 
-// ── STATE ──
+// ── State ──
 let chatBusy = false;
 let chatHistory = [];
 let currentMenu = null;
-let orderQty = {};     // { itemName: qty }
-let ratings = {};      // { key: 1-5 }
-let lastOrder = null;  // اطلاعات آخرین سفارش ثبت‌شده
+let orderQty = {};
+let ratings = {};
+let lastOrder = null;
 
-// ── VIEW SWITCHER ──
+// ── Toast System ──
+function toast(msg, err = false) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = 'toast show' + (err ? ' err' : '');
+  
+  // Shake for errors
+  if (err) {
+    el.classList.add('shake');
+    setTimeout(() => el.classList.remove('shake'), 300);
+  }
+  
+  clearTimeout(el._t);
+  el._t = setTimeout(() => el.className = 'toast', 2800);
+}
+
+// ── Time ──
+function hhmm() {
+  const d = new Date();
+  return d.getHours().toString().padStart(2,'0') + ':' + d.getMinutes().toString().padStart(2,'0');
+}
+
+// ── Error Handler ──
+function handleError(error, context = '') {
+  console.error(`[${context}]`, error);
+  
+  const messages = {
+    'Failed to fetch': 'ارتباط با سرور برقرار نشد. اتصال اینترنت را بررسی کنید.',
+    'NetworkError': 'مشکل در شبکه. دوباره تلاش کنید.',
+    '429': 'تعداد درخواست‌ها زیاد شد. لطفاً چند دقیقه صبر کنید.',
+    '500': 'خطای داخلی سرور. به پشتیبانی اطلاع دهید.',
+  };
+  
+  const msg = messages[error.message] || 
+              messages[error.status] || 
+              'خطایی رخ داد. لطفاً دوباره تلاش کنید.';
+  
+  toast(msg, true);
+  return msg;
+}
+
+// ── View Switcher ──
 function switchView(name) {
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
   document.querySelectorAll('.hbtn').forEach(b => b.classList.remove('active'));
@@ -537,21 +570,6 @@ function switchView(name) {
   document.getElementById('btn-' + name).classList.add('active');
   if (name === 'order') buildOrderMenu();
   if (name === 'feedback') buildFeedbackView();
-}
-
-// ── TOAST ──
-function toast(msg, err = false) {
-  const el = document.getElementById('toast');
-  el.textContent = msg;
-  el.className = 'toast show' + (err ? ' err' : '');
-  clearTimeout(el._t);
-  el._t = setTimeout(() => el.className = 'toast', 2800);
-}
-
-// ── TIME ──
-function hhmm() {
-  const d = new Date();
-  return d.getHours().toString().padStart(2,'0') + ':' + d.getMinutes().toString().padStart(2,'0');
 }
 
 // ══════════════════════ CHAT ══════════════════════
@@ -587,6 +605,7 @@ function showTyping() {
   r.appendChild(av); r.appendChild(b); w.appendChild(r);
   msgs.appendChild(w); msgs.scrollTop = msgs.scrollHeight;
 }
+
 function hideTyping() { const el = document.getElementById('typing'); if (el) el.remove(); }
 
 function setLoading(v) {
@@ -595,19 +614,62 @@ function setLoading(v) {
   document.getElementById('chat-inp').disabled = v;
 }
 
-async function callAI(text) {
+// ── AI Call with Streaming ──
+async function callAIStream(text) {
   chatHistory.push({ role: 'user', content: text });
-  const res = await fetch(WORKER, {
+  
+  const response = await fetch(WORKER + '/chat', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ messages: [{ role: 'system', content: '' }, ...chatHistory] })
+    body: JSON.stringify({ messages: chatHistory, stream: true })
   });
-  if (!res.ok) throw new Error('خطای سرور');
-  const data = await res.json();
-  const reply = (data?.choices?.[0]?.message?.content || 'پاسخی دریافت نشد')
-    .replace(/<think>[\s\S]*?<\/think>/gi, '').trim();
-  chatHistory.push({ role: 'assistant', content: reply });
-  return reply;
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw { status: response.status, message: errorData.error || response.statusText };
+  }
+
+  const reader = response.body.getReader();
+  const decoder = new TextDecoder();
+  let fullText = '';
+
+  // Create empty bubble
+  const msgs = document.getElementById('msgs');
+  const wrap = document.createElement('div');
+  wrap.className = 'msg-wrap bot';
+  const row = document.createElement('div'); row.className = 'msg-row';
+  const av = document.createElement('div'); av.className = 'avatar'; av.textContent = '☕';
+  const bub = document.createElement('div'); bub.className = 'bubble bot';
+  row.appendChild(av); row.appendChild(bub);
+  wrap.appendChild(row);
+  msgs.appendChild(wrap);
+
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    
+    const chunk = decoder.decode(value);
+    const lines = chunk.split('\n').filter(line => line.startsWith('data: '));
+    
+    for (const line of lines) {
+      const data = line.replace('data: ', '');
+      if (data === '[DONE]') continue;
+      try {
+        const json = JSON.parse(data);
+        const content = json.choices?.[0]?.delta?.content || '';
+        fullText += content;
+        bub.innerHTML = fullText.replace(/\n/g, '<br>');
+        msgs.scrollTop = msgs.scrollHeight;
+      } catch {}
+    }
+  }
+  
+  // Clean up the response
+  fullText = fullText.replace(/<think>[\s\S]*?<\/think>/gi, '').trim();
+  bub.innerHTML = fullText.replace(/\n/g, '<br>');
+  
+  chatHistory.push({ role: 'assistant', content: fullText });
+  return fullText;
 }
 
 async function sendMsg() {
@@ -619,10 +681,11 @@ async function sendMsg() {
   addMsg(text, 'user');
   setLoading(true); showTyping();
   try {
-    const reply = await callAI(text);
-    hideTyping(); addMsg(reply, 'bot');
-  } catch {
-    hideTyping(); addMsg('مشکلی پیش آمد، دوباره تلاش کنید.', 'bot');
+    await callAIStream(text);
+  } catch (error) {
+    hideTyping();
+    const msg = handleError(error, 'sendMsg');
+    addMsg(msg, 'bot');
   }
   setLoading(false);
 }
@@ -640,8 +703,48 @@ async function loadMenu() {
   if (currentMenu) return;
   try {
     const res = await fetch(WORKER + '/menu');
+    if (!res.ok) throw new Error('Failed to fetch menu');
     currentMenu = await res.json();
-  } catch { currentMenu = null; }
+  } catch (error) {
+    handleError(error, 'loadMenu');
+    currentMenu = null;
+  }
+}
+
+// ══════════════════════ ORDER STATE (localStorage) ══════════════════════
+
+function saveOrderState() {
+  const data = {
+    orderQty,
+    lastOrder,
+    customer: {
+      name: document.getElementById('o-name')?.value || '',
+      table: document.getElementById('o-table')?.value || '',
+      phone: document.getElementById('o-phone')?.value || ''
+    }
+  };
+  try {
+    localStorage.setItem('cafe_order_state', JSON.stringify(data));
+  } catch {}
+}
+
+function restoreOrderState() {
+  try {
+    const raw = localStorage.getItem('cafe_order_state');
+    if (!raw) return;
+    const data = JSON.parse(raw);
+    orderQty = data.orderQty || {};
+    lastOrder = data.lastOrder || null;
+    if (data.customer) {
+      const nameEl = document.getElementById('o-name');
+      const tableEl = document.getElementById('o-table');
+      const phoneEl = document.getElementById('o-phone');
+      if (nameEl) nameEl.value = data.customer.name || '';
+      if (tableEl) tableEl.value = data.customer.table || '';
+      if (phoneEl) phoneEl.value = data.customer.phone || '';
+    }
+    return data;
+  } catch { return null; }
 }
 
 // ══════════════════════ ORDER ══════════════════════
@@ -659,8 +762,9 @@ async function buildOrderMenu() {
     block.className = 'cat-block';
     block.innerHTML = `<div class="cat-title">${cat.emoji} ${cat.name}</div>`;
     cat.items.forEach(item => {
+      const qty = orderQty[item.name] || 0;
       const card = document.createElement('div');
-      card.className = 'item-card' + (orderQty[item.name] ? ' has-qty' : '');
+      card.className = 'item-card' + (qty > 0 ? ' has-qty' : '');
       card.id = 'card-' + item.name;
       card.innerHTML = `
         <div class="item-top">
@@ -668,7 +772,7 @@ async function buildOrderMenu() {
           <span class="item-price">${Number(item.price).toLocaleString()} ت</span>
           <div class="qty-row">
             <button class="qty-btn" onclick="changeQty('${item.name}',${item.price},-1)">−</button>
-            <span class="qty-num" id="qty-${item.name}">${orderQty[item.name] || 0}</span>
+            <span class="qty-num" id="qty-${item.name}">${qty}</span>
             <button class="qty-btn" onclick="changeQty('${item.name}',${item.price},1)">+</button>
           </div>
         </div>
@@ -690,9 +794,16 @@ function changeQty(name, price, delta) {
   const numEl = document.getElementById('qty-' + name);
   if (numEl) numEl.textContent = next;
   const card = document.getElementById('card-' + name);
-  if (card) card.classList.toggle('has-qty', next > 0);
+  if (card) {
+    card.classList.toggle('has-qty', next > 0);
+    if (next > 0 && cur === 0) {
+      card.classList.add('new-item');
+      setTimeout(() => card.classList.remove('new-item'), 1000);
+    }
+  }
 
   updateSummary();
+  saveOrderState();
 }
 
 function updateSummary() {
@@ -706,7 +817,6 @@ function updateSummary() {
     return;
   }
 
-  // calc total
   let total = 0;
   let count = 0;
   entries.forEach(([name, qty]) => {
@@ -746,9 +856,11 @@ async function submitOrder() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name, table, phone, items })
     });
+    
+    if (!res.ok) throw { status: res.status, message: await res.text() };
+    
     const data = await res.json();
     if (data.success) {
-      // show in chat
       switchView('chat');
       const total = items.reduce((s, i) => s + i.price * i.qty, 0);
       const msgs = document.getElementById('msgs');
@@ -774,20 +886,24 @@ async function submitOrder() {
       msgs.appendChild(wrap);
       msgs.scrollTop = msgs.scrollHeight;
 
-      // ذخیره اطلاعات سفارش برای بخش نظر
+      // Save order for feedback
       lastOrder = { name, table, phone, items };
 
-      // reset
+      // Reset
       orderQty = {};
       document.getElementById('o-name').value = '';
       document.getElementById('o-table').value = '';
       document.getElementById('o-phone').value = '';
+      
+      // Update UI
+      updateSummary();
+      saveOrderState();
       toast('سفارش با موفقیت ثبت شد ✅');
     } else {
       toast('خطا در ثبت سفارش', true);
     }
-  } catch {
-    toast('خطا در ارتباط با سرور', true);
+  } catch (error) {
+    handleError(error, 'submitOrder');
   }
 
   btn.disabled = false;
@@ -801,7 +917,6 @@ function buildFeedbackView() {
   buildGlobalStars('stars-staff', 'staff');
   buildGlobalStars('stars-ambiance', 'ambiance');
 
-  // پر کردن اطلاعات میهمان از سفارش قبلی
   if (lastOrder) {
     document.getElementById('f-name').value  = lastOrder.name  || '';
     document.getElementById('f-table').value = lastOrder.table || '';
@@ -885,7 +1000,6 @@ async function submitFeedback() {
   const negative = document.getElementById('f-negative').value.trim();
   const comment  = document.getElementById('f-comment').value.trim();
 
-  // اطلاعات میهمان — از سفارش قبلی یا فیلدها
   const phone = lastOrder?.phone || '';
 
   const itemSource = lastOrder?.items || [];
@@ -913,21 +1027,29 @@ async function submitFeedback() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name, table, phone, itemRatings, staff, ambiance, positive, negative, comment })
     });
+    
+    if (!res.ok) throw { status: res.status, message: await res.text() };
+    
     const data = await res.json();
     if (data.success) {
       switchView('chat');
-      addMsg('میهمان عزیز، از وقتی که گذاشتید ممنونیم 🙏\nنظر شما برای بهتر شدن کافه اینجا ارزشمنده.', 'bot');
-      // reset
+      addMsg('ممنون از وقتی که گذاشتید 🙏\nنظر شما برای بهتر شدن کافه اینجا ارزشمنده.', 'bot');
+      
+      // Reset
       ratings = {};
       ['f-name','f-table','f-positive','f-negative','f-comment'].forEach(id => {
         document.getElementById(id).value = '';
       });
+      
+      // Reset item ratings in UI
+      document.querySelectorAll('.irb-star, .star').forEach(el => el.classList.remove('on'));
+      
       toast('نظر شما ثبت شد ✅');
     } else {
       toast('خطا در ثبت نظر', true);
     }
-  } catch {
-    toast('خطا در ارتباط با سرور', true);
+  } catch (error) {
+    handleError(error, 'submitFeedback');
   }
 
   btn.disabled = false;
@@ -935,9 +1057,16 @@ async function submitFeedback() {
 }
 
 // ══════════════════════ INIT ══════════════════════
+
 window.onload = async () => {
+  // Restore order state
+  restoreOrderState();
+  
+  // Load menu
   await loadMenu();
-  addMsg('سلام میهمان عزیز ☕\nبه کافه اینجا خوش آمدید!\nچطور می‌تونم کمکتون کنم؟', 'bot');
+  
+  // Welcome message
+  addMsg('سلام! ☕\nبه کافه اینجا خوش آمدید.\nچطور می‌تونم کمکتون کنم؟', 'bot');
 };
 </script>
 </body>
