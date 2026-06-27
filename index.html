@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com https://cafeinjaapi.boogh13822.workers.dev; img-src 'self' data:;">
 <title>کافه اینجا</title>
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -212,6 +213,7 @@ body{
 }
 .field-input:focus{border-color:var(--gold-dim);}
 .field-input::placeholder{color:#3a2810;}
+.field-input.invalid{border-color:var(--red) !important;}
 
 .menu-section{padding:4px 16px 8px;}
 .cat-block{margin-bottom:16px;}
@@ -286,12 +288,12 @@ body{
 }
 .submit-btn:hover{background:var(--accent-h);}
 .submit-btn:disabled{background:var(--border);cursor:not-allowed;color:var(--text-dim);}
-.submit-btn.loading::after{
-  content:'';width:16px;height:16px;border-radius:50%;
-  border:2px solid rgba(255,255,255,.3);border-top-color:var(--cream);
-  animation:spin .7s linear infinite;
-}
 @keyframes spin{to{transform:rotate(360deg)}}
+.spinner{
+  width:16px;height:16px;border-radius:50%;
+  border:2px solid rgba(255,255,255,.3);border-top-color:var(--cream);
+  animation:spin .7s linear infinite;display:inline-block;
+}
 
 /* Feedback */
 .fb-scroll{flex:1;overflow-y:auto;padding:16px;scrollbar-width:thin;scrollbar-color:var(--border) transparent;}
@@ -349,22 +351,11 @@ body{
 
 .divider{height:1px;background:var(--border);margin:4px 0 14px;}
 
-/* Shake animation for errors */
-@keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-5px); }
-  75% { transform: translateX(5px); }
-}
-.shake { animation: shake 0.3s ease; }
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.shake{animation:shake .3s ease;}
 
-/* New item highlight */
-.item-card.new-item {
-  animation: fadeHighlight 1s ease;
-}
-@keyframes fadeHighlight {
-  0% { background: var(--accent); border-color: var(--gold); }
-  100% { background: var(--surface2); }
-}
+@keyframes fadeHighlight{0%{background:var(--accent);border-color:var(--gold)}100%{background:var(--surface2);}}
+.item-card.new-item{animation:fadeHighlight 1s ease;}
 </style>
 </head>
 <body>
@@ -381,8 +372,8 @@ body{
       </div>
     </div>
     <div class="header-btns">
-      <button class="hbtn active" id="btn-chat"    onclick="switchView('chat')">💬 چت</button>
-      <button class="hbtn"        id="btn-order"   onclick="switchView('order')">🛒 سفارش</button>
+      <button class="hbtn active" id="btn-chat"     onclick="switchView('chat')">💬 چت</button>
+      <button class="hbtn"        id="btn-order"    onclick="switchView('order')">🛒 سفارش</button>
       <button class="hbtn"        id="btn-feedback" onclick="switchView('feedback')">⭐ نظر</button>
     </div>
   </div>
@@ -402,7 +393,8 @@ body{
       <div class="input-row">
         <input class="text-inp" id="chat-inp"
           placeholder="سوال خود را بنویسید..."
-          onkeydown="if(event.key==='Enter')sendMsg()"/>
+          maxlength="500"
+          onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMsg();}"/>
         <button class="send-btn" id="sendBtn" onclick="sendMsg()">➤</button>
       </div>
     </div>
@@ -416,15 +408,15 @@ body{
         <div class="info-grid">
           <div>
             <label class="field-label">نام *</label>
-            <input class="field-input" id="o-name" placeholder="نام شما"/>
+            <input class="field-input" id="o-name" placeholder="نام شما" maxlength="60"/>
           </div>
           <div>
             <label class="field-label">شماره میز *</label>
-            <input class="field-input" id="o-table" type="number" placeholder="مثال: ۵"/>
+            <input class="field-input" id="o-table" type="number" placeholder="مثال: ۵" min="1" max="9999"/>
           </div>
           <div class="full">
             <label class="field-label">شماره تماس *</label>
-            <input class="field-input" id="o-phone" type="tel" placeholder="۰۹۱۲۳۴۵۶۷۸۹"/>
+            <input class="field-input" id="o-phone" type="tel" placeholder="۰۹۱۲۳۴۵۶۷۸۹" maxlength="15"/>
           </div>
         </div>
       </div>
@@ -457,11 +449,11 @@ body{
         <div class="info-grid">
           <div>
             <label class="field-label">نام (اختیاری)</label>
-            <input class="field-input" id="f-name" placeholder="نام شما"/>
+            <input class="field-input" id="f-name" placeholder="نام شما" maxlength="60"/>
           </div>
           <div>
             <label class="field-label">شماره میز</label>
-            <input class="field-input" id="f-table" type="number" placeholder="میز"/>
+            <input class="field-input" id="f-table" type="number" placeholder="میز" min="1" max="9999"/>
           </div>
         </div>
       </div>
@@ -488,15 +480,15 @@ body{
         <div class="section-label">نظر متنی</div>
         <div style="margin-bottom:10px;">
           <label class="field-label">✅ نقاط مثبت</label>
-          <textarea class="fb-textarea" id="f-positive" placeholder="چه چیزی رو دوست داشتید؟"></textarea>
+          <textarea class="fb-textarea" id="f-positive" placeholder="چه چیزی رو دوست داشتید؟" maxlength="500"></textarea>
         </div>
         <div style="margin-bottom:10px;">
           <label class="field-label">❌ نقاط منفی</label>
-          <textarea class="fb-textarea" id="f-negative" placeholder="چه چیزی رو دوست نداشتید؟"></textarea>
+          <textarea class="fb-textarea" id="f-negative" placeholder="چه چیزی رو دوست نداشتید؟" maxlength="500"></textarea>
         </div>
         <div>
           <label class="field-label">📝 نظر کلی</label>
-          <textarea class="fb-textarea" id="f-comment" placeholder="هر چیز دیگه‌ای که می‌خواید بگید..."></textarea>
+          <textarea class="fb-textarea" id="f-comment" placeholder="هر چیز دیگه‌ای که می‌خواید بگید..." maxlength="500"></textarea>
         </div>
       </div>
     </div>
@@ -506,194 +498,240 @@ body{
   </div>
 
   <!-- TOAST -->
-  <div class="toast" id="toast"></div>
+  <div class="toast" id="toast" role="alert" aria-live="polite"></div>
 </div>
 
 <script>
 // ── Configuration ──
 const WORKER = "https://cafeinjaapi.boogh13822.workers.dev";
+const MAX_MSG_LEN = 500;
 
 // ── State ──
-let chatBusy = false;
+let chatBusy   = false;
 let chatHistory = [];
 let currentMenu = null;
-let orderQty = {};
-let ratings = {};
-let lastOrder = null;
+let orderQty   = {};
+let ratings    = {};
+let lastOrder  = null;
 
-// ── Toast System ──
-function toast(msg, err = false) {
-  const el = document.getElementById('toast');
-  el.textContent = msg;
-  el.className = 'toast show' + (err ? ' err' : '');
-  
-  // Shake for errors
-  if (err) {
-    el.classList.add('shake');
-    setTimeout(() => el.classList.remove('shake'), 300);
-  }
-  
-  clearTimeout(el._t);
-  el._t = setTimeout(() => el.className = 'toast', 2800);
+// ── XSS prevention: escaping text before inserting into DOM ──
+function escapeHtml(str) {
+  if (typeof str !== "string") return "";
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#x27;");
 }
 
-// ── Time ──
+// ── Toast ──
+function toast(msg, err = false) {
+  const el = document.getElementById("toast");
+  el.textContent = msg;
+  el.className = "toast show" + (err ? " err" : "");
+  if (err) {
+    el.classList.add("shake");
+    setTimeout(() => el.classList.remove("shake"), 350);
+  }
+  clearTimeout(el._t);
+  el._t = setTimeout(() => { el.className = "toast"; }, 3000);
+}
+
+// ── زمان ──
 function hhmm() {
   const d = new Date();
-  return d.getHours().toString().padStart(2,'0') + ':' + d.getMinutes().toString().padStart(2,'0');
+  return d.getHours().toString().padStart(2,"0") + ":" + d.getMinutes().toString().padStart(2,"0");
 }
 
-// ── Error Handler ──
-function handleError(error, context = '') {
-  console.error(`[${context}]`, error);
-  
-  const messages = {
-    'Failed to fetch': 'ارتباط با سرور برقرار نشد. اتصال اینترنت را بررسی کنید.',
-    'NetworkError': 'مشکل در شبکه. دوباره تلاش کنید.',
-    '429': 'تعداد درخواست‌ها زیاد شد. لطفاً چند دقیقه صبر کنید.',
-    '500': 'خطای داخلی سرور. به پشتیبانی اطلاع دهید.',
-  };
-  
-  const msg = messages[error.message] || 
-              messages[error.status] || 
-              'خطایی رخ داد. لطفاً دوباره تلاش کنید.';
-  
-  toast(msg, true);
-  return msg;
+// ── مدیریت خطا ──
+function handleError(error, context = "") {
+  console.error("[" + context + "]", error);
+  const status = error?.status || error?.code || "";
+  if (String(status) === "429") { toast("تعداد درخواست‌ها زیاد شد. چند دقیقه صبر کنید.", true); return; }
+  if (String(status) === "500") { toast("خطای داخلی سرور. لطفاً دوباره تلاش کنید.", true); return; }
+  if (error?.message?.includes("Failed to fetch") || error?.message?.includes("NetworkError")) {
+    toast("ارتباط با سرور برقرار نشد. اتصال اینترنت را بررسی کنید.", true);
+    return;
+  }
+  toast("خطایی رخ داد. لطفاً دوباره تلاش کنید.", true);
+}
+
+// ── Validation ──
+function validatePhone(phone) {
+  return /^[0-9+\-\s]{7,15}$/.test(phone.trim());
+}
+function validateTable(table) {
+  return /^\d{1,4}$/.test(table.trim());
+}
+function highlightInvalid(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.classList.add("invalid");
+  el.focus();
+  setTimeout(() => el.classList.remove("invalid"), 2000);
 }
 
 // ── View Switcher ──
 function switchView(name) {
-  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-  document.querySelectorAll('.hbtn').forEach(b => b.classList.remove('active'));
-  document.getElementById('view-' + name).classList.add('active');
-  document.getElementById('btn-' + name).classList.add('active');
-  if (name === 'order') buildOrderMenu();
-  if (name === 'feedback') buildFeedbackView();
+  document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
+  document.querySelectorAll(".hbtn").forEach(b => b.classList.remove("active"));
+  document.getElementById("view-" + name).classList.add("active");
+  document.getElementById("btn-" + name).classList.add("active");
+  if (name === "order")    buildOrderMenu();
+  if (name === "feedback") buildFeedbackView();
 }
 
 // ══════════════════════ CHAT ══════════════════════
 
 function addMsg(text, who) {
-  const wrap = document.createElement('div');
-  wrap.className = 'msg-wrap ' + who;
-  const row = document.createElement('div');
-  row.className = 'msg-row';
-  const av = document.createElement('div');
-  av.className = 'avatar';
-  av.textContent = who === 'bot' ? '☕' : '👤';
-  const bub = document.createElement('div');
-  bub.className = 'bubble ' + who;
-  bub.innerHTML = text.replace(/\n/g, '<br>');
+  const wrap = document.createElement("div");
+  wrap.className = "msg-wrap " + who;
+  const row = document.createElement("div");
+  row.className = "msg-row";
+  const av = document.createElement("div");
+  av.className = "avatar";
+  av.textContent = who === "bot" ? "☕" : "👤";
+  const bub = document.createElement("div");
+  bub.className = "bubble " + who;
+  // استفاده از textContent برای پیام‌های عادی، innerHTML فقط برای پیام‌های ساختارمند
+  bub.innerHTML = escapeHtml(text).replace(/\n/g, "<br>");
   row.appendChild(av); row.appendChild(bub);
-  const t = document.createElement('div');
-  t.className = 'msg-time'; t.textContent = hhmm();
+  const t = document.createElement("div");
+  t.className = "msg-time"; t.textContent = hhmm();
   wrap.appendChild(row); wrap.appendChild(t);
-  const msgs = document.getElementById('msgs');
+  const msgs = document.getElementById("msgs");
   msgs.appendChild(wrap);
   msgs.scrollTop = msgs.scrollHeight;
+  return bub;
 }
 
 function showTyping() {
-  const msgs = document.getElementById('msgs');
-  const w = document.createElement('div');
-  w.id = 'typing'; w.className = 'msg-wrap bot';
-  const r = document.createElement('div'); r.className = 'typing-row';
-  const av = document.createElement('div'); av.className = 'avatar'; av.textContent = '☕';
-  const b = document.createElement('div'); b.className = 'typing-bub';
-  b.innerHTML = '<span></span><span></span><span></span>';
+  // حذف typing قبلی اگه وجود داشت
+  hideTyping();
+  const msgs = document.getElementById("msgs");
+  const w = document.createElement("div");
+  w.id = "typing"; w.className = "msg-wrap bot";
+  const r = document.createElement("div"); r.className = "typing-row";
+  const av = document.createElement("div"); av.className = "avatar"; av.textContent = "☕";
+  const b = document.createElement("div"); b.className = "typing-bub";
+  b.innerHTML = "<span></span><span></span><span></span>";
   r.appendChild(av); r.appendChild(b); w.appendChild(r);
   msgs.appendChild(w); msgs.scrollTop = msgs.scrollHeight;
 }
 
-function hideTyping() { const el = document.getElementById('typing'); if (el) el.remove(); }
+function hideTyping() {
+  const el = document.getElementById("typing");
+  if (el) el.remove();
+}
 
 function setLoading(v) {
   chatBusy = v;
-  document.getElementById('sendBtn').disabled = v;
-  document.getElementById('chat-inp').disabled = v;
+  document.getElementById("sendBtn").disabled  = v;
+  document.getElementById("chat-inp").disabled = v;
 }
 
-// ── AI Call with Streaming ──
+// ── AI Call با Streaming ──
 async function callAIStream(text) {
-  chatHistory.push({ role: 'user', content: text });
-  
-  const response = await fetch(WORKER + '/chat', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+  chatHistory.push({ role: "user", content: text });
+
+  const response = await fetch(WORKER + "/chat", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ messages: chatHistory, stream: true })
   });
 
   if (!response.ok) {
-    const errorData = await response.json();
+    let errorData = {};
+    try { errorData = await response.json(); } catch {}
     throw { status: response.status, message: errorData.error || response.statusText };
   }
 
-  const reader = response.body.getReader();
-  const decoder = new TextDecoder();
-  let fullText = '';
+  // حذف typing indicator قبل از ایجاد bubble
+  hideTyping();
 
-  // Create empty bubble
-  const msgs = document.getElementById('msgs');
-  const wrap = document.createElement('div');
-  wrap.className = 'msg-wrap bot';
-  const row = document.createElement('div'); row.className = 'msg-row';
-  const av = document.createElement('div'); av.className = 'avatar'; av.textContent = '☕';
-  const bub = document.createElement('div'); bub.className = 'bubble bot';
+  const reader  = response.body.getReader();
+  const decoder = new TextDecoder();
+  let fullText  = "";
+  let buffer    = "";
+
+  // ساخت bubble خالی
+  const msgs = document.getElementById("msgs");
+  const wrap = document.createElement("div");
+  wrap.className = "msg-wrap bot";
+  const row = document.createElement("div"); row.className = "msg-row";
+  const av  = document.createElement("div"); av.className = "avatar"; av.textContent = "☕";
+  const bub = document.createElement("div"); bub.className = "bubble bot";
+  bub.textContent = "…";
   row.appendChild(av); row.appendChild(bub);
-  wrap.appendChild(row);
+  const t = document.createElement("div"); t.className = "msg-time"; t.textContent = hhmm();
+  wrap.appendChild(row); wrap.appendChild(t);
   msgs.appendChild(wrap);
+  msgs.scrollTop = msgs.scrollHeight;
 
   while (true) {
     const { done, value } = await reader.read();
     if (done) break;
-    
-    const chunk = decoder.decode(value);
-    const lines = chunk.split('\n').filter(line => line.startsWith('data: '));
-    
+
+    buffer += decoder.decode(value, { stream: true });
+    const lines = buffer.split("\n");
+    // خط آخر ممکنه ناقص باشه — نگه دار
+    buffer = lines.pop() || "";
+
     for (const line of lines) {
-      const data = line.replace('data: ', '');
-      if (data === '[DONE]') continue;
+      if (!line.startsWith("data: ")) continue;
+      const raw = line.slice(6).trim();
+      if (raw === "[DONE]") continue;
       try {
-        const json = JSON.parse(data);
-        const content = json.choices?.[0]?.delta?.content || '';
-        fullText += content;
-        bub.innerHTML = fullText.replace(/\n/g, '<br>');
-        msgs.scrollTop = msgs.scrollHeight;
-      } catch {}
+        const parsed  = JSON.parse(raw);
+        const content = parsed.choices?.[0]?.delta?.content || "";
+        if (content) {
+          fullText += content;
+          // نمایش امن در bubble
+          bub.innerHTML = escapeHtml(fullText).replace(/\n/g, "<br>");
+          msgs.scrollTop = msgs.scrollHeight;
+        }
+      } catch {
+        // parse error در یک chunk — ادامه بده
+      }
     }
   }
-  
-  // Clean up the response
-  fullText = fullText.replace(/<think>[\s\S]*?<\/think>/gi, '').trim();
-  bub.innerHTML = fullText.replace(/\n/g, '<br>');
-  
-  chatHistory.push({ role: 'assistant', content: fullText });
+
+  // پاک‌سازی نهایی
+  fullText = fullText.replace(/<think>[\s\S]*?<\/think>/gi, "").trim();
+  if (!fullText) fullText = "متوجه نشدم، می‌شه دوباره بپرسید؟";
+  bub.innerHTML = escapeHtml(fullText).replace(/\n/g, "<br>");
+  msgs.scrollTop = msgs.scrollHeight;
+
+  chatHistory.push({ role: "assistant", content: fullText });
   return fullText;
 }
 
 async function sendMsg() {
   if (chatBusy) return;
-  const inp = document.getElementById('chat-inp');
-  const text = inp.value.trim();
+  const inp  = document.getElementById("chat-inp");
+  const text = inp.value.trim().slice(0, MAX_MSG_LEN);
   if (!text) return;
-  inp.value = '';
-  addMsg(text, 'user');
-  setLoading(true); showTyping();
+  inp.value = "";
+  addMsg(text, "user");
+  setLoading(true);
+  showTyping();
   try {
     await callAIStream(text);
   } catch (error) {
     hideTyping();
-    const msg = handleError(error, 'sendMsg');
-    addMsg(msg, 'bot');
+    handleError(error, "sendMsg");
+    // نمایش پیام خطا در چت
+    addMsg("مشکلی پیش اومد. لطفاً دوباره تلاش کنید.", "bot");
+  } finally {
+    setLoading(false);
   }
-  setLoading(false);
 }
 
 function quickSend(text) {
   if (chatBusy) return;
-  switchView('chat');
-  document.getElementById('chat-inp').value = text;
+  switchView("chat");
+  document.getElementById("chat-inp").value = text;
   sendMsg();
 }
 
@@ -702,82 +740,97 @@ function quickSend(text) {
 async function loadMenu() {
   if (currentMenu) return;
   try {
-    const res = await fetch(WORKER + '/menu');
-    if (!res.ok) throw new Error('Failed to fetch menu');
-    currentMenu = await res.json();
+    const res = await fetch(WORKER + "/menu", { cache: "default" });
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    const data = await res.json();
+    if (!data.categories || !Array.isArray(data.categories)) throw new Error("Invalid menu");
+    currentMenu = data;
   } catch (error) {
-    handleError(error, 'loadMenu');
+    handleError(error, "loadMenu");
     currentMenu = null;
   }
 }
 
-// ══════════════════════ ORDER STATE (localStorage) ══════════════════════
+// ══════════════════════ ORDER STATE ══════════════════════
 
 function saveOrderState() {
-  const data = {
-    orderQty,
-    lastOrder,
-    customer: {
-      name: document.getElementById('o-name')?.value || '',
-      table: document.getElementById('o-table')?.value || '',
-      phone: document.getElementById('o-phone')?.value || ''
-    }
-  };
   try {
-    localStorage.setItem('cafe_order_state', JSON.stringify(data));
+    localStorage.setItem("cafe_order_state", JSON.stringify({
+      orderQty,
+      lastOrder,
+      customer: {
+        name:  document.getElementById("o-name")?.value  || "",
+        table: document.getElementById("o-table")?.value || "",
+        phone: document.getElementById("o-phone")?.value || ""
+      }
+    }));
   } catch {}
 }
 
 function restoreOrderState() {
   try {
-    const raw = localStorage.getItem('cafe_order_state');
+    const raw = localStorage.getItem("cafe_order_state");
     if (!raw) return;
     const data = JSON.parse(raw);
-    orderQty = data.orderQty || {};
+    orderQty  = data.orderQty  || {};
     lastOrder = data.lastOrder || null;
     if (data.customer) {
-      const nameEl = document.getElementById('o-name');
-      const tableEl = document.getElementById('o-table');
-      const phoneEl = document.getElementById('o-phone');
-      if (nameEl) nameEl.value = data.customer.name || '';
-      if (tableEl) tableEl.value = data.customer.table || '';
-      if (phoneEl) phoneEl.value = data.customer.phone || '';
+      const n = document.getElementById("o-name");
+      const t = document.getElementById("o-table");
+      const p = document.getElementById("o-phone");
+      if (n) n.value = data.customer.name  || "";
+      if (t) t.value = data.customer.table || "";
+      if (p) p.value = data.customer.phone || "";
     }
-    return data;
-  } catch { return null; }
+  } catch {}
 }
 
 // ══════════════════════ ORDER ══════════════════════
 
 async function buildOrderMenu() {
   await loadMenu();
-  const list = document.getElementById('menuList');
+  const list = document.getElementById("menuList");
   if (!currentMenu) {
-    list.innerHTML = '<div class="empty-state" style="height:100px"><span>خطا در بارگذاری منو</span></div>';
+    list.innerHTML = '<div class="empty-state" style="height:100px"><span>❌ خطا در بارگذاری منو. لطفاً صفحه را رفرش کنید.</span></div>';
     return;
   }
-  list.innerHTML = '';
+  list.innerHTML = "";
   currentMenu.categories.forEach(cat => {
-    const block = document.createElement('div');
-    block.className = 'cat-block';
-    block.innerHTML = `<div class="cat-title">${cat.emoji} ${cat.name}</div>`;
+    const block = document.createElement("div");
+    block.className = "cat-block";
+    const title = document.createElement("div");
+    title.className = "cat-title";
+    title.textContent = cat.emoji + " " + cat.name;
+    block.appendChild(title);
+
     cat.items.forEach(item => {
-      const qty = orderQty[item.name] || 0;
-      const card = document.createElement('div');
-      card.className = 'item-card' + (qty > 0 ? ' has-qty' : '');
-      card.id = 'card-' + item.name;
-      card.innerHTML = `
-        <div class="item-top">
-          <span class="item-name">${item.name}</span>
-          <span class="item-price">${Number(item.price).toLocaleString()} ت</span>
-          <div class="qty-row">
-            <button class="qty-btn" onclick="changeQty('${item.name}',${item.price},-1)">−</button>
-            <span class="qty-num" id="qty-${item.name}">${qty}</span>
-            <button class="qty-btn" onclick="changeQty('${item.name}',${item.price},1)">+</button>
-          </div>
-        </div>
-        ${item.description ? `<div class="item-desc">${item.description}</div>` : ''}
-      `;
+      const qty  = orderQty[item.name] || 0;
+      const card = document.createElement("div");
+      card.className = "item-card" + (qty > 0 ? " has-qty" : "");
+      card.id = "card-" + CSS.escape(item.name);
+
+      const top   = document.createElement("div"); top.className = "item-top";
+      const name  = document.createElement("span"); name.className = "item-name"; name.textContent = item.name;
+      const price = document.createElement("span"); price.className = "item-price"; price.textContent = Number(item.price).toLocaleString() + " ت";
+
+      const qtyRow = document.createElement("div"); qtyRow.className = "qty-row";
+      const btnM   = document.createElement("button"); btnM.className = "qty-btn"; btnM.textContent = "−";
+      btnM.setAttribute("aria-label", "کم کردن " + item.name);
+      btnM.onclick = () => changeQty(item.name, item.price, -1);
+      const qtyNum = document.createElement("span"); qtyNum.className = "qty-num"; qtyNum.id = "qty-" + CSS.escape(item.name); qtyNum.textContent = qty;
+      const btnP   = document.createElement("button"); btnP.className = "qty-btn"; btnP.textContent = "+";
+      btnP.setAttribute("aria-label", "اضافه کردن " + item.name);
+      btnP.onclick = () => changeQty(item.name, item.price, 1);
+
+      qtyRow.appendChild(btnM); qtyRow.appendChild(qtyNum); qtyRow.appendChild(btnP);
+      top.appendChild(name); top.appendChild(price); top.appendChild(qtyRow);
+      card.appendChild(top);
+
+      if (item.description) {
+        const desc = document.createElement("div"); desc.className = "item-desc";
+        desc.textContent = item.description;
+        card.appendChild(desc);
+      }
       block.appendChild(card);
     });
     list.appendChild(block);
@@ -786,202 +839,217 @@ async function buildOrderMenu() {
 }
 
 function changeQty(name, price, delta) {
-  const cur = orderQty[name] || 0;
-  const next = Math.max(0, cur + delta);
+  const cur  = orderQty[name] || 0;
+  const next = Math.max(0, Math.min(20, cur + delta)); // حداکثر ۲۰ عدد
   if (next === 0) delete orderQty[name];
   else orderQty[name] = next;
 
-  const numEl = document.getElementById('qty-' + name);
+  const numEl = document.getElementById("qty-" + CSS.escape(name));
   if (numEl) numEl.textContent = next;
-  const card = document.getElementById('card-' + name);
+  const card = document.getElementById("card-" + CSS.escape(name));
   if (card) {
-    card.classList.toggle('has-qty', next > 0);
+    card.classList.toggle("has-qty", next > 0);
     if (next > 0 && cur === 0) {
-      card.classList.add('new-item');
-      setTimeout(() => card.classList.remove('new-item'), 1000);
+      card.classList.add("new-item");
+      setTimeout(() => card.classList.remove("new-item"), 1000);
     }
   }
-
   updateSummary();
   saveOrderState();
 }
 
 function updateSummary() {
   const entries = Object.entries(orderQty).filter(([,q]) => q > 0);
-  const itemsEl = document.getElementById('summaryItems');
-  const totalEl = document.getElementById('summaryTotal');
+  const itemsEl = document.getElementById("summaryItems");
+  const totalEl = document.getElementById("summaryTotal");
 
   if (!entries.length || !currentMenu) {
-    itemsEl.textContent = 'هیچ آیتمی انتخاب نشده';
-    totalEl.textContent = '';
+    itemsEl.textContent = "هیچ آیتمی انتخاب نشده";
+    totalEl.textContent = "";
     return;
   }
 
-  let total = 0;
-  let count = 0;
+  let total = 0, count = 0;
   entries.forEach(([name, qty]) => {
     count += qty;
     const item = currentMenu.categories.flatMap(c => c.items).find(i => i.name === name);
     if (item) total += item.price * qty;
   });
 
-  itemsEl.textContent = count + ' آیتم انتخاب شده';
-  totalEl.textContent = total.toLocaleString() + ' تومان';
+  itemsEl.textContent = count + " آیتم انتخاب شده";
+  totalEl.textContent = total.toLocaleString() + " تومان";
 }
 
 async function submitOrder() {
-  const name  = document.getElementById('o-name').value.trim();
-  const table = document.getElementById('o-table').value.trim();
-  const phone = document.getElementById('o-phone').value.trim();
+  const name  = document.getElementById("o-name").value.trim();
+  const table = document.getElementById("o-table").value.trim();
+  const phone = document.getElementById("o-phone").value.trim();
 
-  if (!name)  { toast('نام را وارد کنید', true); return; }
-  if (!table) { toast('شماره میز را وارد کنید', true); return; }
-  if (!phone) { toast('شماره تماس را وارد کنید', true); return; }
+  if (!name)              { toast("نام را وارد کنید", true); highlightInvalid("o-name");  return; }
+  if (!validateTable(table)) { toast("شماره میز معتبر نیست", true); highlightInvalid("o-table"); return; }
+  if (!validatePhone(phone)) { toast("شماره تماس معتبر نیست", true); highlightInvalid("o-phone"); return; }
 
   const entries = Object.entries(orderQty).filter(([,q]) => q > 0);
-  if (!entries.length) { toast('حداقل یک آیتم انتخاب کنید', true); return; }
+  if (!entries.length) { toast("حداقل یک آیتم انتخاب کنید", true); return; }
 
   const items = entries.map(([n, qty]) => {
     const item = currentMenu.categories.flatMap(c => c.items).find(i => i.name === n);
     return { name: n, qty, price: item?.price || 0 };
   });
 
-  const btn = document.getElementById('orderBtn');
-  btn.disabled = true; btn.classList.add('loading');
-  btn.innerHTML = 'در حال ثبت... ';
+  const btn = document.getElementById("orderBtn");
+  btn.disabled = true;
+  btn.innerHTML = 'در حال ثبت... <span class="spinner"></span>';
 
   try {
-    const res = await fetch(WORKER + '/order', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+    const res = await fetch(WORKER + "/order", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name, table, phone, items })
     });
-    
-    if (!res.ok) throw { status: res.status, message: await res.text() };
-    
+
+    if (!res.ok) {
+      let err = {};
+      try { err = await res.json(); } catch {}
+      throw { status: res.status, message: err.error || "خطای سرور" };
+    }
+
     const data = await res.json();
     if (data.success) {
-      switchView('chat');
+      switchView("chat");
       const total = items.reduce((s, i) => s + i.price * i.qty, 0);
-      const msgs = document.getElementById('msgs');
-      const wrap = document.createElement('div');
-      wrap.className = 'msg-wrap bot';
-      const row = document.createElement('div'); row.className = 'msg-row';
-      const av = document.createElement('div'); av.className = 'avatar'; av.textContent = '☕';
-      const card = document.createElement('div'); card.className = 'order-card';
-      card.innerHTML = `
-        <div class="oc-header">
-          <span class="oc-title">✅ سفارش ثبت شد</span>
-          <span class="oc-id">${data.orderId}</span>
-        </div>
-        <div style="margin-bottom:4px;color:var(--text-dim);font-size:12px;">
-          👤 ${name} &nbsp;|&nbsp; 🪑 میز ${table}
-        </div>
-        <div class="divider"></div>
-        ${items.map(i => `<div class="oc-row"><span>${i.name} × ${i.qty}</span><span>${(i.price*i.qty).toLocaleString()} ت</span></div>`).join('')}
-        <div class="oc-total"><span>جمع کل</span><span>${total.toLocaleString()} تومان</span></div>
-      `;
+
+      // ساخت order card امن (بدون innerHTML از ورودی کاربر)
+      const msgs = document.getElementById("msgs");
+      const wrap = document.createElement("div"); wrap.className = "msg-wrap bot";
+      const row  = document.createElement("div"); row.className = "msg-row";
+      const av   = document.createElement("div"); av.className = "avatar"; av.textContent = "☕";
+      const card = document.createElement("div"); card.className = "order-card";
+
+      // header
+      const header = document.createElement("div"); header.className = "oc-header";
+      const title  = document.createElement("span"); title.className = "oc-title"; title.textContent = "✅ سفارش ثبت شد";
+      const oid    = document.createElement("span"); oid.className = "oc-id"; oid.textContent = data.orderId;
+      header.appendChild(title); header.appendChild(oid);
+
+      const meta = document.createElement("div");
+      meta.style.cssText = "margin-bottom:4px;color:var(--text-dim);font-size:12px;";
+      meta.textContent = "👤 " + name + " | 🪑 میز " + table;
+
+      const divider = document.createElement("div"); divider.className = "divider";
+
+      card.appendChild(header); card.appendChild(meta); card.appendChild(divider);
+
+      items.forEach(i => {
+        const r = document.createElement("div"); r.className = "oc-row";
+        const l = document.createElement("span"); l.textContent = i.name + " × " + i.qty;
+        const p = document.createElement("span"); p.textContent = (i.price * i.qty).toLocaleString() + " ت";
+        r.appendChild(l); r.appendChild(p); card.appendChild(r);
+      });
+
+      const tot = document.createElement("div"); tot.className = "oc-total";
+      const tl  = document.createElement("span"); tl.textContent = "جمع کل";
+      const tv  = document.createElement("span"); tv.textContent = total.toLocaleString() + " تومان";
+      tot.appendChild(tl); tot.appendChild(tv); card.appendChild(tot);
+
       row.appendChild(av); row.appendChild(card);
       wrap.appendChild(row);
+      const t = document.createElement("div"); t.className = "msg-time"; t.textContent = hhmm();
+      wrap.appendChild(t);
       msgs.appendChild(wrap);
       msgs.scrollTop = msgs.scrollHeight;
 
-      // Save order for feedback
+      // ذخیره برای feedback
       lastOrder = { name, table, phone, items };
 
-      // Reset
+      // ریست
       orderQty = {};
-      document.getElementById('o-name').value = '';
-      document.getElementById('o-table').value = '';
-      document.getElementById('o-phone').value = '';
-      
-      // Update UI
+      document.getElementById("o-name").value  = "";
+      document.getElementById("o-table").value = "";
+      document.getElementById("o-phone").value = "";
       updateSummary();
       saveOrderState();
-      toast('سفارش با موفقیت ثبت شد ✅');
+      toast("سفارش با موفقیت ثبت شد ✅");
     } else {
-      toast('خطا در ثبت سفارش', true);
+      toast(data.error || "خطا در ثبت سفارش", true);
     }
   } catch (error) {
-    handleError(error, 'submitOrder');
+    handleError(error, "submitOrder");
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "ثبت سفارش";
   }
-
-  btn.disabled = false;
-  btn.classList.remove('loading');
-  btn.textContent = 'ثبت سفارش';
 }
 
 // ══════════════════════ FEEDBACK ══════════════════════
 
 function buildFeedbackView() {
-  buildGlobalStars('stars-staff', 'staff');
-  buildGlobalStars('stars-ambiance', 'ambiance');
+  buildGlobalStars("stars-staff",    "staff");
+  buildGlobalStars("stars-ambiance", "ambiance");
 
   if (lastOrder) {
-    document.getElementById('f-name').value  = lastOrder.name  || '';
-    document.getElementById('f-table').value = lastOrder.table || '';
+    document.getElementById("f-name").value  = lastOrder.name  || "";
+    document.getElementById("f-table").value = lastOrder.table || "";
   }
 
-  const container = document.getElementById('fbItemList');
-
+  const container = document.getElementById("fbItemList");
   if (!lastOrder || !lastOrder.items || !lastOrder.items.length) {
     container.innerHTML = '<div style="color:var(--text-dim);font-size:12.5px;padding:4px 0 12px;">هیچ سفارشی ثبت نشده — می‌توانید بدون انتخاب آیتم هم نظر بدهید</div>';
     return;
   }
 
-  container.innerHTML = '';
+  container.innerHTML = "";
   lastOrder.items.forEach(item => {
-    const name = item.name;
-    const block = document.createElement('div');
-    block.className = 'item-rating-block';
-    block.innerHTML = `
-      <div class="irb-name">${name}</div>
-      <div class="irb-cats">
-        <div class="irb-cat">
-          <div class="irb-cat-label">طعم</div>
-          <div class="irb-stars" id="irs-${name}-taste"></div>
-        </div>
-        <div class="irb-cat">
-          <div class="irb-cat-label">ظاهر</div>
-          <div class="irb-stars" id="irs-${name}-look"></div>
-        </div>
-        <div class="irb-cat">
-          <div class="irb-cat-label">کیفیت</div>
-          <div class="irb-stars" id="irs-${name}-quality"></div>
-        </div>
-      </div>
-    `;
+    const block = document.createElement("div");
+    block.className = "item-rating-block";
+
+    const nameEl = document.createElement("div"); nameEl.className = "irb-name"; nameEl.textContent = item.name;
+    const cats   = document.createElement("div"); cats.className = "irb-cats";
+
+    ["taste", "look", "quality"].forEach(aspect => {
+      const catDiv   = document.createElement("div"); catDiv.className = "irb-cat";
+      const label    = document.createElement("div"); label.className = "irb-cat-label";
+      label.textContent = aspect === "taste" ? "طعم" : aspect === "look" ? "ظاهر" : "کیفیت";
+      const starsDiv = document.createElement("div"); starsDiv.className = "irb-stars";
+      starsDiv.id = "irs-" + CSS.escape(item.name) + "-" + aspect;
+      catDiv.appendChild(label); catDiv.appendChild(starsDiv);
+      cats.appendChild(catDiv);
+    });
+
+    block.appendChild(nameEl); block.appendChild(cats);
     container.appendChild(block);
-    buildItemStars(name, 'taste');
-    buildItemStars(name, 'look');
-    buildItemStars(name, 'quality');
+
+    buildItemStars(item.name, "taste");
+    buildItemStars(item.name, "look");
+    buildItemStars(item.name, "quality");
   });
 }
 
 function buildGlobalStars(containerId, key) {
   const c = document.getElementById(containerId);
   if (!c) return;
-  c.innerHTML = '';
+  c.innerHTML = "";
   for (let i = 1; i <= 5; i++) {
-    const s = document.createElement('span');
-    s.className = 'star' + (ratings[key] >= i ? ' on' : '');
-    s.textContent = '★';
-    s.onclick = () => setRating(key, i, containerId, 'star');
+    const s = document.createElement("span");
+    s.className = "star" + (ratings[key] >= i ? " on" : "");
+    s.textContent = "★";
+    s.setAttribute("aria-label", i + " از ۵");
+    s.onclick = () => setRating(key, i, containerId, "star");
     c.appendChild(s);
   }
 }
 
 function buildItemStars(name, aspect) {
-  const key = name + '-' + aspect;
-  const containerId = 'irs-' + name + '-' + aspect;
+  const key         = name + "-" + aspect;
+  const containerId = "irs-" + CSS.escape(name) + "-" + aspect;
   const c = document.getElementById(containerId);
   if (!c) return;
-  c.innerHTML = '';
+  c.innerHTML = "";
   for (let i = 1; i <= 5; i++) {
-    const s = document.createElement('span');
-    s.className = 'irb-star' + (ratings[key] >= i ? ' on' : '');
-    s.textContent = '★';
-    s.onclick = () => setRating(key, i, containerId, 'irb-star');
+    const s = document.createElement("span");
+    s.className = "irb-star" + (ratings[key] >= i ? " on" : "");
+    s.textContent = "★";
+    s.onclick = () => setRating(key, i, containerId, "irb-star");
     c.appendChild(s);
   }
 }
@@ -990,84 +1058,91 @@ function setRating(key, val, containerId, cls) {
   ratings[key] = val;
   const c = document.getElementById(containerId);
   if (!c) return;
-  c.querySelectorAll('.' + cls).forEach((s, i) => s.classList.toggle('on', i < val));
+  c.querySelectorAll("." + cls).forEach((s, i) => s.classList.toggle("on", i < val));
 }
 
 async function submitFeedback() {
-  const name     = document.getElementById('f-name').value.trim() || 'ناشناس';
-  const table    = document.getElementById('f-table').value.trim() || '—';
-  const positive = document.getElementById('f-positive').value.trim();
-  const negative = document.getElementById('f-negative').value.trim();
-  const comment  = document.getElementById('f-comment').value.trim();
+  const name     = document.getElementById("f-name").value.trim()     || "ناشناس";
+  const table    = document.getElementById("f-table").value.trim()     || "";
+  const positive = document.getElementById("f-positive").value.trim();
+  const negative = document.getElementById("f-negative").value.trim();
+  const comment  = document.getElementById("f-comment").value.trim();
+  const phone    = lastOrder?.phone || "";
 
-  const phone = lastOrder?.phone || '';
-
-  const itemSource = lastOrder?.items || [];
-  const itemRatings = itemSource.map(item => ({
-    name: item.name,
-    taste:   ratings[item.name + '-taste']   || 0,
-    look:    ratings[item.name + '-look']    || 0,
-    quality: ratings[item.name + '-quality'] || 0
-  })).filter(r => r.taste || r.look || r.quality);
-
-  const staff    = ratings['staff']    || 0;
-  const ambiance = ratings['ambiance'] || 0;
-
-  if (!staff && !ambiance && !itemRatings.length && !comment && !positive && !negative) {
-    toast('لطفاً حداقل یک امتیاز یا نظر وارد کنید', true);
+  // اعتبارسنجی میز (اگر وارد شد)
+  if (table && !validateTable(table)) {
+    toast("شماره میز معتبر نیست", true);
+    highlightInvalid("f-table");
     return;
   }
 
-  const btn = document.getElementById('fbBtn');
-  btn.disabled = true; btn.textContent = 'در حال ثبت...';
+  const itemSource = lastOrder?.items || [];
+  const itemRatings = itemSource.map(item => ({
+    name:    item.name,
+    taste:   ratings[item.name + "-taste"]   || 0,
+    look:    ratings[item.name + "-look"]    || 0,
+    quality: ratings[item.name + "-quality"] || 0
+  })).filter(r => r.taste || r.look || r.quality);
 
-  try {
-    const res = await fetch(WORKER + '/feedback', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, table, phone, itemRatings, staff, ambiance, positive, negative, comment })
-    });
-    
-    if (!res.ok) throw { status: res.status, message: await res.text() };
-    
-    const data = await res.json();
-    if (data.success) {
-      switchView('chat');
-      addMsg('ممنون از وقتی که گذاشتید 🙏\nنظر شما برای بهتر شدن کافه اینجا ارزشمنده.', 'bot');
-      
-      // Reset
-      ratings = {};
-      ['f-name','f-table','f-positive','f-negative','f-comment'].forEach(id => {
-        document.getElementById(id).value = '';
-      });
-      
-      // Reset item ratings in UI
-      document.querySelectorAll('.irb-star, .star').forEach(el => el.classList.remove('on'));
-      
-      toast('نظر شما ثبت شد ✅');
-    } else {
-      toast('خطا در ثبت نظر', true);
-    }
-  } catch (error) {
-    handleError(error, 'submitFeedback');
+  const staff    = ratings["staff"]    || 0;
+  const ambiance = ratings["ambiance"] || 0;
+
+  if (!staff && !ambiance && !itemRatings.length && !comment && !positive && !negative) {
+    toast("لطفاً حداقل یک امتیاز یا نظر وارد کنید", true);
+    return;
   }
 
-  btn.disabled = false;
-  btn.textContent = 'ثبت نظر';
+  const btn = document.getElementById("fbBtn");
+  btn.disabled = true;
+  btn.innerHTML = 'در حال ثبت... <span class="spinner"></span>';
+
+  try {
+    const res = await fetch(WORKER + "/feedback", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, table, phone, itemRatings, staff, ambiance, positive, negative, comment })
+    });
+
+    if (!res.ok) {
+      let err = {};
+      try { err = await res.json(); } catch {}
+      throw { status: res.status, message: err.error || "خطای سرور" };
+    }
+
+    const data = await res.json();
+    if (data.success) {
+      switchView("chat");
+      addMsg("ممنون از وقتی که گذاشتید 🙏\nنظر شما برای بهتر شدن کافه اینجا ارزشمنده.", "bot");
+
+      // ریست کامل فیدبک
+      ratings = {};
+      ["f-name","f-table","f-positive","f-negative","f-comment"].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = "";
+      });
+      // rebuild ستاره‌ها با حالت ریست
+      buildGlobalStars("stars-staff",    "staff");
+      buildGlobalStars("stars-ambiance", "ambiance");
+
+      toast("نظر شما ثبت شد ✅");
+    } else {
+      toast(data.error || "خطا در ثبت نظر", true);
+    }
+  } catch (error) {
+    handleError(error, "submitFeedback");
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "ثبت نظر";
+  }
 }
 
 // ══════════════════════ INIT ══════════════════════
 
-window.onload = async () => {
-  // Restore order state
+window.addEventListener("DOMContentLoaded", async () => {
   restoreOrderState();
-  
-  // Load menu
-  await loadMenu();
-  
-  // Welcome message
-  addMsg('سلام! ☕\nبه کافه اینجا خوش آمدید.\nچطور می‌تونم کمکتون کنم؟', 'bot');
-};
+  loadMenu(); // بارگذاری موازی (non-blocking)
+  addMsg("سلام! ☕\nبه کافه اینجا خوش آمدید.\nچطور می‌تونم کمکتون کنم؟", "bot");
+});
 </script>
 </body>
 </html>
