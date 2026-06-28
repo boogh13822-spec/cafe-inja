@@ -242,33 +242,54 @@ body{
 }
 
 /* Quick Actions */
-.qa-label{color:var(--text-dim);font-size:10.5px;margin-bottom:7px;padding-right:2px;}
-.qa-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:6px;margin-bottom:10px;
+.qa-row{
+  display:flex;align-items:center;gap:7px;
+  margin-bottom:8px;
 }
-.qa-btn{
-  display:flex;flex-direction:column;align-items:center;gap:3px;
-  padding:8px 4px;border-radius:12px;
-  border:1px solid var(--border);
-  background:var(--surface2);
+.qa-toggle{
+  flex-shrink:0;
+  width:30px;height:30px;border-radius:50%;
+  border:1px solid var(--border2);background:var(--surface2);
+  color:var(--text-dim);font-size:14px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .2s;
+}
+.qa-toggle:hover{background:var(--surface3);color:var(--cream-dim);}
+.qa-toggle.open{background:var(--accent);border-color:var(--accent);color:var(--cream);}
+.qa-chips{
+  display:flex;gap:5px;overflow-x:auto;scrollbar-width:none;
+  flex:1;
+}
+.qa-chips::-webkit-scrollbar{display:none;}
+.qa-chip{
+  flex-shrink:0;
+  display:flex;align-items:center;gap:4px;
+  padding:5px 10px;border-radius:16px;
+  border:1px solid var(--border);background:var(--surface2);
   color:var(--text-dim);
-  font-family:'Vazirmatn',sans-serif;
-  cursor:pointer;transition:all .18s;
-  min-height:52px;
+  font-family:'Vazirmatn',sans-serif;font-size:11.5px;font-weight:500;
+  cursor:pointer;white-space:nowrap;transition:all .15s;
 }
-.qa-btn:hover{
-  background:var(--surface3);color:var(--cream-dim);
-  border-color:var(--border2);transform:translateY(-1px);
-  box-shadow:0 4px 12px rgba(0,0,0,.3);
+.qa-chip:hover{background:var(--surface3);color:var(--cream-dim);border-color:var(--border2);}
+.qa-chip.gold{border-color:var(--gold-dim);color:var(--gold);background:linear-gradient(135deg,#1a1208,#100d06);}
+.qa-icon{font-size:12px;}
+/* گرید منوهای باز‌شدنی */
+.qa-grid{
+  display:none;
+  grid-template-columns:repeat(3,1fr);
+  gap:5px;margin-bottom:8px;
 }
-.qa-btn.active-order{
-  border-color:var(--gold-dim);background:linear-gradient(135deg,#1e1408,#130f06);
-  color:var(--gold);
+.qa-grid.open{display:grid;}
+.qa-btn{
+  display:flex;align-items:center;gap:5px;
+  padding:7px 8px;border-radius:10px;
+  border:1px solid var(--border);background:var(--surface2);
+  color:var(--text-dim);
+  font-family:'Vazirmatn',sans-serif;font-size:11px;font-weight:500;
+  cursor:pointer;transition:all .15s;
 }
-.qa-icon{font-size:16px;line-height:1;}
-.qa-text{font-size:10.5px;font-weight:500;text-align:center;line-height:1.3;}
+.qa-btn:hover{background:var(--surface3);color:var(--cream-dim);border-color:var(--border2);}
+.qa-btn .qi{font-size:13px;}
 
 .input-row{display:flex;gap:8px;align-items:center;}
 .chat-inp{
@@ -465,29 +486,27 @@ body{
       <div class="msgs" id="msgs"></div>
     </div>
     <div class="chat-input-area">
-      <div class="qa-label">دسترسی سریع</div>
+      <!-- Quick Actions: یک ردیف chip + دکمه toggle برای منوی کامل‌تر -->
+      <div class="qa-row">
+        <button class="qa-toggle" id="qaToggle" onclick="toggleQA()" title="منوی سریع">⚡</button>
+        <div class="qa-chips">
+          <button class="qa-chip" onclick="quickSend('منوی کامل کافه رو نشونم بده')"><span class="qa-icon">📋</span>منو</button>
+          <button class="qa-chip" onclick="quickSend('نوشیدنی‌های داغ چی دارید؟')"><span class="qa-icon">☕</span>داغ</button>
+          <button class="qa-chip" onclick="quickSend('نوشیدنی‌های سرد چی دارید؟')"><span class="qa-icon">🧊</span>سرد</button>
+          <button class="qa-chip" onclick="quickSend('غذاهای موجود رو بگید')"><span class="qa-icon">🍔</span>غذا</button>
+          <button class="qa-chip" onclick="quickSend('دسرهای موجود چیه؟')"><span class="qa-icon">🍰</span>دسر</button>
+          <button class="qa-chip" onclick="quickSend('چی پیشنهاد می‌دید؟')"><span class="qa-icon">✨</span>پیشنهاد</button>
+          <button class="qa-chip gold" id="qa-order-status" onclick="askOrderStatus()" style="display:none"><span class="qa-icon">⏱</span>سفارشم</button>
+        </div>
+      </div>
+      <!-- گرید بسته‌شدنی -->
       <div class="qa-grid" id="qaGrid">
-        <button class="qa-btn" onclick="quickSend('منوی کامل کافه رو نشونم بده')">
-          <span class="qa-icon">📋</span><span class="qa-text">منوی کامل</span>
-        </button>
-        <button class="qa-btn" onclick="quickSend('نوشیدنی‌های داغ چی دارید؟')">
-          <span class="qa-icon">☕</span><span class="qa-text">نوشیدنی داغ</span>
-        </button>
-        <button class="qa-btn" onclick="quickSend('نوشیدنی‌های سرد چی دارید؟')">
-          <span class="qa-icon">🧊</span><span class="qa-text">نوشیدنی سرد</span>
-        </button>
-        <button class="qa-btn" onclick="quickSend('غذاهای موجود رو بگید')">
-          <span class="qa-icon">🍔</span><span class="qa-text">غذا</span>
-        </button>
-        <button class="qa-btn" onclick="quickSend('دسرهای موجود چیه؟')">
-          <span class="qa-icon">🍰</span><span class="qa-text">دسر</span>
-        </button>
-        <button class="qa-btn" id="qa-order-status" onclick="askOrderStatus()" style="display:none">
-          <span class="qa-icon">⏱</span><span class="qa-text">وضعیت سفارش</span>
-        </button>
-        <button class="qa-btn" onclick="quickSend('چی پیشنهاد می‌دید؟')">
-          <span class="qa-icon">✨</span><span class="qa-text">پیشنهاد</span>
-        </button>
+        <button class="qa-btn" onclick="quickSend('منوی کامل کافه رو نشونم بده')"><span class="qi">📋</span>منوی کامل</button>
+        <button class="qa-btn" onclick="quickSend('چی پیشنهاد می‌دید؟')"><span class="qi">✨</span>پیشنهاد</button>
+        <button class="qa-btn" onclick="quickSend('قیمت‌ها چقدره؟')"><span class="qi">💰</span>قیمت‌ها</button>
+        <button class="qa-btn" onclick="quickSend('کافه اینجا چه ساعتی بازه؟')"><span class="qi">🕐</span>ساعت کاری</button>
+        <button class="qa-btn" onclick="quickSend('وای‌فای دارید؟')"><span class="qi">📶</span>وای‌فای</button>
+        <button class="qa-btn" onclick="quickSend('آدرس کافه اینجا کجاست؟')"><span class="qi">📍</span>آدرس</button>
       </div>
       <div class="input-row">
         <input class="chat-inp" id="chat-inp"
@@ -849,6 +868,8 @@ async function callAIStream(text) {
   msgs.appendChild(wrap);
   msgs.scrollTop=msgs.scrollHeight;
 
+  let isMenuResponse = false; // تا stream تمام نشه نمی‌دونیم menu هست یا نه
+
   while (true) {
     const { done, value } = await reader.read();
     if (done) break;
@@ -864,8 +885,14 @@ async function callAIStream(text) {
         const c = p.choices?.[0]?.delta?.content || "";
         if (c) {
           fullText += c;
-          bub.innerHTML = esc(fullText).replace(/\n/g,"<br>");
-          msgs.scrollTop=msgs.scrollHeight;
+          // اگه MENU_DATA در متن شروع شده bubble رو مخفی کن
+          if (fullText.includes("MENU_DATA:")) {
+            isMenuResponse = true;
+            bub.style.display = "none"; // مخفی — در پایان جدول می‌سازیم
+          } else if (!isMenuResponse) {
+            bub.innerHTML = esc(fullText).replace(/\n/g,"<br>");
+            msgs.scrollTop=msgs.scrollHeight;
+          }
         }
       } catch {}
     }
@@ -878,13 +905,13 @@ async function callAIStream(text) {
   // بررسی MENU_DATA
   const menuData = parseMenuData(fullText);
   if (menuData) {
-    // حذف bubble متنی و جایگزینی با menu card
-    wrap.remove();
-    addMenuCard(menuData);
-    // متن بعد از MENU_DATA رو هم نشون بده اگه بود
+    wrap.remove(); // bubble متنی رو کامل حذف کن
+    // متن قبل از MENU_DATA (اگه بود)
     const beforeMarker = fullText.slice(0, fullText.indexOf("MENU_DATA:")).trim();
     if (beforeMarker) addMsg(beforeMarker, "bot");
+    addMenuCard(menuData);
   } else {
+    bub.style.display = "";
     bub.innerHTML = esc(fullText).replace(/\n/g,"<br>");
   }
   msgs.scrollTop=msgs.scrollHeight;
@@ -911,6 +938,25 @@ async function sendMsg() {
     setLoading(false);
   }
 }
+
+function toggleQA() {
+  const grid   = document.getElementById("qaGrid");
+  const toggle = document.getElementById("qaToggle");
+  const open   = grid.classList.toggle("open");
+  toggle.classList.toggle("open", open);
+  toggle.textContent = open ? "✕" : "⚡";
+}
+
+// بستن QA وقتی chip/btn کلیک شد
+document.addEventListener("click", e => {
+  const grid = document.getElementById("qaGrid");
+  if (!grid) return;
+  if (e.target.closest(".qa-btn") && grid.classList.contains("open")) {
+    grid.classList.remove("open");
+    const toggle = document.getElementById("qaToggle");
+    if (toggle) { toggle.classList.remove("open"); toggle.textContent="⚡"; }
+  }
+});
 
 function quickSend(text) {
   if (chatBusy) return;
