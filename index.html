@@ -5,483 +5,493 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com https://cafeinjaapi.boogh13822.workers.dev; img-src 'self' data:;">
 <title>کافه اینجا</title>
-<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
+/* ══════════════════════ TOKENS ══════════════════════ */
 :root {
-  --bg:        #090705;
-  --surface:   #100c07;
-  --surface2:  #181008;
-  --border:    #2a1c0e;
-  --border2:   #3a2510;
-  --gold:      #c08030;
-  --gold-dim:  #7a4e1a;
+  --bg:        #07050302;
+  --bg-s:      #07050300;
+  --surface:   #0e0b07;
+  --surface2:  #151009;
+  --surface3:  #1c1510;
+  --border:    #26190a;
+  --border2:   #35220e;
+  --gold:      #c08830;
+  --gold-dim:  #7a5518;
+  --gold-glow: rgba(192,136,48,.12);
   --cream:     #f0dfc0;
-  --cream-dim: #b09070;
-  --text:      #e0caa8;
-  --text-dim:  #7a5a38;
-  --accent:    #8b4a1a;
-  --accent-h:  #a85a22;
-  --green:     #2d6a3a;
-  --red:       #6a2d2d;
+  --cream-dim: #a88d60;
+  --text:      #d8c4a0;
+  --text-dim:  #6a4e2c;
+  --accent:    #8b4a18;
+  --accent-h:  #a85a20;
+  --green:     #2a6040;
+  --green-dim: #1a4028;
+  --red:       #6a2020;
+  --r: 20px;
 }
-
 *{box-sizing:border-box;margin:0;padding:0;}
-
 body{
   font-family:'Vazirmatn',sans-serif;
-  background:var(--bg);
-  min-height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  padding:10px;
+  background:radial-gradient(ellipse at top,#1a1005 0%,#070503 60%);
+  min-height:100vh;display:flex;justify-content:center;align-items:center;padding:8px;
 }
 
+/* ══════════════════════ APP SHELL ══════════════════════ */
 .app{
-  width:100%;max-width:440px;
-  height:94vh;max-height:820px;
+  width:100%;max-width:448px;height:96vh;max-height:840px;
   background:var(--surface);
-  border-radius:24px;
-  border:1px solid var(--border);
-  display:flex;flex-direction:column;
-  overflow:hidden;
+  border-radius:28px;
+  border:1px solid var(--border2);
+  display:flex;flex-direction:column;overflow:hidden;
   position:relative;
-  box-shadow:0 24px 60px rgba(0,0,0,.6);
+  box-shadow:0 32px 80px rgba(0,0,0,.7),0 0 0 1px rgba(192,136,48,.06) inset;
 }
 
+/* ══════════════════════ HEADER ══════════════════════ */
 .header{
-  background:linear-gradient(160deg,#1a1008 0%,#0e0a05 100%);
+  background:linear-gradient(180deg,#1c1408 0%,#100c06 100%);
   border-bottom:1px solid var(--border);
-  padding:14px 16px;
-  display:flex;align-items:center;gap:12px;
-  flex-shrink:0;
+  padding:14px 16px 12px;
+  display:flex;align-items:center;gap:12px;flex-shrink:0;
+  position:relative;
+}
+.header::after{
+  content:'';position:absolute;bottom:0;left:20%;right:20%;height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold-dim),transparent);
 }
 .logo{
-  width:42px;height:42px;border-radius:50%;
-  background:radial-gradient(circle at 35% 35%,#3a2010,#1a0e06);
+  width:44px;height:44px;border-radius:14px;
+  background:radial-gradient(circle at 35% 30%,#2c1c0a,#130e05);
   border:1.5px solid var(--gold-dim);
   display:flex;align-items:center;justify-content:center;
-  font-size:20px;flex-shrink:0;
+  font-size:21px;flex-shrink:0;
+  box-shadow:0 4px 12px rgba(0,0,0,.4),0 0 16px rgba(192,136,48,.08);
 }
-.header-info{flex:1;}
-.header-name{color:var(--cream);font-size:15px;font-weight:700;letter-spacing:.5px;}
-.header-status{color:var(--text-dim);font-size:11px;margin-top:2px;display:flex;align-items:center;gap:5px;}
-.online-dot{width:6px;height:6px;border-radius:50%;background:#5aab6a;animation:pulse 2s infinite;}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
-.header-btns{display:flex;gap:6px;flex-shrink:0;}
-.hbtn{
-  padding:6px 11px;border-radius:10px;
-  border:1px solid var(--border2);
-  background:var(--surface2);
-  color:var(--cream-dim);
-  font-family:'Vazirmatn',sans-serif;font-size:11px;
-  cursor:pointer;white-space:nowrap;
-  transition:all .2s;
-}
-.hbtn:hover{background:var(--border);color:var(--cream);}
-.hbtn.active{background:var(--accent);border-color:var(--accent);color:var(--cream);}
+.header-info{flex:1;min-width:0;}
+.header-name{color:var(--cream);font-size:15.5px;font-weight:700;letter-spacing:.3px;}
+.header-sub{display:flex;align-items:center;gap:5px;margin-top:2px;}
+.dot{width:6px;height:6px;border-radius:50%;background:#4aaa60;flex-shrink:0;animation:dotPulse 2s ease infinite;}
+@keyframes dotPulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(74,170,96,.4)}50%{opacity:.7;box-shadow:0 0 0 4px rgba(74,170,96,0)}}
+.header-status{color:var(--text-dim);font-size:11px;}
 
+/* ── NAV TABS ── */
+.nav{display:flex;gap:5px;flex-shrink:0;}
+.nav-btn{
+  display:flex;align-items:center;gap:5px;
+  padding:6px 11px;border-radius:10px;
+  border:1px solid transparent;
+  background:transparent;
+  color:var(--text-dim);
+  font-family:'Vazirmatn',sans-serif;font-size:11.5px;font-weight:500;
+  cursor:pointer;transition:all .2s;white-space:nowrap;
+}
+.nav-btn:hover{color:var(--cream-dim);background:var(--surface3);}
+.nav-btn.active{
+  background:linear-gradient(135deg,#2a1a08,#1a1005);
+  border-color:var(--border2);color:var(--gold);
+  box-shadow:0 2px 8px rgba(0,0,0,.3);
+}
+.nav-btn .nb-icon{font-size:13px;}
+
+/* ══════════════════════ VIEWS ══════════════════════ */
 .view{display:none;flex:1;overflow:hidden;flex-direction:column;}
 .view.active{display:flex;}
 
-/* Chat */
-.messages{
-  flex:1;overflow-y:auto;
-  padding:16px 14px;
+/* ══════════════════════ CHAT ══════════════════════ */
+.msgs-wrap{flex:1;overflow:hidden;position:relative;display:flex;flex-direction:column;}
+.msgs{
+  flex:1;overflow-y:auto;padding:14px 13px;
   display:flex;flex-direction:column;gap:10px;
   scrollbar-width:thin;scrollbar-color:var(--border) transparent;
 }
-.messages::-webkit-scrollbar{width:3px;}
-.messages::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+.msgs::-webkit-scrollbar{width:3px;}
+.msgs::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
 
+/* ── Timer Banner ── */
+.timer-banner{
+  flex-shrink:0;
+  margin:10px 13px 0;
+  background:linear-gradient(135deg,var(--surface3),var(--surface2));
+  border:1px solid var(--gold-dim);border-radius:14px;
+  padding:11px 15px;
+  display:flex;align-items:center;gap:11px;
+}
+.tb-icon{font-size:22px;flex-shrink:0;}
+.tb-info{flex:1;min-width:0;}
+.tb-label{color:var(--text-dim);font-size:10.5px;margin-bottom:1px;}
+.tb-val{color:var(--gold);font-size:18px;font-weight:700;font-variant-numeric:tabular-nums;}
+.tb-val.ready{color:#4aaa60;font-size:14px;}
+.tb-sub{color:var(--text-dim);font-size:10.5px;margin-top:1px;}
+@keyframes timerGlow{0%,100%{border-color:var(--gold-dim)}50%{border-color:var(--gold)}}
+.timer-banner{animation:timerGlow 3s ease infinite;}
+
+/* ── Bubbles ── */
 .msg-wrap{display:flex;flex-direction:column;}
 .msg-wrap.user{align-items:flex-start;}
-.msg-wrap.bot{align-items:flex-end;}
-.msg-row{display:flex;align-items:flex-end;gap:8px;}
+.msg-wrap.bot {align-items:flex-end;}
+.msg-row{display:flex;align-items:flex-end;gap:7px;}
 .msg-wrap.user .msg-row{flex-direction:row-reverse;}
-
-.avatar{
-  width:28px;height:28px;border-radius:50%;
-  background:var(--surface2);border:1px solid var(--border2);
+.av{
+  width:27px;height:27px;border-radius:50%;
+  background:var(--surface3);border:1px solid var(--border2);
   display:flex;align-items:center;justify-content:center;
-  font-size:13px;flex-shrink:0;
+  font-size:12px;flex-shrink:0;
 }
 .bubble{
-  max-width:76%;padding:10px 14px;
-  font-size:13.5px;line-height:1.85;
+  max-width:78%;padding:10px 14px;
+  font-size:13.5px;line-height:1.9;
   word-break:break-word;border-radius:16px;
 }
 .bubble.bot{
   background:var(--surface2);color:var(--text);
-  border:1px solid var(--border);border-bottom-right-radius:4px;
+  border:1px solid var(--border);border-bottom-right-radius:5px;
 }
 .bubble.user{
-  background:#5c3214;color:var(--cream);
-  border:1px solid #7a4520;border-bottom-left-radius:4px;
+  background:linear-gradient(135deg,#5c3010,#3a1e08);
+  color:var(--cream);border:1px solid #7a4018;border-bottom-left-radius:5px;
 }
-.msg-time{font-size:10px;color:#3a2810;margin-top:4px;padding:0 36px;}
+.msg-time{font-size:10px;color:var(--text-dim);opacity:.5;margin-top:3px;padding:0 34px;}
 
-.typing-row{display:flex;align-items:flex-end;gap:8px;}
+/* ── Menu Table in Chat ── */
+.chat-menu{
+  max-width:92%;
+  background:var(--surface2);
+  border:1px solid var(--border2);
+  border-radius:16px;overflow:hidden;
+  font-size:12.5px;
+}
+.chat-menu-header{
+  background:linear-gradient(135deg,#1e1408,#130f06);
+  padding:10px 14px;
+  display:flex;align-items:center;gap:8px;
+  border-bottom:1px solid var(--border);
+}
+.cmh-emoji{font-size:18px;}
+.cmh-title{color:var(--gold);font-weight:700;font-size:13px;flex:1;}
+.cmh-count{color:var(--text-dim);font-size:11px;}
+.chat-menu-table{width:100%;border-collapse:collapse;}
+.cmt-row{
+  display:grid;grid-template-columns:1fr auto;
+  padding:9px 14px;
+  border-bottom:1px solid var(--border);
+  transition:background .15s;
+}
+.cmt-row:last-child{border-bottom:none;}
+.cmt-row:hover{background:var(--surface3);}
+.cmt-name{color:var(--text);font-size:13px;font-weight:500;}
+.cmt-desc{color:var(--text-dim);font-size:11px;margin-top:2px;line-height:1.5;}
+.cmt-price{
+  color:var(--gold);font-size:12.5px;font-weight:600;
+  white-space:nowrap;padding-right:8px;
+  display:flex;align-items:flex-start;justify-content:flex-end;
+}
+.chat-menu-footer{
+  padding:8px 14px;background:var(--surface3);
+  text-align:center;color:var(--text-dim);font-size:11px;
+}
+
+/* ── Full Menu Card ── */
+.chat-full-menu{max-width:94%;}
+.fmenu-title{
+  color:var(--cream);font-size:13.5px;font-weight:700;
+  padding:11px 14px;
+  background:linear-gradient(135deg,#1e1408,#130f06);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:8px;
+}
+
+/* ── Typing ── */
+.typing-row{display:flex;align-items:flex-end;gap:7px;}
 .typing-bub{
   background:var(--surface2);border:1px solid var(--border);
-  border-radius:16px;border-bottom-right-radius:4px;
+  border-radius:16px;border-bottom-right-radius:5px;
   padding:12px 16px;display:flex;gap:5px;
 }
 .typing-bub span{
   width:6px;height:6px;border-radius:50%;
-  background:var(--gold-dim);animation:blink 1.2s infinite;
+  background:var(--gold-dim);animation:blink 1.2s ease infinite;
 }
 .typing-bub span:nth-child(2){animation-delay:.2s;}
 .typing-bub span:nth-child(3){animation-delay:.4s;}
-@keyframes blink{0%,80%,100%{opacity:.3}40%{opacity:1}}
+@keyframes blink{0%,80%,100%{opacity:.25}40%{opacity:1}}
 
-.order-card{
-  background:var(--surface2);border:1px solid var(--border2);
-  border-radius:14px;padding:14px 16px;
-  max-width:76%;
+/* ── Order Confirm Card ── */
+.order-confirm{
+  background:linear-gradient(135deg,#0e1a0e,#071007);
+  border:1px solid #2a4a2a;border-radius:16px;
+  padding:14px;max-width:84%;
 }
-.oc-header{
-  display:flex;justify-content:space-between;align-items:center;
-  margin-bottom:10px;padding-bottom:8px;
-  border-bottom:1px solid var(--border);
+.oc-head{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid #1a3a1a;
 }
-.oc-title{color:var(--gold);font-size:13px;font-weight:600;}
-.oc-id{color:var(--text-dim);font-size:11px;font-family:monospace;}
-.oc-row{display:flex;justify-content:space-between;font-size:12.5px;color:var(--text);padding:3px 0;}
-.oc-total{
-  border-top:1px solid var(--border);margin-top:8px;padding-top:8px;
-  display:flex;justify-content:space-between;
-  color:var(--gold);font-size:13px;font-weight:600;
-}
+.oc-title{color:#4aaa60;font-size:13px;font-weight:700;}
+.oc-id{color:#2a5a2a;font-size:11px;font-family:monospace;}
+.oc-meta{color:#3a8040;font-size:12px;margin-bottom:8px;}
+.oc-divider{height:1px;background:#1a3a1a;margin:8px 0;}
+.oc-row{display:flex;justify-content:space-between;color:#5a9060;font-size:12px;padding:2px 0;}
+.oc-total{display:flex;justify-content:space-between;color:#4aaa60;font-size:13px;font-weight:700;padding-top:8px;border-top:1px solid #1a3a1a;margin-top:4px;}
 
+/* ── Chat Input ── */
 .chat-input-area{
-  background:#0c0804;border-top:1px solid var(--border);
-  padding:10px 14px 14px;flex-shrink:0;
+  flex-shrink:0;
+  background:linear-gradient(180deg,transparent,var(--surface));
+  border-top:1px solid var(--border);
+  padding:10px 13px 14px;
 }
-.quick-btns{
-  display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;
-  padding-bottom:8px;
+
+/* Quick Actions */
+.qa-label{color:var(--text-dim);font-size:10.5px;margin-bottom:7px;padding-right:2px;}
+.qa-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:6px;margin-bottom:10px;
 }
-.quick-btns::-webkit-scrollbar{display:none;}
-.qbtn{
-  flex-shrink:0;padding:5px 12px;border-radius:20px;
-  border:1px solid var(--border2);background:transparent;
-  color:var(--text-dim);font-family:'Vazirmatn',sans-serif;font-size:11.5px;
-  cursor:pointer;white-space:nowrap;transition:all .18s;
+.qa-btn{
+  display:flex;flex-direction:column;align-items:center;gap:3px;
+  padding:8px 4px;border-radius:12px;
+  border:1px solid var(--border);
+  background:var(--surface2);
+  color:var(--text-dim);
+  font-family:'Vazirmatn',sans-serif;
+  cursor:pointer;transition:all .18s;
+  min-height:52px;
 }
-.qbtn:hover{background:var(--surface2);color:var(--cream);border-color:var(--gold-dim);}
+.qa-btn:hover{
+  background:var(--surface3);color:var(--cream-dim);
+  border-color:var(--border2);transform:translateY(-1px);
+  box-shadow:0 4px 12px rgba(0,0,0,.3);
+}
+.qa-btn.active-order{
+  border-color:var(--gold-dim);background:linear-gradient(135deg,#1e1408,#130f06);
+  color:var(--gold);
+}
+.qa-icon{font-size:16px;line-height:1;}
+.qa-text{font-size:10.5px;font-weight:500;text-align:center;line-height:1.3;}
+
 .input-row{display:flex;gap:8px;align-items:center;}
-.text-inp{
-  flex:1;background:#080503;border:1px solid var(--border);
-  border-radius:25px;padding:10px 16px;
+.chat-inp{
+  flex:1;background:#060402;border:1px solid var(--border);
+  border-radius:22px;padding:10px 16px;
   color:var(--cream);font-family:'Vazirmatn',sans-serif;font-size:13.5px;
   outline:none;transition:border-color .2s;
 }
-.text-inp::placeholder{color:#3a2810;}
-.text-inp:focus{border-color:var(--gold-dim);}
-.text-inp:disabled{opacity:.4;}
+.chat-inp::placeholder{color:var(--text-dim);}
+.chat-inp:focus{border-color:var(--gold-dim);}
+.chat-inp:disabled{opacity:.4;}
 .send-btn{
   width:42px;height:42px;border-radius:50%;
-  background:var(--accent);border:none;
-  color:var(--cream);font-size:17px;
-  cursor:pointer;display:flex;align-items:center;justify-content:center;
-  flex-shrink:0;transition:background .18s;
+  background:var(--accent);border:none;color:var(--cream);
+  font-size:16px;cursor:pointer;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .18s,transform .1s;
 }
-.send-btn:hover{background:var(--accent-h);}
-.send-btn:disabled{background:var(--border);cursor:not-allowed;}
+.send-btn:hover{background:var(--accent-h);transform:scale(1.05);}
+.send-btn:disabled{background:var(--border);cursor:not-allowed;transform:none;}
 
-/* Order */
-.order-scroll{flex:1;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--border) transparent;}
-.order-scroll::-webkit-scrollbar{width:3px;}
-.order-scroll::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+/* ══════════════════════ ORDER ══════════════════════ */
+.order-body{flex:1;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--border) transparent;}
+.order-body::-webkit-scrollbar{width:3px;}
+.order-body::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
 
-.info-section{padding:18px 16px 12px;}
-.section-label{
-  color:var(--gold);font-size:11px;font-weight:600;
-  letter-spacing:1px;margin-bottom:12px;
+.section{padding:16px 15px 10px;}
+.section-head{
   display:flex;align-items:center;gap:8px;
+  margin-bottom:14px;
 }
-.section-label::after{content:'';flex:1;height:1px;background:var(--border);}
+.sh-line{flex:1;height:1px;background:var(--border);}
+.sh-label{color:var(--gold);font-size:10.5px;font-weight:700;letter-spacing:1.2px;white-space:nowrap;}
+
 .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 .info-grid .full{grid-column:1/-1;}
 .field-label{color:var(--text-dim);font-size:11.5px;margin-bottom:5px;display:block;}
-.field-input{
-  width:100%;background:#080503;border:1px solid var(--border);
+.field-inp{
+  width:100%;background:#060402;border:1px solid var(--border);
   border-radius:10px;padding:9px 12px;
   color:var(--cream);font-family:'Vazirmatn',sans-serif;font-size:13px;
   outline:none;transition:border-color .2s;
 }
-.field-input:focus{border-color:var(--gold-dim);}
-.field-input::placeholder{color:#3a2810;}
-.field-input.invalid{border-color:var(--red) !important;}
+.field-inp:focus{border-color:var(--gold-dim);}
+.field-inp::placeholder{color:var(--text-dim);opacity:.5;}
+.field-inp.err{border-color:var(--red) !important;}
 
-.menu-section{padding:4px 16px 8px;}
-.cat-block{margin-bottom:16px;}
-.cat-title{
-  display:flex;align-items:center;gap:8px;
-  color:var(--cream-dim);font-size:12px;font-weight:600;
-  margin-bottom:8px;padding-bottom:6px;
-  border-bottom:1px solid var(--border);
+/* Menu Categories */
+.menu-section{padding:4px 15px 8px;}
+.cat-block{margin-bottom:14px;}
+.cat-head{
+  display:flex;align-items:center;gap:9px;
+  padding:8px 12px;margin-bottom:8px;
+  background:var(--surface2);border:1px solid var(--border);
+  border-radius:12px;
 }
+.cat-emoji{
+  width:30px;height:30px;border-radius:9px;
+  background:var(--surface3);border:1px solid var(--border2);
+  display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;
+}
+.cat-name{color:var(--cream-dim);font-size:12.5px;font-weight:600;flex:1;}
+.cat-count{color:var(--text-dim);font-size:11px;}
 
 .item-card{
-  background:var(--surface2);
-  border:1px solid var(--border);
-  border-radius:12px;
-  padding:12px 14px;
-  margin-bottom:8px;
+  background:var(--surface2);border:1px solid var(--border);
+  border-radius:13px;padding:12px 13px;margin-bottom:7px;
   transition:border-color .2s,background .2s;
-  cursor:default;
+  position:relative;overflow:hidden;
 }
-.item-card.has-qty{
-  border-color:var(--gold-dim);
-  background:#1a1008;
+.item-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1.5px;
+  background:linear-gradient(90deg,transparent,var(--gold-dim),transparent);
+  opacity:0;transition:opacity .25s;
 }
-.item-top{display:flex;align-items:center;gap:10px;}
-.item-name{flex:1;color:var(--text);font-size:13.5px;font-weight:500;}
-.item-price{color:var(--text-dim);font-size:12px;white-space:nowrap;}
-.qty-row{
-  display:flex;align-items:center;gap:0;
-  background:#0c0804;border:1px solid var(--border);
-  border-radius:25px;overflow:hidden;
-  flex-shrink:0;
+.item-card.sel{border-color:var(--gold-dim);background:linear-gradient(135deg,#1a1308,#100d05);}
+.item-card.sel::before{opacity:1;}
+.ic-top{display:flex;align-items:flex-start;gap:8px;}
+.ic-name{flex:1;color:var(--text);font-size:13px;font-weight:500;line-height:1.4;}
+.ic-price{
+  background:var(--surface3);border:1px solid var(--border2);
+  border-radius:8px;padding:3px 8px;
+  color:var(--gold);font-size:11.5px;font-weight:600;white-space:nowrap;flex-shrink:0;
 }
-.qty-btn{
-  width:32px;height:32px;border:none;
-  background:transparent;color:var(--cream-dim);
-  font-size:18px;line-height:1;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;
-  transition:all .15s;
+.item-card.sel .ic-price{background:#1e1508;border-color:var(--gold-dim);}
+.ic-bot{display:flex;align-items:center;gap:8px;margin-top:8px;}
+.ic-desc{flex:1;color:var(--text-dim);font-size:11.5px;line-height:1.5;}
+.qty-ctrl{
+  display:flex;align-items:center;
+  background:#060402;border:1px solid var(--border);
+  border-radius:20px;overflow:hidden;flex-shrink:0;
 }
-.qty-btn:hover{background:var(--accent);color:var(--cream);}
-.qty-num{
-  min-width:28px;text-align:center;
-  color:var(--cream);font-size:14px;font-weight:600;
-  padding:0 2px;
+.qc-btn{
+  width:32px;height:32px;border:none;background:transparent;
+  color:var(--cream-dim);font-size:18px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;transition:all .15s;
 }
-.item-desc{
-  color:var(--text-dim);font-size:11.5px;
-  margin-top:6px;line-height:1.6;
-  padding-top:6px;border-top:1px solid var(--border);
-  display:none;
-}
-.item-card.has-qty .item-desc{display:block;}
+.qc-btn:hover{background:var(--accent);color:var(--cream);}
+.qc-num{min-width:28px;text-align:center;color:var(--cream);font-size:14px;font-weight:600;}
 
-.order-summary{
-  flex-shrink:0;
-  background:#0c0804;
-  border-top:1px solid var(--border);
-  padding:12px 16px;
+/* Summary Bar */
+.order-footer{
+  flex-shrink:0;background:linear-gradient(180deg,transparent,#0a0704);
+  border-top:1px solid var(--border);padding:12px 15px;
 }
-.summary-row{
-  display:flex;justify-content:space-between;align-items:center;
-  margin-bottom:10px;
-}
-.summary-items{color:var(--text-dim);font-size:12px;}
-.summary-total{color:var(--gold);font-size:15px;font-weight:700;}
+.sum-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+.sum-items{color:var(--text-dim);font-size:12px;}
+.sum-total{color:var(--gold);font-size:15px;font-weight:700;}
 .submit-btn{
-  width:100%;padding:13px;
-  background:var(--accent);border:none;border-radius:12px;
-  color:var(--cream);font-family:'Vazirmatn',sans-serif;
-  font-size:14px;font-weight:600;cursor:pointer;
-  transition:background .2s;display:flex;align-items:center;justify-content:center;gap:8px;
+  width:100%;padding:13px;border-radius:12px;
+  background:linear-gradient(135deg,var(--accent),#7a3e14);
+  border:none;color:var(--cream);
+  font-family:'Vazirmatn',sans-serif;font-size:14px;font-weight:600;
+  cursor:pointer;transition:opacity .2s,transform .1s;
+  display:flex;align-items:center;justify-content:center;gap:8px;
 }
-.submit-btn:hover{background:var(--accent-h);}
-.submit-btn:disabled{background:var(--border);cursor:not-allowed;color:var(--text-dim);}
+.submit-btn:hover{opacity:.9;transform:translateY(-1px);}
+.submit-btn:disabled{background:var(--border);cursor:not-allowed;transform:none;opacity:.7;}
+.spinner{width:16px;height:16px;border-radius:50%;border:2px solid rgba(255,255,255,.3);border-top-color:var(--cream);animation:spin .7s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg)}}
-.spinner{
-  width:16px;height:16px;border-radius:50%;
-  border:2px solid rgba(255,255,255,.3);border-top-color:var(--cream);
-  animation:spin .7s linear infinite;display:inline-block;
-}
 
-/* Feedback */
-.fb-scroll{flex:1;overflow-y:auto;padding:16px;scrollbar-width:thin;scrollbar-color:var(--border) transparent;}
-.fb-scroll::-webkit-scrollbar{width:3px;}
-.fb-scroll::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+/* ══════════════════════ FEEDBACK ══════════════════════ */
+.fb-body{flex:1;overflow-y:auto;padding:0 15px 15px;scrollbar-width:thin;scrollbar-color:var(--border) transparent;}
+.fb-body::-webkit-scrollbar{width:3px;}
+.fb-body::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
 
-.star-group{margin-bottom:14px;}
-.star-label{color:var(--text-dim);font-size:12px;margin-bottom:6px;display:block;}
-.stars{display:flex;gap:4px;direction:ltr;}
-.star{font-size:24px;cursor:pointer;color:var(--border2);transition:color .15s,transform .1s;}
+.star-group{margin-bottom:16px;}
+.star-label{color:var(--text-dim);font-size:12px;margin-bottom:7px;display:block;}
+.stars-row{display:flex;gap:5px;direction:ltr;}
+.star{font-size:26px;cursor:pointer;color:var(--border2);transition:color .12s,transform .1s;}
 .star:hover{transform:scale(1.15);}
 .star.on{color:var(--gold);}
 
-.item-rating-block{
-  background:var(--surface2);border:1px solid var(--border);
-  border-radius:12px;padding:12px 14px;margin-bottom:10px;
-}
+.irb{background:var(--surface2);border:1px solid var(--border);border-radius:13px;padding:13px;margin-bottom:9px;}
 .irb-name{color:var(--cream);font-size:13px;font-weight:500;margin-bottom:10px;}
-.irb-cats{display:flex;gap:16px;flex-wrap:wrap;}
-.irb-cat{}
+.irb-cats{display:flex;gap:20px;flex-wrap:wrap;}
 .irb-cat-label{color:var(--text-dim);font-size:10.5px;margin-bottom:5px;}
 .irb-stars{display:flex;gap:3px;direction:ltr;}
-.irb-star{font-size:18px;cursor:pointer;color:var(--border2);transition:color .12s;}
+.irb-star{font-size:19px;cursor:pointer;color:var(--border2);transition:color .12s;}
 .irb-star.on{color:var(--gold);}
 
 .fb-textarea{
-  width:100%;background:#080503;border:1px solid var(--border);
-  border-radius:10px;padding:10px 12px;
-  color:var(--cream);font-family:'Vazirmatn',sans-serif;font-size:13px;
-  outline:none;resize:none;min-height:76px;transition:border-color .2s;
+  width:100%;background:#060402;border:1px solid var(--border);
+  border-radius:10px;padding:10px 12px;color:var(--cream);
+  font-family:'Vazirmatn',sans-serif;font-size:13px;outline:none;
+  resize:none;min-height:74px;transition:border-color .2s;
 }
 .fb-textarea:focus{border-color:var(--gold-dim);}
-.fb-textarea::placeholder{color:#3a2810;}
-.fb-footer{
-  flex-shrink:0;background:#0c0804;
-  border-top:1px solid var(--border);padding:12px 16px;
-}
+.fb-textarea::placeholder{color:var(--text-dim);opacity:.5;}
+.fb-footer{flex-shrink:0;border-top:1px solid var(--border);padding:12px 15px;}
 
+/* ══════════════════════ UTILS ══════════════════════ */
 .toast{
-  position:absolute;top:76px;left:50%;transform:translateX(-50%);
-  padding:9px 18px;border-radius:20px;
-  font-size:12.5px;white-space:nowrap;z-index:50;
+  position:absolute;top:80px;left:50%;transform:translateX(-50%);
+  padding:9px 20px;border-radius:20px;
+  font-size:12.5px;white-space:nowrap;z-index:99;
   opacity:0;pointer-events:none;transition:opacity .25s;
-  background:#2d6a3a;color:#c0f0c8;
+  background:#2a5a35;color:#a0e0b0;
 }
-.toast.err{background:#6a2d2d;color:#f0c0c0;}
+.toast.err{background:var(--red);color:#f0b0b0;}
 .toast.show{opacity:1;}
 
-.empty-state{
-  flex:1;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;gap:8px;
-  color:var(--text-dim);font-size:13px;
-}
-.empty-icon{font-size:36px;opacity:.4;}
-
-.divider{height:1px;background:var(--border);margin:4px 0 14px;}
+.empty-ico{font-size:36px;opacity:.3;}
+.empty-lbl{color:var(--text-dim);font-size:12.5px;margin-top:8px;}
 
 @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
 .shake{animation:shake .3s ease;}
 
-@keyframes fadeHighlight{0%{background:var(--accent);border-color:var(--gold)}100%{background:var(--surface2);}}
-.item-card.new-item{animation:fadeHighlight 1s ease;}
-
-/* ── Timer Banner ── */
-.timer-banner{
-  margin:10px 14px 0;
-  background:linear-gradient(135deg,#1a1208,#100c06);
-  border:1px solid var(--gold-dim);
-  border-radius:14px;
-  padding:12px 16px;
-  display:flex;align-items:center;gap:12px;
-  animation:timerPulse 3s ease infinite;
-}
-@keyframes timerPulse{0%,100%{border-color:var(--gold-dim)}50%{border-color:var(--gold)}}
-.timer-icon{font-size:24px;flex-shrink:0;}
-.timer-info{flex:1;}
-.timer-label{color:var(--text-dim);font-size:11px;margin-bottom:2px;}
-.timer-value{color:var(--gold);font-size:20px;font-weight:700;letter-spacing:1px;font-variant-numeric:tabular-nums;}
-.timer-sub{color:var(--text-dim);font-size:11px;margin-top:2px;}
-.timer-ready{color:#5aab6a;font-size:13px;font-weight:600;}
-
-/* ── Improved Menu Cards ── */
-.cat-label-row{
-  display:flex;align-items:center;gap:8px;
-  margin-bottom:12px;padding-bottom:8px;
-  border-bottom:1px solid var(--border);
-}
-.cat-emoji-badge{
-  width:32px;height:32px;border-radius:10px;
-  background:var(--surface2);border:1px solid var(--border2);
-  display:flex;align-items:center;justify-content:center;font-size:16px;
-}
-.cat-label-name{color:var(--cream-dim);font-size:12.5px;font-weight:600;}
-.cat-label-count{color:var(--text-dim);font-size:11px;margin-right:auto;}
-
-.item-card{
-  background:var(--surface2);
-  border:1px solid var(--border);
-  border-radius:14px;
-  padding:14px;
-  margin-bottom:8px;
-  transition:border-color .2s,background .2s,transform .1s;
-  cursor:default;
-  position:relative;
-  overflow:hidden;
-}
-.item-card::before{
-  content:'';position:absolute;
-  top:0;left:0;right:0;height:2px;
-  background:linear-gradient(90deg,transparent,var(--gold-dim),transparent);
-  opacity:0;transition:opacity .3s;
-}
-.item-card.has-qty{
-  border-color:var(--gold-dim);
-  background:linear-gradient(135deg,#1a1208,#110d06);
-}
-.item-card.has-qty::before{opacity:1;}
-.item-top{display:flex;align-items:flex-start;gap:10px;}
-.item-name{flex:1;color:var(--text);font-size:13.5px;font-weight:500;line-height:1.4;}
-.item-price-badge{
-  background:#1a1208;border:1px solid var(--border2);
-  border-radius:8px;padding:4px 8px;
-  color:var(--gold);font-size:11.5px;font-weight:600;white-space:nowrap;flex-shrink:0;
-}
-.item-card.has-qty .item-price-badge{background:#2a1a08;border-color:var(--gold-dim);}
-.qty-row{
-  display:flex;align-items:center;gap:0;
-  background:#0c0804;border:1px solid var(--border);
-  border-radius:25px;overflow:hidden;flex-shrink:0;
-  margin-top:10px;
-}
-.qty-btn{
-  width:34px;height:34px;border:none;
-  background:transparent;color:var(--cream-dim);
-  font-size:18px;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;
-  transition:all .15s;
-}
-.qty-btn:hover{background:var(--accent);color:var(--cream);}
-.qty-num{
-  min-width:30px;text-align:center;
-  color:var(--cream);font-size:14px;font-weight:600;
-}
-.item-middle{
-  display:flex;align-items:center;justify-content:space-between;
-  margin-top:8px;
-}
-.item-desc{
-  color:var(--text-dim);font-size:11.5px;line-height:1.6;
-  flex:1;padding-left:4px;
-}
+@keyframes popIn{0%{transform:scale(.9);opacity:0}100%{transform:scale(1);opacity:1}}
+.pop-in{animation:popIn .25s ease;}
 </style>
 </head>
 <body>
 <div class="app" id="app">
 
-  <!-- HEADER -->
+  <!-- ── HEADER ── -->
   <div class="header">
     <div class="logo">☕</div>
     <div class="header-info">
       <div class="header-name">کافه اینجا</div>
-      <div class="header-status">
-        <span class="online-dot"></span>
-        <span>دستیار آنلاین</span>
-      </div>
+      <div class="header-sub"><span class="dot"></span><span class="header-status">دستیار آنلاین است</span></div>
     </div>
-    <div class="header-btns">
-      <button class="hbtn active" id="btn-chat"     onclick="switchView('chat')">💬 چت</button>
-      <button class="hbtn"        id="btn-order"    onclick="switchView('order')">🛒 سفارش</button>
-      <button class="hbtn"        id="btn-feedback" onclick="switchView('feedback')">⭐ نظر</button>
-    </div>
+    <nav class="nav">
+      <button class="nav-btn active" id="nb-chat"     onclick="switchView('chat')">    <span class="nb-icon">💬</span>چت</button>
+      <button class="nav-btn"        id="nb-order"    onclick="switchView('order')">   <span class="nb-icon">🛒</span>سفارش</button>
+      <button class="nav-btn"        id="nb-feedback" onclick="switchView('feedback')"><span class="nb-icon">⭐</span>نظر</button>
+    </nav>
   </div>
 
-  <!-- CHAT VIEW -->
+  <!-- ══════════════ CHAT VIEW ══════════════ -->
   <div class="view active" id="view-chat">
-    <div class="messages" id="msgs"></div>
+    <div class="msgs-wrap">
+      <div id="timer-banner-slot"></div>
+      <div class="msgs" id="msgs"></div>
+    </div>
     <div class="chat-input-area">
-      <div class="quick-btns">
-        <button class="qbtn" onclick="quickSend('منوی کامل رو نشونم بده')">📋 منو</button>
-        <button class="qbtn" onclick="quickSend('نوشیدنی داغ چی دارید؟')">☕ داغ</button>
-        <button class="qbtn" onclick="quickSend('نوشیدنی سرد چی دارید؟')">🧊 سرد</button>
-        <button class="qbtn" onclick="quickSend('غذاها چیه؟')">🍔 غذا</button>
-        <button class="qbtn" onclick="quickSend('دسر چی دارید؟')">🍰 دسر</button>
-        <button class="qbtn" onclick="quickSend('چی پیشنهاد می‌دید؟')">✨ پیشنهاد</button>
+      <div class="qa-label">دسترسی سریع</div>
+      <div class="qa-grid" id="qaGrid">
+        <button class="qa-btn" onclick="quickSend('منوی کامل کافه رو نشونم بده')">
+          <span class="qa-icon">📋</span><span class="qa-text">منوی کامل</span>
+        </button>
+        <button class="qa-btn" onclick="quickSend('نوشیدنی‌های داغ چی دارید؟')">
+          <span class="qa-icon">☕</span><span class="qa-text">نوشیدنی داغ</span>
+        </button>
+        <button class="qa-btn" onclick="quickSend('نوشیدنی‌های سرد چی دارید؟')">
+          <span class="qa-icon">🧊</span><span class="qa-text">نوشیدنی سرد</span>
+        </button>
+        <button class="qa-btn" onclick="quickSend('غذاهای موجود رو بگید')">
+          <span class="qa-icon">🍔</span><span class="qa-text">غذا</span>
+        </button>
+        <button class="qa-btn" onclick="quickSend('دسرهای موجود چیه؟')">
+          <span class="qa-icon">🍰</span><span class="qa-text">دسر</span>
+        </button>
+        <button class="qa-btn" id="qa-order-status" onclick="askOrderStatus()" style="display:none">
+          <span class="qa-icon">⏱</span><span class="qa-text">وضعیت سفارش</span>
+        </button>
+        <button class="qa-btn" onclick="quickSend('چی پیشنهاد می‌دید؟')">
+          <span class="qa-icon">✨</span><span class="qa-text">پیشنهاد</span>
+        </button>
       </div>
       <div class="input-row">
-        <input class="text-inp" id="chat-inp"
-          placeholder="سوال خود را بنویسید..."
+        <input class="chat-inp" id="chat-inp"
+          placeholder="سوالتون رو بنویسید..."
           maxlength="500"
           onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMsg();}"/>
         <button class="send-btn" id="sendBtn" onclick="sendMsg()">➤</button>
@@ -489,84 +499,82 @@ body{
     </div>
   </div>
 
-  <!-- ORDER VIEW -->
+  <!-- ══════════════ ORDER VIEW ══════════════ -->
   <div class="view" id="view-order">
-    <div class="order-scroll" id="orderScroll">
-      <div class="info-section">
-        <div class="section-label">اطلاعات میهمان</div>
+    <div class="order-body" id="orderBody">
+      <div class="section">
+        <div class="section-head"><span class="sh-label">اطلاعات میهمان</span><div class="sh-line"></div></div>
         <div class="info-grid">
           <div>
             <label class="field-label">نام *</label>
-            <input class="field-input" id="o-name" placeholder="نام شما" maxlength="60"/>
+            <input class="field-inp" id="o-name" placeholder="نام شما" maxlength="60"/>
           </div>
           <div>
             <label class="field-label">شماره میز *</label>
-            <input class="field-input" id="o-table" type="number" placeholder="مثال: ۵" min="1" max="9999"/>
+            <input class="field-inp" id="o-table" type="number" placeholder="مثال: ۵" min="1" max="9999"/>
           </div>
           <div class="full">
-            <label class="field-label">شماره تماس *</label>
-            <input class="field-input" id="o-phone" type="tel" placeholder="۰۹۱۲۳۴۵۶۷۸۹" maxlength="11" pattern="0[0-9]{10}" inputmode="numeric"/>
+            <label class="field-label">شماره تماس * (۱۱ رقم، شروع با ۰)</label>
+            <input class="field-inp" id="o-phone" type="tel" placeholder="۰۹۱۲۳۴۵۶۷۸۹" maxlength="11" pattern="0[0-9]{10}" inputmode="numeric"/>
           </div>
         </div>
       </div>
       <div class="menu-section">
-        <div class="section-label">انتخاب از منو</div>
+        <div class="section-head"><span class="sh-label">انتخاب از منو</span><div class="sh-line"></div></div>
         <div id="menuList">
-          <div class="empty-state" style="height:120px">
-            <span class="empty-icon">☕</span>
-            <span>در حال بارگذاری منو...</span>
+          <div style="display:flex;flex-direction:column;align-items:center;padding:30px 0">
+            <span class="empty-ico">☕</span>
+            <span class="empty-lbl">در حال بارگذاری منو...</span>
           </div>
         </div>
       </div>
     </div>
-    <div class="order-summary">
-      <div class="summary-row">
-        <span class="summary-items" id="summaryItems">هیچ آیتمی انتخاب نشده</span>
-        <span class="summary-total" id="summaryTotal"></span>
+    <div class="order-footer">
+      <div class="sum-row">
+        <span class="sum-items" id="sumItems">هیچ آیتمی انتخاب نشده</span>
+        <span class="sum-total" id="sumTotal"></span>
       </div>
-      <button class="submit-btn" id="orderBtn" onclick="submitOrder()">
-        ثبت سفارش
-      </button>
+      <button class="submit-btn" id="orderBtn" onclick="submitOrder()">ثبت سفارش</button>
     </div>
   </div>
 
-  <!-- FEEDBACK VIEW -->
+  <!-- ══════════════ FEEDBACK VIEW ══════════════ -->
   <div class="view" id="view-feedback">
-    <div class="fb-scroll">
-      <div class="info-section" style="padding-bottom:8px;">
-        <div class="section-label">مشخصات</div>
+    <div class="fb-body">
+      <div class="section">
+        <div class="section-head"><span class="sh-label">مشخصات</span><div class="sh-line"></div></div>
         <div class="info-grid">
           <div>
             <label class="field-label">نام (اختیاری)</label>
-            <input class="field-input" id="f-name" placeholder="نام شما" maxlength="60"/>
+            <input class="field-inp" id="f-name" placeholder="نام شما" maxlength="60"/>
           </div>
           <div>
             <label class="field-label">شماره میز</label>
-            <input class="field-input" id="f-table" type="number" placeholder="میز" min="1" max="9999"/>
+            <input class="field-inp" id="f-table" type="number" placeholder="میز" min="1" max="9999"/>
           </div>
         </div>
       </div>
-      <div style="padding:0 16px 4px;">
-        <div class="section-label">امتیاز آیتم‌های سفارش</div>
+      <div class="section" style="padding-top:4px;">
+        <div class="section-head"><span class="sh-label">امتیاز آیتم‌ها</span><div class="sh-line"></div></div>
         <div id="fbItemList">
-          <div style="color:var(--text-dim);font-size:12.5px;padding:8px 0;">
+          <div style="color:var(--text-dim);font-size:12.5px;padding:4px 0 12px;">
             ابتدا از بخش سفارش آیتم انتخاب کنید
           </div>
         </div>
       </div>
-      <div style="padding:4px 16px 4px;">
-        <div class="section-label">امتیاز کلی</div>
+      <div class="section" style="padding-top:4px;">
+        <div class="section-head"><span class="sh-label">امتیاز کلی</span><div class="sh-line"></div></div>
         <div class="star-group">
-          <span class="star-label">👨‍💼 کارکنان و سرویس‌دهی</span>
-          <div class="stars" id="stars-staff"></div>
+          <span class="star-label">👨‍💼 کارکنان و سرویس</span>
+          <div class="stars-row" id="stars-staff"></div>
         </div>
         <div class="star-group">
-          <span class="star-label">🏠 محیط و فضای کافه</span>
-          <div class="stars" id="stars-ambiance"></div>
+          <span class="star-label">🏠 محیط کافه</span>
+          <div class="stars-row" id="stars-ambiance"></div>
         </div>
       </div>
-      <div style="padding:0 16px 16px;">
-        <div class="section-label">نظر متنی</div>
+      <div class="section" style="padding-top:4px;">
+        <div class="section-head"><span class="sh-label">نظر متنی</span><div class="sh-line"></div></div>
         <div style="margin-bottom:10px;">
           <label class="field-label">✅ نقاط مثبت</label>
           <textarea class="fb-textarea" id="f-positive" placeholder="چه چیزی رو دوست داشتید؟" maxlength="500"></textarea>
@@ -577,7 +585,7 @@ body{
         </div>
         <div>
           <label class="field-label">📝 نظر کلی</label>
-          <textarea class="fb-textarea" id="f-comment" placeholder="هر چیز دیگه‌ای که می‌خواید بگید..." maxlength="500"></textarea>
+          <textarea class="fb-textarea" id="f-comment" placeholder="هر چیز دیگه‌ای..." maxlength="500"></textarea>
         </div>
       </div>
     </div>
@@ -586,234 +594,318 @@ body{
     </div>
   </div>
 
-  <!-- TOAST -->
   <div class="toast" id="toast" role="alert" aria-live="polite"></div>
 </div>
 
 <script>
-// ── Configuration ──
+// ══════════════════════ CONFIG ══════════════════════
 const WORKER = "https://cafeinjaapi.boogh13822.workers.dev";
-const MAX_MSG_LEN = 500;
 
-// ── State ──
-let chatBusy   = false;
-let chatHistory = [];
-let currentMenu = null;
-let orderQty   = {};
-let ratings    = {};
-let lastOrder  = null;
-let activeOrderId = null;   // orderId سفارش فعال برای polling
-let timerInterval = null;   // interval نمایش تایمر
-let timerData     = null;   // آخرین داده polling
+// ══════════════════════ STATE ══════════════════════
+let chatBusy      = false;
+let chatHistory   = [];
+let currentMenu   = null;
+let orderQty      = {};
+let ratings       = {};
+let lastOrder     = null;
+let activeOrderId = null;
+let timerInterval = null;
+let timerData     = null;
 
-// ── XSS prevention: escaping text before inserting into DOM ──
-function escapeHtml(str) {
-  if (typeof str !== "string") return "";
-  return str
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#x27;");
+// ══════════════════════ SECURITY ══════════════════════
+function esc(s) {
+  if (typeof s !== "string") return "";
+  return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
+          .replace(/"/g,"&quot;").replace(/'/g,"&#x27;");
+}
+function sanitizeStr(s, max=500) {
+  return typeof s === "string" ? s.trim().slice(0, max) : "";
 }
 
-// ── Toast ──
-function toast(msg, err = false) {
-  const el = document.getElementById("toast");
-  el.textContent = msg;
-  el.className = "toast show" + (err ? " err" : "");
-  if (err) {
-    el.classList.add("shake");
-    setTimeout(() => el.classList.remove("shake"), 350);
-  }
-  clearTimeout(el._t);
-  el._t = setTimeout(() => { el.className = "toast"; }, 3000);
-}
-
-// ── زمان ──
+// ══════════════════════ UTILS ══════════════════════
 function hhmm() {
   const d = new Date();
-  return d.getHours().toString().padStart(2,"0") + ":" + d.getMinutes().toString().padStart(2,"0");
+  return String(d.getHours()).padStart(2,"0") + ":" + String(d.getMinutes()).padStart(2,"0");
+}
+function toastShow(msg, err=false) {
+  const el = document.getElementById("toast");
+  el.textContent = msg;
+  el.className = "toast show" + (err?" err":"");
+  if (err) { el.classList.add("shake"); setTimeout(()=>el.classList.remove("shake"),350); }
+  clearTimeout(el._t);
+  el._t = setTimeout(()=>{ el.className="toast"; }, 3200);
+}
+function errHandle(e, ctx="") {
+  console.error("["+ctx+"]", e);
+  const s = String(e?.status || "");
+  if (s==="429") { toastShow("درخواست‌ها زیاد شد. یک دقیقه صبر کنید.", true); return; }
+  if (e?.message?.includes("fetch")) { toastShow("ارتباط قطع است. اینترنت را بررسی کنید.", true); return; }
+  toastShow("خطایی رخ داد. دوباره تلاش کنید.", true);
 }
 
-// ── مدیریت خطا ──
-function handleError(error, context = "") {
-  console.error("[" + context + "]", error);
-  const status = error?.status || error?.code || "";
-  if (String(status) === "429") { toast("تعداد درخواست‌ها زیاد شد. چند دقیقه صبر کنید.", true); return; }
-  if (String(status) === "500") { toast("خطای داخلی سرور. لطفاً دوباره تلاش کنید.", true); return; }
-  if (error?.message?.includes("Failed to fetch") || error?.message?.includes("NetworkError")) {
-    toast("ارتباط با سرور برقرار نشد. اتصال اینترنت را بررسی کنید.", true);
-    return;
-  }
-  toast("خطایی رخ داد. لطفاً دوباره تلاش کنید.", true);
-}
-
-// ── Validation ──
-function validatePhone(phone) {
-  return /^0\d{10}$/.test(phone.trim().replace(/\s/g, ""));
-}
-function validateTable(table) {
-  return /^\d{1,4}$/.test(table.trim());
-}
-function highlightInvalid(id) {
+// ══════════════════════ VALIDATION ══════════════════════
+function validPhone(p)  { return /^0\d{10}$/.test(p.replace(/\s/g,"")); }
+function validTable(t)  { return /^\d{1,4}$/.test(t.trim()); }
+function markErr(id)    {
   const el = document.getElementById(id);
   if (!el) return;
-  el.classList.add("invalid");
-  el.focus();
-  setTimeout(() => el.classList.remove("invalid"), 2000);
+  el.classList.add("err"); el.focus();
+  setTimeout(()=>el.classList.remove("err"), 2000);
 }
 
-// ── View Switcher ──
+// ══════════════════════ VIEW SWITCH ══════════════════════
 function switchView(name) {
-  document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
-  document.querySelectorAll(".hbtn").forEach(b => b.classList.remove("active"));
-  document.getElementById("view-" + name).classList.add("active");
-  document.getElementById("btn-" + name).classList.add("active");
-  if (name === "order")    buildOrderMenu();
-  if (name === "feedback") buildFeedbackView();
+  document.querySelectorAll(".view").forEach(v=>v.classList.remove("active"));
+  document.querySelectorAll(".nav-btn").forEach(b=>b.classList.remove("active"));
+  document.getElementById("view-"+name).classList.add("active");
+  document.getElementById("nb-"+name).classList.add("active");
+  if (name==="order")    buildOrderMenu();
+  if (name==="feedback") buildFeedbackView();
 }
 
-// ══════════════════════ CHAT ══════════════════════
-
-function addMsg(text, who) {
-  const wrap = document.createElement("div");
-  wrap.className = "msg-wrap " + who;
-  const row = document.createElement("div");
-  row.className = "msg-row";
-  const av = document.createElement("div");
-  av.className = "avatar";
-  av.textContent = who === "bot" ? "☕" : "👤";
-  const bub = document.createElement("div");
-  bub.className = "bubble " + who;
-  // استفاده از textContent برای پیام‌های عادی، innerHTML فقط برای پیام‌های ساختارمند
-  bub.innerHTML = escapeHtml(text).replace(/\n/g, "<br>");
-  row.appendChild(av); row.appendChild(bub);
-  const t = document.createElement("div");
-  t.className = "msg-time"; t.textContent = hhmm();
-  wrap.appendChild(row); wrap.appendChild(t);
+// ══════════════════════ CHAT: MESSAGES ══════════════════════
+function addMsg(html, who, isHTML=false) {
   const msgs = document.getElementById("msgs");
+  const wrap = document.createElement("div"); wrap.className="msg-wrap "+who+" pop-in";
+  const row  = document.createElement("div"); row.className="msg-row";
+  const av   = document.createElement("div"); av.className="av"; av.textContent=(who==="bot")?"☕":"👤";
+  const bub  = document.createElement("div"); bub.className="bubble "+who;
+  if (isHTML) bub.innerHTML = html;
+  else bub.innerHTML = esc(html).replace(/\n/g,"<br>");
+  row.appendChild(av); row.appendChild(bub);
+  const t = document.createElement("div"); t.className="msg-time"; t.textContent=hhmm();
+  wrap.appendChild(row); wrap.appendChild(t);
   msgs.appendChild(wrap);
   msgs.scrollTop = msgs.scrollHeight;
   return bub;
 }
 
+function addMenuCard(menuData) {
+  const msgs = document.getElementById("msgs");
+
+  if (menuData.type === "menu") {
+    // منوی کامل
+    const wrap = document.createElement("div"); wrap.className="msg-wrap bot pop-in chat-full-menu";
+    const container = document.createElement("div"); container.className="chat-menu";
+
+    const hdr = document.createElement("div"); hdr.className="chat-menu-header";
+    const htitle = document.createElement("span"); htitle.className="cmh-emoji"; htitle.textContent="📋";
+    const ht2 = document.createElement("span"); ht2.className="cmh-title"; ht2.textContent="منوی کافه اینجا";
+    hdr.appendChild(htitle); hdr.appendChild(ht2);
+    container.appendChild(hdr);
+
+    menuData.categories.forEach(cat => {
+      // عنوان دسته
+      const catHdr = document.createElement("div"); catHdr.className="chat-menu-header";
+      catHdr.style.cssText="background:#0e0a06;padding:8px 14px;";
+      const ce = document.createElement("span"); ce.className="cmh-emoji"; ce.style.fontSize="14px"; ce.textContent=cat.emoji||"•";
+      const cn = document.createElement("span"); cn.className="cmh-title"; cn.style.fontSize="12px"; cn.textContent=cat.name;
+      const cc = document.createElement("span"); cc.className="cmh-count"; cc.textContent=cat.items.length+" آیتم";
+      catHdr.appendChild(ce); catHdr.appendChild(cn); catHdr.appendChild(cc);
+      container.appendChild(catHdr);
+
+      cat.items.forEach(item => {
+        const row = document.createElement("div"); row.className="cmt-row";
+        const left = document.createElement("div");
+        const nm = document.createElement("div"); nm.className="cmt-name"; nm.textContent=item.name||"";
+        left.appendChild(nm);
+        if (item.description) {
+          const ds = document.createElement("div"); ds.className="cmt-desc"; ds.textContent=item.description;
+          left.appendChild(ds);
+        }
+        const pr = document.createElement("div"); pr.className="cmt-price";
+        pr.textContent=Number(item.price).toLocaleString()+" ت";
+        row.appendChild(left); row.appendChild(pr);
+        container.appendChild(row);
+      });
+    });
+
+    const foot = document.createElement("div"); foot.className="chat-menu-footer";
+    foot.textContent = "برای سفارش از بخش 🛒 استفاده کنید";
+    container.appendChild(foot);
+    wrap.appendChild(container);
+    const t = document.createElement("div"); t.className="msg-time"; t.textContent=hhmm();
+    wrap.appendChild(t);
+    msgs.appendChild(wrap);
+
+  } else {
+    // یک دسته
+    const wrap = document.createElement("div"); wrap.className="msg-wrap bot pop-in";
+    const container = document.createElement("div"); container.className="chat-menu";
+
+    const hdr = document.createElement("div"); hdr.className="chat-menu-header";
+    const em  = document.createElement("span"); em.className="cmh-emoji"; em.textContent=menuData.emoji||"•";
+    const ttl = document.createElement("span"); ttl.className="cmh-title"; ttl.textContent=menuData.name||"";
+    const cnt = document.createElement("span"); cnt.className="cmh-count"; cnt.textContent=(menuData.items||[]).length+" آیتم";
+    hdr.appendChild(em); hdr.appendChild(ttl); hdr.appendChild(cnt);
+    container.appendChild(hdr);
+
+    (menuData.items||[]).forEach(item => {
+      const row = document.createElement("div"); row.className="cmt-row";
+      const left = document.createElement("div");
+      const nm = document.createElement("div"); nm.className="cmt-name"; nm.textContent=item.name||"";
+      left.appendChild(nm);
+      if (item.description) {
+        const ds = document.createElement("div"); ds.className="cmt-desc"; ds.textContent=item.description;
+        left.appendChild(ds);
+      }
+      const pr = document.createElement("div"); pr.className="cmt-price";
+      pr.textContent=Number(item.price).toLocaleString()+" ت";
+      row.appendChild(left); row.appendChild(pr);
+      container.appendChild(row);
+    });
+
+    const foot = document.createElement("div"); foot.className="chat-menu-footer";
+    foot.textContent="برای سفارش از بخش 🛒 استفاده کنید";
+    container.appendChild(foot);
+    wrap.appendChild(container);
+    const t = document.createElement("div"); t.className="msg-time"; t.textContent=hhmm();
+    wrap.appendChild(t);
+    msgs.appendChild(wrap);
+  }
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+// ── parse MENU_DATA from AI response ──
+function parseMenuData(text) {
+  const marker = "MENU_DATA:";
+  const idx = text.indexOf(marker);
+  if (idx === -1) return null;
+  try {
+    const jsonStr = text.slice(idx + marker.length).trim();
+    const end = findJsonEnd(jsonStr);
+    const parsed = JSON.parse(jsonStr.slice(0, end));
+    if (parsed && (parsed.type === "menu" || parsed.type === "category")) return parsed;
+  } catch {}
+  return null;
+}
+function findJsonEnd(s) {
+  let depth=0, inStr=false, escape=false;
+  for (let i=0;i<s.length;i++) {
+    const c = s[i];
+    if (escape) { escape=false; continue; }
+    if (c==="\\") { escape=true; continue; }
+    if (c==='"') inStr=!inStr;
+    if (!inStr) { if (c==='{'||c==='[') depth++; else if (c==='}'||c===']') { depth--; if (depth===0) return i+1; } }
+  }
+  return s.length;
+}
+
 function showTyping() {
-  // حذف typing قبلی اگه وجود داشت
   hideTyping();
   const msgs = document.getElementById("msgs");
-  const w = document.createElement("div");
-  w.id = "typing"; w.className = "msg-wrap bot";
-  const r = document.createElement("div"); r.className = "typing-row";
-  const av = document.createElement("div"); av.className = "avatar"; av.textContent = "☕";
-  const b = document.createElement("div"); b.className = "typing-bub";
-  b.innerHTML = "<span></span><span></span><span></span>";
+  const w = document.createElement("div"); w.id="typing"; w.className="msg-wrap bot";
+  const r = document.createElement("div"); r.className="typing-row";
+  const av= document.createElement("div"); av.className="av"; av.textContent="☕";
+  const b = document.createElement("div"); b.className="typing-bub";
+  b.innerHTML="<span></span><span></span><span></span>";
   r.appendChild(av); r.appendChild(b); w.appendChild(r);
-  msgs.appendChild(w); msgs.scrollTop = msgs.scrollHeight;
+  msgs.appendChild(w); msgs.scrollTop=msgs.scrollHeight;
 }
-
-function hideTyping() {
-  const el = document.getElementById("typing");
-  if (el) el.remove();
-}
+function hideTyping() { const el=document.getElementById("typing"); if(el) el.remove(); }
 
 function setLoading(v) {
-  chatBusy = v;
-  document.getElementById("sendBtn").disabled  = v;
-  document.getElementById("chat-inp").disabled = v;
+  chatBusy=v;
+  document.getElementById("sendBtn").disabled=v;
+  document.getElementById("chat-inp").disabled=v;
 }
 
-// ── AI Call با Streaming ──
+// ══════════════════════ AI STREAM ══════════════════════
 async function callAIStream(text) {
-  chatHistory.push({ role: "user", content: text });
+  chatHistory.push({ role:"user", content:text });
 
-  const response = await fetch(WORKER + "/chat", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ messages: chatHistory, stream: true, orderId: activeOrderId || undefined })
+  const res = await fetch(WORKER+"/chat", {
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body: JSON.stringify({
+      messages: chatHistory,
+      stream: true,
+      orderId: activeOrderId || undefined
+    })
   });
 
-  if (!response.ok) {
-    let errorData = {};
-    try { errorData = await response.json(); } catch {}
-    throw { status: response.status, message: errorData.error || response.statusText };
+  if (!res.ok) {
+    let e={}; try { e=await res.json(); } catch {}
+    throw { status:res.status, message:e.error||res.statusText };
   }
 
-  // حذف typing indicator قبل از ایجاد bubble
   hideTyping();
 
-  const reader  = response.body.getReader();
+  const reader  = res.body.getReader();
   const decoder = new TextDecoder();
   let fullText  = "";
   let buffer    = "";
 
-  // ساخت bubble خالی
+  // bubble ساخته بشه
   const msgs = document.getElementById("msgs");
-  const wrap = document.createElement("div");
-  wrap.className = "msg-wrap bot";
-  const row = document.createElement("div"); row.className = "msg-row";
-  const av  = document.createElement("div"); av.className = "avatar"; av.textContent = "☕";
-  const bub = document.createElement("div"); bub.className = "bubble bot";
-  bub.textContent = "…";
+  const wrap = document.createElement("div"); wrap.className="msg-wrap bot pop-in";
+  const row  = document.createElement("div"); row.className="msg-row";
+  const av   = document.createElement("div"); av.className="av"; av.textContent="☕";
+  const bub  = document.createElement("div"); bub.className="bubble bot";
+  bub.textContent="…";
   row.appendChild(av); row.appendChild(bub);
-  const t = document.createElement("div"); t.className = "msg-time"; t.textContent = hhmm();
+  const t = document.createElement("div"); t.className="msg-time"; t.textContent=hhmm();
   wrap.appendChild(row); wrap.appendChild(t);
   msgs.appendChild(wrap);
-  msgs.scrollTop = msgs.scrollHeight;
+  msgs.scrollTop=msgs.scrollHeight;
 
   while (true) {
     const { done, value } = await reader.read();
     if (done) break;
-
-    buffer += decoder.decode(value, { stream: true });
+    buffer += decoder.decode(value,{stream:true});
     const lines = buffer.split("\n");
-    // خط آخر ممکنه ناقص باشه — نگه دار
     buffer = lines.pop() || "";
-
     for (const line of lines) {
       if (!line.startsWith("data: ")) continue;
       const raw = line.slice(6).trim();
-      if (raw === "[DONE]") continue;
+      if (raw==="[DONE]") continue;
       try {
-        const parsed  = JSON.parse(raw);
-        const content = parsed.choices?.[0]?.delta?.content || "";
-        if (content) {
-          fullText += content;
-          // نمایش امن در bubble
-          bub.innerHTML = escapeHtml(fullText).replace(/\n/g, "<br>");
-          msgs.scrollTop = msgs.scrollHeight;
+        const p = JSON.parse(raw);
+        const c = p.choices?.[0]?.delta?.content || "";
+        if (c) {
+          fullText += c;
+          bub.innerHTML = esc(fullText).replace(/\n/g,"<br>");
+          msgs.scrollTop=msgs.scrollHeight;
         }
-      } catch {
-        // parse error در یک chunk — ادامه بده
-      }
+      } catch {}
     }
   }
 
-  // پاک‌سازی نهایی
-  fullText = fullText.replace(/<think>[\s\S]*?<\/think>/gi, "").trim();
+  // پاکسازی
+  fullText = fullText.replace(/<think>[\s\S]*?<\/think>/gi,"").trim();
   if (!fullText) fullText = "متوجه نشدم، می‌شه دوباره بپرسید؟";
-  bub.innerHTML = escapeHtml(fullText).replace(/\n/g, "<br>");
-  msgs.scrollTop = msgs.scrollHeight;
 
-  chatHistory.push({ role: "assistant", content: fullText });
+  // بررسی MENU_DATA
+  const menuData = parseMenuData(fullText);
+  if (menuData) {
+    // حذف bubble متنی و جایگزینی با menu card
+    wrap.remove();
+    addMenuCard(menuData);
+    // متن بعد از MENU_DATA رو هم نشون بده اگه بود
+    const beforeMarker = fullText.slice(0, fullText.indexOf("MENU_DATA:")).trim();
+    if (beforeMarker) addMsg(beforeMarker, "bot");
+  } else {
+    bub.innerHTML = esc(fullText).replace(/\n/g,"<br>");
+  }
+  msgs.scrollTop=msgs.scrollHeight;
+  chatHistory.push({ role:"assistant", content:fullText });
   return fullText;
 }
 
 async function sendMsg() {
   if (chatBusy) return;
   const inp  = document.getElementById("chat-inp");
-  const text = inp.value.trim().slice(0, MAX_MSG_LEN);
+  const text = sanitizeStr(inp.value, 500);
   if (!text) return;
-  inp.value = "";
+  inp.value="";
   addMsg(text, "user");
   setLoading(true);
   showTyping();
   try {
     await callAIStream(text);
-  } catch (error) {
+  } catch(e) {
     hideTyping();
-    handleError(error, "sendMsg");
-    // نمایش پیام خطا در چت
+    errHandle(e, "sendMsg");
     addMsg("مشکلی پیش اومد. لطفاً دوباره تلاش کنید.", "bot");
   } finally {
     setLoading(false);
@@ -827,33 +919,34 @@ function quickSend(text) {
   sendMsg();
 }
 
-// ══════════════════════ MENU LOADER ══════════════════════
+function askOrderStatus() {
+  if (!activeOrderId) return;
+  quickSend("سفارش من چقدر طول می‌کشه آماده بشه؟");
+}
 
+// ══════════════════════ MENU LOADER ══════════════════════
 async function loadMenu() {
   if (currentMenu) return;
   try {
-    const res = await fetch(WORKER + "/menu", { cache: "default" });
-    if (!res.ok) throw new Error("HTTP " + res.status);
+    const res = await fetch(WORKER+"/menu", { cache:"default" });
+    if (!res.ok) throw new Error("HTTP "+res.status);
     const data = await res.json();
-    if (!data.categories || !Array.isArray(data.categories)) throw new Error("Invalid menu");
+    if (!data.categories?.length) throw new Error("invalid");
     currentMenu = data;
-  } catch (error) {
-    handleError(error, "loadMenu");
-    currentMenu = null;
+  } catch(e) {
+    errHandle(e,"loadMenu");
   }
 }
 
-// ══════════════════════ ORDER STATE ══════════════════════
-
+// ══════════════════════ ORDER ══════════════════════
 function saveOrderState() {
   try {
-    localStorage.setItem("cafe_order_state", JSON.stringify({
-      orderQty,
-      lastOrder,
-      customer: {
-        name:  document.getElementById("o-name")?.value  || "",
-        table: document.getElementById("o-table")?.value || "",
-        phone: document.getElementById("o-phone")?.value || ""
+    localStorage.setItem("cafe_order_v2", JSON.stringify({
+      orderQty, lastOrder, activeOrderId,
+      customer:{
+        name:  document.getElementById("o-name")?.value||"",
+        table: document.getElementById("o-table")?.value||"",
+        phone: document.getElementById("o-phone")?.value||""
       }
     }));
   } catch {}
@@ -861,77 +954,68 @@ function saveOrderState() {
 
 function restoreOrderState() {
   try {
-    const raw = localStorage.getItem("cafe_order_state");
+    const raw = localStorage.getItem("cafe_order_v2");
     if (!raw) return;
-    const data = JSON.parse(raw);
-    orderQty  = data.orderQty  || {};
-    lastOrder = data.lastOrder || null;
-    if (data.customer) {
-      const n = document.getElementById("o-name");
-      const t = document.getElementById("o-table");
-      const p = document.getElementById("o-phone");
-      if (n) n.value = data.customer.name  || "";
-      if (t) t.value = data.customer.table || "";
-      if (p) p.value = data.customer.phone || "";
+    const d = JSON.parse(raw);
+    orderQty      = d.orderQty      || {};
+    lastOrder     = d.lastOrder     || null;
+    activeOrderId = d.activeOrderId || null;
+    if (d.customer) {
+      const n=document.getElementById("o-name");
+      const t=document.getElementById("o-table");
+      const p=document.getElementById("o-phone");
+      if (n) n.value=d.customer.name||"";
+      if (t) t.value=d.customer.table||"";
+      if (p) p.value=d.customer.phone||"";
     }
+    if (activeOrderId) startOrderTimer(activeOrderId);
   } catch {}
 }
-
-// ══════════════════════ ORDER ══════════════════════
 
 async function buildOrderMenu() {
   await loadMenu();
   const list = document.getElementById("menuList");
   if (!currentMenu) {
-    list.innerHTML = '<div class="empty-state" style="height:100px"><span>❌ خطا در بارگذاری منو. لطفاً صفحه را رفرش کنید.</span></div>';
+    list.innerHTML='<div style="text-align:center;padding:24px 0"><span style="color:var(--text-dim)">❌ خطا در بارگذاری منو</span></div>';
     return;
   }
-  list.innerHTML = "";
+  list.innerHTML="";
   currentMenu.categories.forEach(cat => {
-    const block = document.createElement("div");
-    block.className = "cat-block";
+    const block = document.createElement("div"); block.className="cat-block";
 
-    // header ردیف دسته‌بندی
-    const labelRow = document.createElement("div"); labelRow.className = "cat-label-row";
-    const badge    = document.createElement("div"); badge.className = "cat-emoji-badge"; badge.textContent = cat.emoji;
-    const catName  = document.createElement("span"); catName.className = "cat-label-name"; catName.textContent = cat.name;
-    const catCount = document.createElement("span"); catCount.className = "cat-label-count"; catCount.textContent = cat.items.length + " آیتم";
-    labelRow.appendChild(badge); labelRow.appendChild(catName); labelRow.appendChild(catCount);
-    block.appendChild(labelRow);
+    const head = document.createElement("div"); head.className="cat-head";
+    const em   = document.createElement("div"); em.className="cat-emoji"; em.textContent=cat.emoji;
+    const nm   = document.createElement("span"); nm.className="cat-name"; nm.textContent=cat.name;
+    const cnt  = document.createElement("span"); cnt.className="cat-count"; cnt.textContent=cat.items.length+" آیتم";
+    head.appendChild(em); head.appendChild(nm); head.appendChild(cnt);
+    block.appendChild(head);
 
     cat.items.forEach(item => {
-      const qty  = orderQty[item.name] || 0;
+      const qty  = orderQty[item.name]||0;
       const card = document.createElement("div");
-      card.className = "item-card" + (qty > 0 ? " has-qty" : "");
-      card.id = "card-" + CSS.escape(item.name);
+      card.className="item-card"+(qty>0?" sel":"");
+      card.id="card-"+CSS.escape(item.name);
 
-      // ردیف بالا: نام + قیمت
-      const top   = document.createElement("div"); top.className = "item-top";
-      const name  = document.createElement("span"); name.className = "item-name"; name.textContent = item.name;
-      const pBadge = document.createElement("span"); pBadge.className = "item-price-badge";
-      pBadge.textContent = Number(item.price).toLocaleString() + " ت";
-      top.appendChild(name); top.appendChild(pBadge);
-      card.appendChild(top);
+      const top   = document.createElement("div"); top.className="ic-top";
+      const name  = document.createElement("span"); name.className="ic-name"; name.textContent=item.name;
+      const price = document.createElement("span"); price.className="ic-price"; price.textContent=Number(item.price).toLocaleString()+" ت";
+      top.appendChild(name); top.appendChild(price);
 
-      // ردیف میانی: توضیح + qty
-      const mid = document.createElement("div"); mid.className = "item-middle";
-      if (item.description) {
-        const desc = document.createElement("div"); desc.className = "item-desc"; desc.textContent = item.description;
-        mid.appendChild(desc);
-      } else { mid.appendChild(document.createElement("span")); }
+      const bot  = document.createElement("div"); bot.className="ic-bot";
+      const desc = document.createElement("div"); desc.className="ic-desc"; desc.textContent=item.description||"";
 
-      const qtyRow = document.createElement("div"); qtyRow.className = "qty-row";
-      const btnM   = document.createElement("button"); btnM.className = "qty-btn"; btnM.textContent = "−";
-      btnM.setAttribute("aria-label", "کم کردن " + item.name);
-      btnM.onclick = () => changeQty(item.name, item.price, -1);
-      const qtyNum = document.createElement("span"); qtyNum.className = "qty-num"; qtyNum.id = "qty-" + CSS.escape(item.name); qtyNum.textContent = qty;
-      const btnP   = document.createElement("button"); btnP.className = "qty-btn"; btnP.textContent = "+";
-      btnP.setAttribute("aria-label", "اضافه کردن " + item.name);
-      btnP.onclick = () => changeQty(item.name, item.price, 1);
-      qtyRow.appendChild(btnM); qtyRow.appendChild(qtyNum); qtyRow.appendChild(btnP);
-      mid.appendChild(qtyRow);
-      card.appendChild(mid);
+      const ctrl = document.createElement("div"); ctrl.className="qty-ctrl";
+      const bm   = document.createElement("button"); bm.className="qc-btn"; bm.textContent="−";
+      bm.setAttribute("aria-label","کم کردن "+item.name);
+      bm.onclick=()=>changeQty(item.name,item.price,-1);
+      const qn   = document.createElement("span"); qn.className="qc-num"; qn.id="qty-"+CSS.escape(item.name); qn.textContent=qty;
+      const bp   = document.createElement("button"); bp.className="qc-btn"; bp.textContent="+";
+      bp.setAttribute("aria-label","اضافه کردن "+item.name);
+      bp.onclick=()=>changeQty(item.name,item.price,1);
+      ctrl.appendChild(bm); ctrl.appendChild(qn); ctrl.appendChild(bp);
 
+      bot.appendChild(desc); bot.appendChild(ctrl);
+      card.appendChild(top); card.appendChild(bot);
       block.appendChild(card);
     });
     list.appendChild(block);
@@ -940,45 +1024,32 @@ async function buildOrderMenu() {
 }
 
 function changeQty(name, price, delta) {
-  const cur  = orderQty[name] || 0;
-  const next = Math.max(0, Math.min(20, cur + delta)); // حداکثر ۲۰ عدد
-  if (next === 0) delete orderQty[name];
-  else orderQty[name] = next;
-
-  const numEl = document.getElementById("qty-" + CSS.escape(name));
-  if (numEl) numEl.textContent = next;
-  const card = document.getElementById("card-" + CSS.escape(name));
-  if (card) {
-    card.classList.toggle("has-qty", next > 0);
-    if (next > 0 && cur === 0) {
-      card.classList.add("new-item");
-      setTimeout(() => card.classList.remove("new-item"), 1000);
-    }
-  }
+  const cur  = orderQty[name]||0;
+  const next = Math.max(0, Math.min(20, cur+delta));
+  if (next===0) delete orderQty[name]; else orderQty[name]=next;
+  const qn=document.getElementById("qty-"+CSS.escape(name));
+  if (qn) qn.textContent=next;
+  const card=document.getElementById("card-"+CSS.escape(name));
+  if (card) card.classList.toggle("sel", next>0);
   updateSummary();
   saveOrderState();
 }
 
 function updateSummary() {
-  const entries = Object.entries(orderQty).filter(([,q]) => q > 0);
-  const itemsEl = document.getElementById("summaryItems");
-  const totalEl = document.getElementById("summaryTotal");
-
-  if (!entries.length || !currentMenu) {
-    itemsEl.textContent = "هیچ آیتمی انتخاب نشده";
-    totalEl.textContent = "";
-    return;
+  const entries=Object.entries(orderQty).filter(([,q])=>q>0);
+  const si=document.getElementById("sumItems");
+  const st=document.getElementById("sumTotal");
+  if (!entries.length||!currentMenu) {
+    si.textContent="هیچ آیتمی انتخاب نشده"; st.textContent=""; return;
   }
-
-  let total = 0, count = 0;
-  entries.forEach(([name, qty]) => {
-    count += qty;
-    const item = currentMenu.categories.flatMap(c => c.items).find(i => i.name === name);
-    if (item) total += item.price * qty;
+  let total=0, count=0;
+  entries.forEach(([name,qty])=>{
+    count+=qty;
+    const item=currentMenu.categories.flatMap(c=>c.items).find(i=>i.name===name);
+    if (item) total+=item.price*qty;
   });
-
-  itemsEl.textContent = count + " آیتم انتخاب شده";
-  totalEl.textContent = total.toLocaleString() + " تومان";
+  si.textContent=count+" آیتم انتخاب شده";
+  st.textContent=total.toLocaleString()+" تومان";
 }
 
 async function submitOrder() {
@@ -986,336 +1057,267 @@ async function submitOrder() {
   const table = document.getElementById("o-table").value.trim();
   const phone = document.getElementById("o-phone").value.trim();
 
-  if (!name)              { toast("نام را وارد کنید", true); highlightInvalid("o-name");  return; }
-  if (!validateTable(table)) { toast("شماره میز معتبر نیست", true); highlightInvalid("o-table"); return; }
-  if (!validatePhone(phone)) { toast("شماره تماس باید با ۰ شروع شه و ۱۱ رقم باشه", true); highlightInvalid("o-phone"); return; }
+  if (!name)               { toastShow("نام را وارد کنید",true); markErr("o-name");  return; }
+  if (!validTable(table))  { toastShow("شماره میز معتبر نیست",true); markErr("o-table"); return; }
+  if (!validPhone(phone))  { toastShow("شماره تماس باید با ۰ شروع شه و ۱۱ رقم باشه",true); markErr("o-phone"); return; }
 
-  const entries = Object.entries(orderQty).filter(([,q]) => q > 0);
-  if (!entries.length) { toast("حداقل یک آیتم انتخاب کنید", true); return; }
+  const entries=Object.entries(orderQty).filter(([,q])=>q>0);
+  if (!entries.length) { toastShow("حداقل یک آیتم انتخاب کنید",true); return; }
 
-  const items = entries.map(([n, qty]) => {
-    const item = currentMenu.categories.flatMap(c => c.items).find(i => i.name === n);
-    return { name: n, qty, price: item?.price || 0 };
+  const items=entries.map(([n,qty])=>{
+    const item=currentMenu.categories.flatMap(c=>c.items).find(i=>i.name===n);
+    return { name:n, qty, price:item?.price||0 };
   });
 
-  const btn = document.getElementById("orderBtn");
-  btn.disabled = true;
-  btn.innerHTML = 'در حال ثبت... <span class="spinner"></span>';
+  const btn=document.getElementById("orderBtn");
+  btn.disabled=true;
+  btn.innerHTML='در حال ثبت... <span class="spinner"></span>';
 
   try {
-    const res = await fetch(WORKER + "/order", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, table, phone, items })
+    const res=await fetch(WORKER+"/order",{
+      method:"POST", headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({name,table,phone,items})
     });
+    if (!res.ok) { let e={}; try{e=await res.json();}catch{} throw {status:res.status,message:e.error||""}; }
+    const data=await res.json();
 
-    if (!res.ok) {
-      let err = {};
-      try { err = await res.json(); } catch {}
-      throw { status: res.status, message: err.error || "خطای سرور" };
-    }
-
-    const data = await res.json();
     if (data.success) {
       switchView("chat");
-      const total = items.reduce((s, i) => s + i.price * i.qty, 0);
+      const total=items.reduce((s,i)=>s+i.price*i.qty,0);
+      const msgs=document.getElementById("msgs");
+      const wrap=document.createElement("div"); wrap.className="msg-wrap bot pop-in";
+      const row =document.createElement("div"); row.className="msg-row";
+      const av  =document.createElement("div"); av.className="av"; av.textContent="☕";
+      const card=document.createElement("div"); card.className="order-confirm";
 
-      // ساخت order card امن (بدون innerHTML از ورودی کاربر)
-      const msgs = document.getElementById("msgs");
-      const wrap = document.createElement("div"); wrap.className = "msg-wrap bot";
-      const row  = document.createElement("div"); row.className = "msg-row";
-      const av   = document.createElement("div"); av.className = "avatar"; av.textContent = "☕";
-      const card = document.createElement("div"); card.className = "order-card";
+      const oh=document.createElement("div"); oh.className="oc-head";
+      const ot=document.createElement("span"); ot.className="oc-title"; ot.textContent="✅ سفارش ثبت شد";
+      const oi=document.createElement("span"); oi.className="oc-id"; oi.textContent=data.orderId;
+      oh.appendChild(ot); oh.appendChild(oi);
 
-      // header
-      const header = document.createElement("div"); header.className = "oc-header";
-      const title  = document.createElement("span"); title.className = "oc-title"; title.textContent = "✅ سفارش ثبت شد";
-      const oid    = document.createElement("span"); oid.className = "oc-id"; oid.textContent = data.orderId;
-      header.appendChild(title); header.appendChild(oid);
+      const om=document.createElement("div"); om.className="oc-meta";
+      om.textContent="👤 "+name+" | 🪑 میز "+table;
 
-      const meta = document.createElement("div");
-      meta.style.cssText = "margin-bottom:4px;color:var(--text-dim);font-size:12px;";
-      meta.textContent = "👤 " + name + " | 🪑 میز " + table;
+      const od=document.createElement("div"); od.className="oc-divider";
+      card.appendChild(oh); card.appendChild(om); card.appendChild(od);
 
-      const divider = document.createElement("div"); divider.className = "divider";
-
-      card.appendChild(header); card.appendChild(meta); card.appendChild(divider);
-
-      items.forEach(i => {
-        const r = document.createElement("div"); r.className = "oc-row";
-        const l = document.createElement("span"); l.textContent = i.name + " × " + i.qty;
-        const p = document.createElement("span"); p.textContent = (i.price * i.qty).toLocaleString() + " ت";
+      items.forEach(i=>{
+        const r=document.createElement("div"); r.className="oc-row";
+        const l=document.createElement("span"); l.textContent=i.name+" × "+i.qty;
+        const p=document.createElement("span"); p.textContent=(i.price*i.qty).toLocaleString()+" ت";
         r.appendChild(l); r.appendChild(p); card.appendChild(r);
       });
 
-      const tot = document.createElement("div"); tot.className = "oc-total";
-      const tl  = document.createElement("span"); tl.textContent = "جمع کل";
-      const tv  = document.createElement("span"); tv.textContent = total.toLocaleString() + " تومان";
-      tot.appendChild(tl); tot.appendChild(tv); card.appendChild(tot);
+      const tf=document.createElement("div"); tf.className="oc-total";
+      const tl=document.createElement("span"); tl.textContent="جمع کل";
+      const tv=document.createElement("span"); tv.textContent=total.toLocaleString()+" تومان";
+      tf.appendChild(tl); tf.appendChild(tv); card.appendChild(tf);
 
       row.appendChild(av); row.appendChild(card);
       wrap.appendChild(row);
-      const t = document.createElement("div"); t.className = "msg-time"; t.textContent = hhmm();
+      const t=document.createElement("div"); t.className="msg-time"; t.textContent=hhmm();
       wrap.appendChild(t);
       msgs.appendChild(wrap);
-      msgs.scrollTop = msgs.scrollHeight;
+      msgs.scrollTop=msgs.scrollHeight;
 
-      // ذخیره برای feedback
-      lastOrder = { name, table, phone, items };
-      // شروع polling زمان آماده‌سازی
-      activeOrderId = data.orderId;
+      lastOrder={name,table,phone,items};
+      activeOrderId=data.orderId;
       startOrderTimer(data.orderId);
 
-      // ریست
-      orderQty = {};
-      document.getElementById("o-name").value  = "";
-      document.getElementById("o-table").value = "";
-      document.getElementById("o-phone").value = "";
+      // نمایش دکمه وضعیت سفارش در quick actions
+      const qao=document.getElementById("qa-order-status");
+      if (qao) qao.style.display="";
+
+      orderQty={};
+      document.getElementById("o-name").value="";
+      document.getElementById("o-table").value="";
+      document.getElementById("o-phone").value="";
       updateSummary();
       saveOrderState();
-      toast("سفارش با موفقیت ثبت شد ✅");
+      toastShow("سفارش با موفقیت ثبت شد ✅");
     } else {
-      toast(data.error || "خطا در ثبت سفارش", true);
+      toastShow(data.error||"خطا در ثبت سفارش",true);
     }
-  } catch (error) {
-    handleError(error, "submitOrder");
+  } catch(e) {
+    errHandle(e,"submitOrder");
   } finally {
-    btn.disabled = false;
-    btn.textContent = "ثبت سفارش";
+    btn.disabled=false;
+    btn.textContent="ثبت سفارش";
   }
 }
 
-// ══════════════════════ FEEDBACK ══════════════════════
-
-function buildFeedbackView() {
-  buildGlobalStars("stars-staff",    "staff");
-  buildGlobalStars("stars-ambiance", "ambiance");
-
-  if (lastOrder) {
-    document.getElementById("f-name").value  = lastOrder.name  || "";
-    document.getElementById("f-table").value = lastOrder.table || "";
-  }
-
-  const container = document.getElementById("fbItemList");
-  if (!lastOrder || !lastOrder.items || !lastOrder.items.length) {
-    container.innerHTML = '<div style="color:var(--text-dim);font-size:12.5px;padding:4px 0 12px;">هیچ سفارشی ثبت نشده — می‌توانید بدون انتخاب آیتم هم نظر بدهید</div>';
-    return;
-  }
-
-  container.innerHTML = "";
-  lastOrder.items.forEach(item => {
-    const block = document.createElement("div");
-    block.className = "item-rating-block";
-
-    const nameEl = document.createElement("div"); nameEl.className = "irb-name"; nameEl.textContent = item.name;
-    const cats   = document.createElement("div"); cats.className = "irb-cats";
-
-    ["taste", "look", "quality"].forEach(aspect => {
-      const catDiv   = document.createElement("div"); catDiv.className = "irb-cat";
-      const label    = document.createElement("div"); label.className = "irb-cat-label";
-      label.textContent = aspect === "taste" ? "طعم" : aspect === "look" ? "ظاهر" : "کیفیت";
-      const starsDiv = document.createElement("div"); starsDiv.className = "irb-stars";
-      starsDiv.id = "irs-" + CSS.escape(item.name) + "-" + aspect;
-      catDiv.appendChild(label); catDiv.appendChild(starsDiv);
-      cats.appendChild(catDiv);
-    });
-
-    block.appendChild(nameEl); block.appendChild(cats);
-    container.appendChild(block);
-
-    buildItemStars(item.name, "taste");
-    buildItemStars(item.name, "look");
-    buildItemStars(item.name, "quality");
-  });
-}
-
-function buildGlobalStars(containerId, key) {
-  const c = document.getElementById(containerId);
-  if (!c) return;
-  c.innerHTML = "";
-  for (let i = 1; i <= 5; i++) {
-    const s = document.createElement("span");
-    s.className = "star" + (ratings[key] >= i ? " on" : "");
-    s.textContent = "★";
-    s.setAttribute("aria-label", i + " از ۵");
-    s.onclick = () => setRating(key, i, containerId, "star");
-    c.appendChild(s);
-  }
-}
-
-function buildItemStars(name, aspect) {
-  const key         = name + "-" + aspect;
-  const containerId = "irs-" + CSS.escape(name) + "-" + aspect;
-  const c = document.getElementById(containerId);
-  if (!c) return;
-  c.innerHTML = "";
-  for (let i = 1; i <= 5; i++) {
-    const s = document.createElement("span");
-    s.className = "irb-star" + (ratings[key] >= i ? " on" : "");
-    s.textContent = "★";
-    s.onclick = () => setRating(key, i, containerId, "irb-star");
-    c.appendChild(s);
-  }
-}
-
-function setRating(key, val, containerId, cls) {
-  ratings[key] = val;
-  const c = document.getElementById(containerId);
-  if (!c) return;
-  c.querySelectorAll("." + cls).forEach((s, i) => s.classList.toggle("on", i < val));
-}
-
-async function submitFeedback() {
-  const name     = document.getElementById("f-name").value.trim()     || "ناشناس";
-  const table    = document.getElementById("f-table").value.trim()     || "";
-  const positive = document.getElementById("f-positive").value.trim();
-  const negative = document.getElementById("f-negative").value.trim();
-  const comment  = document.getElementById("f-comment").value.trim();
-  const phone    = lastOrder?.phone || "";
-
-  // اعتبارسنجی میز (اگر وارد شد)
-  if (table && !validateTable(table)) {
-    toast("شماره میز معتبر نیست", true);
-    highlightInvalid("f-table");
-    return;
-  }
-
-  const itemSource = lastOrder?.items || [];
-  const itemRatings = itemSource.map(item => ({
-    name:    item.name,
-    taste:   ratings[item.name + "-taste"]   || 0,
-    look:    ratings[item.name + "-look"]    || 0,
-    quality: ratings[item.name + "-quality"] || 0
-  })).filter(r => r.taste || r.look || r.quality);
-
-  const staff    = ratings["staff"]    || 0;
-  const ambiance = ratings["ambiance"] || 0;
-
-  if (!staff && !ambiance && !itemRatings.length && !comment && !positive && !negative) {
-    toast("لطفاً حداقل یک امتیاز یا نظر وارد کنید", true);
-    return;
-  }
-
-  const btn = document.getElementById("fbBtn");
-  btn.disabled = true;
-  btn.innerHTML = 'در حال ثبت... <span class="spinner"></span>';
-
-  try {
-    const res = await fetch(WORKER + "/feedback", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, table, phone, itemRatings, staff, ambiance, positive, negative, comment })
-    });
-
-    if (!res.ok) {
-      let err = {};
-      try { err = await res.json(); } catch {}
-      throw { status: res.status, message: err.error || "خطای سرور" };
-    }
-
-    const data = await res.json();
-    if (data.success) {
-      switchView("chat");
-      addMsg("ممنون از وقتی که گذاشتید 🙏\nنظر شما برای بهتر شدن کافه اینجا ارزشمنده.", "bot");
-
-      // ریست کامل فیدبک
-      ratings = {};
-      ["f-name","f-table","f-positive","f-negative","f-comment"].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.value = "";
-      });
-      // rebuild ستاره‌ها با حالت ریست
-      buildGlobalStars("stars-staff",    "staff");
-      buildGlobalStars("stars-ambiance", "ambiance");
-
-      toast("نظر شما ثبت شد ✅");
-    } else {
-      toast(data.error || "خطا در ثبت نظر", true);
-    }
-  } catch (error) {
-    handleError(error, "submitFeedback");
-  } finally {
-    btn.disabled = false;
-    btn.textContent = "ثبت نظر";
-  }
-}
-
-// ══════════════════════ TIMER / ORDER STATUS ══════════════════════
-
+// ══════════════════════ TIMER ══════════════════════
 function renderTimerBanner(data) {
-  // حذف banner قبلی
-  const existing = document.getElementById("order-timer-banner");
-  if (existing) existing.remove();
+  const slot=document.getElementById("timer-banner-slot");
+  slot.innerHTML="";
+  if (!data?.found) return;
 
-  const chatView = document.getElementById("view-chat");
-  const msgs     = document.getElementById("msgs");
-
-  if (!data || !data.found) return;
-
-  const banner = document.createElement("div");
-  banner.className = "timer-banner";
-  banner.id = "order-timer-banner";
-
-  const icon = document.createElement("div"); icon.className = "timer-icon";
-  const info = document.createElement("div"); info.className = "timer-info";
-  const label = document.createElement("div"); label.className = "timer-label";
-  const value = document.createElement("div"); value.className = "timer-value";
-  const sub   = document.createElement("div"); sub.className = "timer-sub";
-
-  icon.textContent = data.isReady ? "✅" : "⏱";
-  label.textContent = "سفارش " + data.orderId;
+  const banner=document.createElement("div"); banner.className="timer-banner";
+  const icon=document.createElement("div"); icon.className="tb-icon";
+  const info=document.createElement("div"); info.className="tb-info";
+  const lbl =document.createElement("div"); lbl.className="tb-label"; lbl.textContent="سفارش "+data.orderId;
+  const val =document.createElement("div"); val.className="tb-val";
+  const sub =document.createElement("div"); sub.className="tb-sub";
 
   if (data.isReady) {
-    value.textContent = "آماده تحویل";
-    value.className = "timer-ready";
-    sub.textContent = data.elapsedMin + " دقیقه پیش ثبت شد";
-  } else if (data.remaining !== null) {
-    const mins = data.remaining;
-    value.textContent = mins + " دقیقه";
-    sub.textContent = "زمان تقریبی آماده‌سازی";
+    icon.textContent="✅"; val.textContent="آماده تحویل"; val.className="tb-val ready";
+    sub.textContent="لطفاً از پیشخوان تحویل بگیرید";
+  } else if (data.remaining!==null) {
+    icon.textContent="⏱"; val.textContent=data.remaining+" دقیقه";
+    sub.textContent="زمان تقریبی آماده‌سازی";
   } else {
-    value.textContent = data.elapsedMin + " دقیقه";
-    sub.textContent = "از زمان ثبت سفارش — در حال آماده‌سازی";
+    icon.textContent="🔄"; val.textContent=data.elapsedMin+" دقیقه گذشت";
+    sub.textContent="در حال آماده‌سازی...";
   }
 
-  info.appendChild(label); info.appendChild(value); info.appendChild(sub);
+  info.appendChild(lbl); info.appendChild(val); info.appendChild(sub);
   banner.appendChild(icon); banner.appendChild(info);
-
-  // قبل از msgs اضافه کن
-  chatView.insertBefore(banner, msgs);
+  slot.appendChild(banner);
 }
 
 async function pollOrderStatus() {
   if (!activeOrderId) return;
   try {
-    const res = await fetch(WORKER + "/order-status?id=" + activeOrderId);
+    const res=await fetch(WORKER+"/order-status?id="+activeOrderId);
     if (!res.ok) return;
-    timerData = await res.json();
+    timerData=await res.json();
     renderTimerBanner(timerData);
-    // اگه آماده شد و ۵ دقیقه گذشت، polling رو متوقف کن
-    if (timerData.isReady) {
-      setTimeout(() => {
-        if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
-      }, 5 * 60 * 1000);
-    }
+    if (timerData.isReady) setTimeout(()=>{ if(timerInterval){clearInterval(timerInterval);timerInterval=null;} },5*60*1000);
   } catch {}
 }
 
-function startOrderTimer(orderId) {
-  activeOrderId = orderId;
-  // اجرای فوری
+function startOrderTimer(id) {
+  activeOrderId=id;
   pollOrderStatus();
-  // polling هر ۳۰ ثانیه
   if (timerInterval) clearInterval(timerInterval);
-  timerInterval = setInterval(pollOrderStatus, 30000);
+  timerInterval=setInterval(pollOrderStatus, 30000);
+}
+
+// ══════════════════════ FEEDBACK ══════════════════════
+function buildFeedbackView() {
+  buildGStars("stars-staff","staff");
+  buildGStars("stars-ambiance","ambiance");
+  if (lastOrder) {
+    const fn=document.getElementById("f-name");
+    const ft=document.getElementById("f-table");
+    if (fn) fn.value=lastOrder.name||"";
+    if (ft) ft.value=lastOrder.table||"";
+  }
+  const container=document.getElementById("fbItemList");
+  if (!lastOrder?.items?.length) {
+    container.innerHTML='<div style="color:var(--text-dim);font-size:12.5px;padding:4px 0 12px;">هیچ سفارشی ثبت نشده — می‌توانید بدون آیتم هم نظر بدهید</div>';
+    return;
+  }
+  container.innerHTML="";
+  lastOrder.items.forEach(item=>{
+    const block=document.createElement("div"); block.className="irb";
+    const nm=document.createElement("div"); nm.className="irb-name"; nm.textContent=item.name;
+    const cats=document.createElement("div"); cats.className="irb-cats";
+    ["taste","look","quality"].forEach(asp=>{
+      const cd=document.createElement("div"); cd.className="irb-cat";
+      const lb=document.createElement("div"); lb.className="irb-cat-label";
+      lb.textContent=asp==="taste"?"طعم":asp==="look"?"ظاهر":"کیفیت";
+      const sr=document.createElement("div"); sr.className="irb-stars";
+      sr.id="irs-"+CSS.escape(item.name)+"-"+asp;
+      cd.appendChild(lb); cd.appendChild(sr);
+      cats.appendChild(cd);
+    });
+    block.appendChild(nm); block.appendChild(cats);
+    container.appendChild(block);
+    buildIStars(item.name,"taste");
+    buildIStars(item.name,"look");
+    buildIStars(item.name,"quality");
+  });
+}
+
+function buildGStars(cid, key) {
+  const c=document.getElementById(cid); if(!c) return; c.innerHTML="";
+  for (let i=1;i<=5;i++) {
+    const s=document.createElement("span"); s.className="star"+(ratings[key]>=i?" on":""); s.textContent="★";
+    s.onclick=()=>setRating(key,i,cid,"star");
+    c.appendChild(s);
+  }
+}
+function buildIStars(name, asp) {
+  const key=name+"-"+asp, cid="irs-"+CSS.escape(name)+"-"+asp;
+  const c=document.getElementById(cid); if(!c) return; c.innerHTML="";
+  for (let i=1;i<=5;i++) {
+    const s=document.createElement("span"); s.className="irb-star"+(ratings[key]>=i?" on":""); s.textContent="★";
+    s.onclick=()=>setRating(key,i,cid,"irb-star");
+    c.appendChild(s);
+  }
+}
+function setRating(key,val,cid,cls) {
+  ratings[key]=val;
+  const c=document.getElementById(cid); if(!c) return;
+  c.querySelectorAll("."+cls).forEach((s,i)=>s.classList.toggle("on",i<val));
+}
+
+async function submitFeedback() {
+  const name     = document.getElementById("f-name").value.trim()||"ناشناس";
+  const table    = document.getElementById("f-table").value.trim()||"";
+  const positive = document.getElementById("f-positive").value.trim();
+  const negative = document.getElementById("f-negative").value.trim();
+  const comment  = document.getElementById("f-comment").value.trim();
+  const phone    = lastOrder?.phone||"";
+
+  if (table && !validTable(table)) { toastShow("شماره میز معتبر نیست",true); markErr("f-table"); return; }
+
+  const itemSource=lastOrder?.items||[];
+  const itemRatings=itemSource.map(item=>({
+    name:item.name,
+    taste:ratings[item.name+"-taste"]||0,
+    look:ratings[item.name+"-look"]||0,
+    quality:ratings[item.name+"-quality"]||0
+  })).filter(r=>r.taste||r.look||r.quality);
+
+  const staff=ratings["staff"]||0, ambiance=ratings["ambiance"]||0;
+  if (!staff&&!ambiance&&!itemRatings.length&&!comment&&!positive&&!negative) {
+    toastShow("لطفاً حداقل یک امتیاز یا نظر وارد کنید",true); return;
+  }
+
+  const btn=document.getElementById("fbBtn");
+  btn.disabled=true;
+  btn.innerHTML='در حال ثبت... <span class="spinner"></span>';
+
+  try {
+    const res=await fetch(WORKER+"/feedback",{
+      method:"POST", headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({name,table,phone,itemRatings,staff,ambiance,positive,negative,comment})
+    });
+    if (!res.ok) { let e={}; try{e=await res.json();}catch{} throw {status:res.status,message:e.error||""}; }
+    const data=await res.json();
+    if (data.success) {
+      switchView("chat");
+      addMsg("ممنون از وقتی که گذاشتید 🙏\nنظر شما برای بهتر شدن کافه اینجا ارزشمنده.", "bot");
+      ratings={};
+      ["f-name","f-table","f-positive","f-negative","f-comment"].forEach(id=>{
+        const el=document.getElementById(id); if(el) el.value="";
+      });
+      buildGStars("stars-staff","staff");
+      buildGStars("stars-ambiance","ambiance");
+      toastShow("نظر شما ثبت شد ✅");
+    } else {
+      toastShow(data.error||"خطا در ثبت نظر",true);
+    }
+  } catch(e) {
+    errHandle(e,"submitFeedback");
+  } finally {
+    btn.disabled=false;
+    btn.textContent="ثبت نظر";
+  }
 }
 
 // ══════════════════════ INIT ══════════════════════
-
-window.addEventListener("DOMContentLoaded", async () => {
+window.addEventListener("DOMContentLoaded", () => {
   restoreOrderState();
   loadMenu();
-  addMsg("سلام! ☕\nبه کافه اینجا خوش آمدید.\nچطور می‌تونم کمکتون کنم؟", "bot");
+  // اگه سفارش فعال بود، دکمه وضعیت رو نشون بده
+  if (activeOrderId) {
+    const qao=document.getElementById("qa-order-status");
+    if (qao) qao.style.display="";
+  }
+  addMsg("سلام! ☕\nبه کافه اینجا خوش اومدید.\nچطور می‌تونم کمکتون کنم؟","bot");
 });
 </script>
 </body>
